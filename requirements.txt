@@ -1,0 +1,13 @@
+# US NMTC first-look — Python dependencies
+# Tested with Python 3.9.6 on 2026-04-22.  Any Python 3.9+ should work.
+#
+# Install with:     pip install -r requirements.txt
+#
+# Versions listed are the ones we developed against; lower bounds are
+# deliberately permissive because the code uses only stable pandas/numpy
+# API surface (read_excel, groupby/agg, clip, quantile, describe, crosstab).
+
+pandas>=2.0,<3.0
+numpy>=1.24,<3.0
+matplotlib>=3.7,<4.0
+openpyxl>=3.1,<4.0

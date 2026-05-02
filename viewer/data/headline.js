@@ -1,0 +1,17 @@
+window.NMTC_HEADLINE = {
+  "program_years": [
+    2001,
+    2022
+  ],
+  "n_transactions_total": 19907,
+  "n_projects_total": 8024,
+  "total_qlici_billion_usd": 66.61,
+  "total_project_cost_billion_usd": 120.9,
+  "non_metro_transaction_share_pct": 19.31,
+  "non_metro_project_share_pct": 19.45,
+  "non_metro_qlici_dollar_share_pct": 19.57,
+  "statutory_non_metro_target_pct": 20.0,
+  "median_leverage_metro": 1.19,
+  "median_leverage_non_metro": 1.07,
+  "leverage_gap_metro_minus_nonmetro": 0.12
+};

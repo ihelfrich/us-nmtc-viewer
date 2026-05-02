@@ -1,0 +1,17 @@
+# Cached gazetteer (16 MB, regenerated on demand by scripts/build_viewer_data.py)
+data/cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# macOS / editor
+.DS_Store
+._*
+*.swp
+*.swo
+.vscode/
+.idea/

@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NMTC Blended-Finance First Look · for Katia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A browser-based first look at the US New Markets Tax Credit (2001–2022): 8,019 projects on an Earth map, the metro/non-metro leverage gap, and the econometric framework.">
+
+<!-- Cesium -->
+<link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/Widgets/widgets.css">
+<script>window.CESIUM_BASE_URL = "https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/";</script>
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/Cesium.js"></script>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.getElementById('econ'), {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError:false});"></script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">NMTC · first look</span>
+  <a href="#intro">What is it</a>
+  <a href="#numbers">Numbers</a>
+  <a href="#map">Map</a>
+  <a href="#timeseries">Time</a>
+  <a href="#leverage">Leverage gap</a>
+  <a href="#cdes">CDEs</a>
+  <a href="#econ">Econometrics</a>
+  <a href="#next">Next</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="kicker">US Department of the Treasury · CDFI Fund · FY2001–FY2022</p>
+    <h1>The New Markets Tax Credit</h1>
+    <p class="subtitle">A blended-finance first look over 8,019 projects — the public dollar,<br>
+       the private dollar, and the rural–urban leverage gap.</p>
+    <p class="byline">For Katia · from Ian · April 2026</p>
+    <p class="scroll-hint">↓ scroll</p>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- What is NMTC                                                  -->
+<!-- ============================================================ -->
+<section id="intro" class="prose">
+  <h2>What is NMTC?</h2>
+  <p>
+    The New Markets Tax Credit is the US federal program whose mechanics most closely
+    match the "blended finance" story you want to tell. The federal government offers
+    <strong>investors</strong> a <strong>39% tax credit</strong> (claimed over 7 years) in exchange for
+    putting their equity into a certified <strong>Community Development Entity</strong> (CDE).
+    The CDE is a regulated intermediary — usually a bank subsidiary or a nonprofit
+    community-development financial institution — that re-deploys the money as loans
+    or equity into qualifying businesses and projects located in <strong>low-income census
+    tracts</strong>. Those projects are called QALICBs.
+  </p>
+  <div class="flowbox">
+    <!-- Money-flow SVG -->
+    <svg viewBox="0 0 900 230" class="flow">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 Z" fill="#4fd1c5"/>
+        </marker>
+        <marker id="arrBack" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 Z" fill="#fbbf24"/>
+        </marker>
+      </defs>
+
+      <!-- Investor -->
+      <rect x="30" y="70" width="200" height="90" rx="6" class="node"/>
+      <text x="130" y="105" class="nTitle">Investor</text>
+      <text x="130" y="128" class="nSub">bank / corporate</text>
+      <text x="130" y="148" class="nSub">(puts up equity)</text>
+
+      <!-- Investor → CDE -->
+      <path d="M230 115 L360 115" class="flow-arrow" marker-end="url(#arr)"/>
+      <text x="295" y="104" class="flabel">QEI $</text>
+      <path d="M360 135 L230 135" class="flow-arrow-back" marker-end="url(#arrBack)"/>
+      <text x="295" y="157" class="credit-label">39% tax credit</text>
+
+      <!-- CDE -->
+      <rect x="360" y="70" width="200" height="90" rx="6" class="node"/>
+      <text x="460" y="105" class="nTitle">CDE</text>
+      <text x="460" y="128" class="nSub">intermediary</text>
+      <text x="460" y="148" class="nSub">(certified by Treasury)</text>
+
+      <!-- CDE → QALICB -->
+      <path d="M560 115 L690 115" class="flow-arrow" marker-end="url(#arr)"/>
+      <text x="625" y="104" class="flabel">QLICI $</text>
+      <text x="625" y="138" class="flabel-small">our data is here</text>
+
+      <!-- QALICB -->
+      <rect x="690" y="70" width="200" height="90" rx="6" class="node node-target"/>
+      <text x="790" y="105" class="nTitle">QALICB</text>
+      <text x="790" y="128" class="nSub">project / business</text>
+      <text x="790" y="148" class="nSub">in low-income tract</text>
+    </svg>
+  </div>
+  <p class="caption">
+    <strong>What we observe</strong> is the CDE → QALICB flow (the <em>QLICI</em>): who got how much,
+    where, in which year, and what the total project cost was. The investor-side flow
+    (QEI, and the tax credit they claim) is upstream and off the public data release.
+  </p>
+  <div class="callouts">
+    <div class="callout">
+      <h4>The rural mandate</h4>
+      <p>The NMTC statute requires CDEs to direct <strong>at least 20%</strong> of their QLICIs to
+      <strong>non-metropolitan</strong> census tracts. That creates a testable prediction: CDEs will
+      bunch against the 20% line unless they have a strong pull to go further.</p>
+    </div>
+    <div class="callout">
+      <h4>Leverage, as we measure it here</h4>
+      <p>The <em>leverage ratio</em> of a project is <code>total project cost / QLICI</code>. If a $5M
+      project received a $1M QLICI, it leveraged the federal dollar 5×, meaning $4 of
+      non-federal capital showed up per $1 of credit. That's the mobilization number.</p>
+    </div>
+    <div class="callout">
+      <h4>Why this question is identifiable</h4>
+      <p>Two sharp discontinuities the law gives us for free:
+      (1) tracts qualify only if poverty ≥ 20% <em>or</em> median family income ≤ 80% of
+      area median — an RDD cutoff; (2) the 20% rural mandate — a bunching test.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Headline numbers                                              -->
+<!-- ============================================================ -->
+<section id="numbers" class="prose">
+  <h2>Headline numbers</h2>
+  <p>Everything below is computed from the CDFI Fund's public data release
+     (<a href="../data/raw/NMTC_Public_Data_Release_FY2003-FY2022.xlsx">xlsx</a>,
+      <a href="../data/raw/NMTC_Public_Data_Release_Summary_FY2003-FY2022.pdf">codebook</a>)
+     via the cleaning pipeline in
+     <a href="../scripts/describe_nmtc.py"><code>scripts/describe_nmtc.py</code></a>.</p>
+
+  <div id="kpi-cards" class="kpi-grid">
+    <!-- populated by app.js from window.NMTC_HEADLINE -->
+  </div>
+
+  <details class="provenance">
+    <summary>How this was computed · show / hide</summary>
+    <p>See <a href="../DATA_DICTIONARY.md"><code>DATA_DICTIONARY.md</code></a> for every
+       column and <a href="../PROVENANCE.md"><code>PROVENANCE.md</code></a> for SHA-256
+       hashes, license terms, and a step-by-step recreate-from-scratch recipe.</p>
+  </details>
+</section>
+
+<!-- ============================================================ -->
+<!-- Map                                                           -->
+<!-- ============================================================ -->
+<section id="map" class="full-bleed">
+  <div class="map-narrative">
+    <h2>Every NMTC project, on an Earth map</h2>
+    <p>Each dot is one project, placed at its 2020-census-tract centroid.
+       <span class="sw metro"></span> Metro · <span class="sw nonmetro"></span> Non-metro.
+       Dot size ∝ √(QLICI $).
+       Hover for detail. Scroll-zoom to explore.</p>
+
+    <div class="controls">
+      <div class="ctl">
+        <label>Year range
+          <span class="yr-display" id="yrLabel">2001 – 2022</span>
+        </label>
+        <div class="slider-wrap">
+          <input id="yrMin" type="range" min="2001" max="2022" step="1" value="2001">
+          <input id="yrMax" type="range" min="2001" max="2022" step="1" value="2022">
+        </div>
+      </div>
+
+      <div class="ctl">
+        <label>Metro filter</label>
+        <div class="toggles">
+          <label><input type="checkbox" id="showMetro" checked> <span class="sw metro"></span> Metro</label>
+          <label><input type="checkbox" id="showNonMetro" checked> <span class="sw nonmetro"></span> Non-metro</label>
+        </div>
+      </div>
+
+      <div class="ctl">
+        <label>QALICB type</label>
+        <div class="toggles small">
+          <label><input type="checkbox" class="qType" value="RE"  checked> RE</label>
+          <label><input type="checkbox" class="qType" value="NRE" checked> NRE</label>
+          <label><input type="checkbox" class="qType" value="SPE" checked> SPE</label>
+          <label><input type="checkbox" class="qType" value="CDE" checked> CDE</label>
+        </div>
+      </div>
+
+      <div class="ctl">
+        <label>Color by</label>
+        <select id="colorMode">
+          <option value="metro">Metro / non-metro</option>
+          <option value="leverage">Leverage ratio</option>
+          <option value="qalicb">QALICB type</option>
+        </select>
+      </div>
+
+      <div class="ctl counter">
+        <label>Showing</label>
+        <div><span id="countShown">—</span> projects · <span id="dollarShown">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cesiumContainer"></div>
+
+  <aside id="mapInfo" class="info-panel">
+    <h4>Hover a dot</h4>
+    <p class="dim">Or click to pin the info here.</p>
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- Time series                                                   -->
+<!-- ============================================================ -->
+<section id="timeseries" class="prose">
+  <h2>Deployment through time</h2>
+  <p>The program ramped from almost nothing in FY2001 to ~$5 B/yr through the 2010s,
+     then settled into a $3–4 B/yr steady state. The stacked bar shows metro vs. non-metro
+     dollar share; the panel below it pulls the non-metro share out as a line, against
+     the 20% statutory mandate.</p>
+  <figure>
+    <img src="../figures/1_allocation_timeseries.png" alt="Annual QLICI deployment, stacked metro vs non-metro.">
+    <figcaption>Fig 1 · Annual QLICI deployment, metro vs non-metro stacked.</figcaption>
+  </figure>
+  <figure>
+    <img src="../figures/2_non_metro_share_timeseries.png" alt="Non-metro dollar share vs 20% target.">
+    <figcaption>Fig 2 · Non-metro dollar share pins the 20% line in most pre-2013 years,
+      hovers slightly above it thereafter. Classic mandate-binding behavior.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ -->
+<!-- Leverage gap                                                  -->
+<!-- ============================================================ -->
+<section id="leverage" class="prose">
+  <h2>The leverage gap</h2>
+  <p>This is the empirical headline of the first-look brief. Non-metro projects sit
+     heavier on the <em>1.0× floor</em> (nearly 100% NMTC-financed, zero private capital
+     mobilized) while metro projects show a fatter right shoulder (more private debt
+     and equity stacked on top).</p>
+  <figure>
+    <img src="../figures/3_leverage_distribution.png" alt="Histogram of project-level leverage, metro vs non-metro.">
+    <figcaption>Fig 3 · Leverage-ratio density, metro vs non-metro.
+      Median metro <strong>1.19×</strong> vs. non-metro <strong>1.07×</strong>. The gap is small at the median but
+      the <em>shape</em> tells the story: rural deals rarely stack private capital on top.</figcaption>
+  </figure>
+  <div class="two-col">
+    <figure>
+      <img src="../figures/4_qalicb_type_by_metro.png" alt="QALICB type composition, metro vs non-metro.">
+      <figcaption>Fig 4 · Metro skews Real-Estate (~40%); non-metro skews operating-business NRE (~65%).
+        So the leverage gap could be a composition story — except…</figcaption>
+    </figure>
+    <figure>
+      <img src="../figures/5_leverage_by_qalicb_metro.png" alt="Median leverage by QALICB type × metro.">
+      <figcaption>Fig 5 · …the gap persists <em>within every QALICB type</em>.
+        It's not composition. It's something about <em>deploying</em> the credit rurally.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CDE heterogeneity                                             -->
+<!-- ============================================================ -->
+<section id="cdes" class="prose">
+  <h2>CDE-level heterogeneity — the mechanism candidate</h2>
+  <p>Same credit, same 39% federal subsidy, same statute. But the top-20 CDEs — which
+     together account for more than half of all NMTC dollars — deploy wildly differently
+     along the rural margin. This is where the paper probably lives.</p>
+  <div class="cde-table-wrap">
+    <table id="cdeTable" class="cde-table">
+      <thead><tr><th>CDE</th><th class="r">QLICI $M</th><th class="r">tx</th><th class="r">non-metro share</th><th>deployment</th></tr></thead>
+      <tbody><!-- filled by app.js --></tbody>
+    </table>
+  </div>
+  <p class="caption">
+    Sorted by non-metro share (descending). The top row — <em>Rural Development Partners LLC</em>
+    at ~80% non-metro — and the bottom few (ESIC, Consortium America, Capital Impact) at
+    &lt;5% are the same federal instrument deployed to different worlds. A within-CDE
+    fixed-effects specification absorbs that selection.
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- Econometrics                                                  -->
+<!-- ============================================================ -->
+<section id="econ" class="prose">
+  <h2>What the econometrics look like</h2>
+  <p>Four specifications, all identifiable from the public release plus a routine
+     Census-tract merge.</p>
+
+  <h3>1 · Defining the object</h3>
+  <p>Project-level <em>leverage</em> is directly observed:</p>
+  $$
+  \operatorname{Leverage}_i \;=\; \frac{\text{ProjectCost}_i}{\text{QLICI}_i}
+  \qquad\text{and}\qquad
+  \operatorname{Mobilization}_i \;=\; \operatorname{Leverage}_i - 1
+  $$
+  <p>A leverage of 1 means the project was 100% NMTC-financed. A leverage of 3 means
+     each federal dollar pulled in $2 of non-federal capital.</p>
+
+  <h3>2 · Metro vs. non-metro, the headline difference</h3>
+  <p>Let $R_i \in \{0,1\}$ indicate non-metro status. A naive mean comparison is</p>
+  $$
+  \operatorname{Leverage}_i \;=\; \alpha \;+\; \beta \, R_i \;+\; \varepsilon_i
+  $$
+  <p>and the brief reports $\hat\beta \approx -0.26$ (mean) or $-0.12$ (median,
+     via a quantile regression). But that's contaminated by <em>which</em> CDE
+     deploys where and <em>what</em> type of project. The fixed-effects version:</p>
+  $$
+  \operatorname{Leverage}_{i} \;=\; \alpha \;+\; \beta \, R_i \;+\; \gamma_{c(i)} \;+\; \delta_{t(i)} \;+\; \eta_{q(i)} \;+\; \varepsilon_i
+  $$
+  <p>with $\gamma_{c(i)}$ a CDE fixed effect, $\delta_{t(i)}$ origination-year,
+     and $\eta_{q(i)}$ a QALICB-type fixed effect. The quantity of interest is
+     whether $\hat\beta$ survives the CDE fixed effect — i.e. does <em>the same
+     CDE</em> mobilize less private capital in non-metro than in metro?</p>
+
+  <h3>3 · The LIC-eligibility regression discontinuity</h3>
+  <p>A census tract is NMTC-eligible if <em>either</em> condition holds:</p>
+  $$
+  \text{LICeligible}_\ell \;=\; \mathbf{1}\!\left\{\;\text{Poverty}_\ell \ge 0.20 \;\;\vee\;\; \tfrac{\text{MFI}_\ell}{\text{AreaMFI}_\ell} \le 0.80\;\right\}
+  $$
+  <p>so we have a <em>sharp</em> cutoff at poverty = 20%. Run a local-linear RDD
+     separately for metro and non-metro tracts:</p>
+  $$
+  Y_\ell \;=\; \alpha \;+\; \tau_{R} \cdot \mathbf{1}\{P_\ell \ge 0.20\} \;+\; f(P_\ell - 0.20) \;+\; R_\ell \cdot g(P_\ell - 0.20) \;+\; u_\ell
+  $$
+  <p>where $Y_\ell$ is, say, tract-level NMTC dollars per capita or mean leverage.
+     $\hat\tau_{R=\text{metro}}$ vs. $\hat\tau_{R=\text{non-metro}}$ is exactly the
+     "does the policy bite differently in rural markets" question.</p>
+
+  <h3>4 · The 20% mandate — a bunching test</h3>
+  <p>Let $s_j$ be CDE $j$'s realized non-metro share of QLICIs. The statute requires
+     $s_j \ge 0.20$. Under no-mandate counterfactual, $s_j$ would be smooth around
+     $0.20$. Under a binding mandate, we expect a visible mass at $s_j = 0.20$.
+     Formally, compare the empirical density $\hat f(s)$ to a polynomial fit that
+     excludes a window around the cutoff:</p>
+  $$
+  B \;=\; \int_{0.20-h}^{0.20+h} \bigl[\hat f(s) - \tilde f(s)\bigr]\, ds
+  $$
+  <p>$B &gt; 0$ is the "excess mass" due to the mandate — standard Chetty et al. (2011) /
+     Kleven (2016) machinery. CDEs that exceed the mandate voluntarily reveal
+     willingness-to-deploy rurally; CDEs that <em>pin</em> the mandate are constrained.
+     The marginal rural project identifies off the constrained CDEs.</p>
+
+  <h3>5 · Putting it together</h3>
+  <p>The empirical paper is short: (2) establishes that the rural gap isn't a
+     composition artefact (CDE FE absorbs identity, QALICB FE absorbs type);
+     (3) shows that the RDD treatment effect <em>differs</em> between metro and
+     non-metro (the interaction we care about); (4) validates the identifying
+     assumption by showing CDEs bunch exactly where the law says they would.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- Next steps                                                    -->
+<!-- ============================================================ -->
+<section id="next" class="prose">
+  <h2>Where to go next — three moves</h2>
+  <ol class="nextlist">
+    <li><strong>Census-tract merge (this week).</strong> Join tract FIPS to 2016–2020 ACS
+        poverty + MFI + population + USDA RUCA codes. That gives us the RDD running
+        variable ($P_\ell - 0.20$) and a continuous rurality gradient (RUCA 1–10)
+        instead of the binary metro flag.</li>
+    <li><strong>CDE-type classification (this week).</strong> Hand-classify the top 50
+        CDEs by institutional form — bank subsidiary / nonprofit CDFI / for-profit
+        specialized / government. Turns "CDE variation" from a name into a
+        structural variable we can interact with rural.</li>
+    <li><strong>First-look figure (next week).</strong> Binned scatter of project-level
+        leverage vs. tract poverty rate, metro and non-metro overlaid. If the
+        discontinuity is visible at the 20% poverty threshold for both subgroups
+        but the rural slope is flatter, the paper is real.</li>
+  </ol>
+  <p>See the full brief: <a href="../briefs/katia_nmtc_v1.md"><code>briefs/katia_nmtc_v1.md</code></a>.</p>
+</section>
+
+<footer>
+  <p>Built on the CDFI Fund's <em>New Markets Tax Credit Public Data Release, FY2003–FY2022</em>
+     (released June 2024, US public-domain work per 17 USC §105).
+     <br>Code, data pipeline, cleaned CSVs, and this viewer are all reproducible — see
+     <a href="../PROVENANCE.md"><code>PROVENANCE.md</code></a>.</p>
+  <p class="dim">Base imagery: Esri World Imagery (tokenless). Map engine: CesiumJS 1.118.
+     Math: KaTeX. Figures: matplotlib.</p>
+</footer>
+
+<!-- Data bundles (generated by scripts/build_viewer_data.py) -->
+<script src="data/headline.js"></script>
+<script src="data/projects.js"></script>
+<script src="data/states.js"></script>
+<script src="data/top_cdes.js"></script>
+
+<!-- App logic -->
+<script src="js/app.js"></script>
+<script src="js/map.js"></script>
+
+</body>
+</html>
