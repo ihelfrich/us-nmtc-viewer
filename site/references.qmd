@@ -1,0 +1,10 @@
+---
+title: "References"
+---
+
+The full bibliography for the working paper. All entries are also in
+[`references.bib`](https://github.com/ihelfrich/us-nmtc-viewer/blob/main/site/references.bib)
+in the project repository for direct citation re-use.
+
+::: {#refs}
+:::

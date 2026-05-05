@@ -1,0 +1,136 @@
+---
+title: "Interpretation"
+---
+
+The aggregate rural leverage gap is almost entirely a between-CDE
+selection phenomenon. This chapter spells out what that means
+substantively, what it does and does not say about NMTC and rural
+markets, and what the policy implications are.
+
+## What the within-CDE collapse means
+
+The 80% reduction in the rural coefficient from M0 to M4 — from
+−0.262 to a statistically insignificant −0.047 — is the empirical
+content of the paper. To unpack it:
+
+- The **between-CDE component** (about 80% of the raw gap) reflects
+  the fact that rural-specialist CDEs (Rural Development Partners LLC
+  at 80% non-metro share, Montana Community Development Corporation at
+  70%) deploy capital that ends up at lower leverage than urban-
+  specialist CDEs (ESIC New Markets Partners, Consortium America LLC,
+  and Capital Impact Partners, all at 0% non-metro). This difference
+  is not about *where* they deploy — it is about *who they are* as
+  organizations.
+- The **within-CDE component** (the remaining ~20%, statistically
+  indistinguishable from zero) reflects what happens when a single CDE
+  takes its existing operational capacity to a rural deal versus an
+  urban one. **The same CDE achieves essentially the same leverage in
+  rural and urban tracts.**
+
+This is a much sharper finding than "rural deals leverage less." It
+relocates the empirical action from the rural market itself to the
+intermediary structure that selects into rural markets.
+
+## What this does NOT say
+
+Three things the paper is careful not to claim:
+
+1. **It does not say rural markets are not different.** Rural credit
+   markets are well-documented to differ from urban ones in capital
+   availability, lender networks, deal-flow density, and information
+   structure [@backman2021rural]. What the paper says is that *those
+   differences do not translate into a within-CDE leverage penalty
+   when intermediary identity is held constant.* The composition of
+   CDEs operating rurally is what produces the aggregate gap, not the
+   rural markets themselves at the within-intermediary margin.
+
+2. **It does not provide a causal estimate of the effect of NMTC on
+   leverage.** The fixed-effects decomposition is *selection-on-
+   observables* identification within CDE × year × type cells. It
+   tells us about the deals CDEs actually do, not about what would
+   happen if a CDE were forced to do a randomly-selected rural deal.
+   The fully causal piece — the LIC-eligibility regression discontinuity
+   — is the planned extension.
+
+3. **It does not say any individual CDE could not deploy more leverage
+   in rural tracts.** The result is an average across the CDE fixed-
+   effects distribution. Particular CDEs (typically rural specialists)
+   may have systematically lower mobilization capacity for reasons that
+   would respond to capacity-building, not to changes in program design.
+
+## Policy implications, in order of strength of evidence
+
+**(i) The aggregate rural mobilization gap is amenable to intermediary-
+allocation policy levers.** The marginal rural deal is not constrained
+by market structure under the existing program design. Reallocating
+allocation awards toward CDEs with demonstrated mobilization capacity
+— regardless of those CDEs' current rural orientation — could close
+the aggregate gap without redesigning the credit itself.
+
+**(ii) Allocation reform plausibly dominates program redesign.** If the
+binding constraint were rural-market structure, the policy answer
+would be to reshape the credit (richer subsidy in rural, longer
+compliance period, layered grants). The empirical evidence here
+suggests that's the wrong knob. The right knob is *which CDEs are
+chosen to deploy rurally* — and the standards by which they are
+selected.
+
+**(iii) The 20% statutory mandate may be binding at the wrong margin.**
+The mandate, as currently enforced, requires CDEs to commit to ≥20%
+non-metro deployment in their competitive applications. But the
+realized-deployment distribution shows no bunching at 20% — suggesting
+either that the mandate binds at the allocation-award stage but is
+violated downstream (worth investigating), or that the realized-deployment
+margin is bimodal and the 20% line is in the trough between modes.
+Either way, the policy goal (more rural mobilization) and the mandate's
+actual margin of operation appear to be misaligned.
+
+These are *suggestive* implications given the descriptive nature of the
+decomposition. The causal RDD piece, when added, will sharpen the
+mechanism story but is unlikely to change the headline.
+
+## Connection to the broader blended-finance literature
+
+The blended-finance literature has long debated the right mobilization
+ratio benchmark for public-credit-subsidized capital — and has done so
+without a setting in which the ratio is directly observable at the
+project level. NMTC is unusual precisely because the CDFI Fund makes
+both numerator (QLICI) and denominator (project cost) public.
+
+Bringing the blended-finance vantage to a U.S. place-based subsidy is,
+to our knowledge, not previously done at the econometric level. Every
+existing causal paper on NMTC examines downstream neighborhood effects
+[@freedman2012; @harger2016; @theodos2022; @freedman2018foodaccess];
+this paper is the first to take the upstream capital-stack — the
+leverage and the mobilization ratio — as the central outcome variable.
+
+The descriptive precedent is @theodos2021which, who classify CDEs into
+five mutually exclusive types and tabulate funding patterns
+descriptively. They do not run any regression, observing only that
+*"CDE type also associates with project types, with important
+correlations among CDE types and certain types of projects"* (p. 7).
+This paper's contribution is the regression extension of that
+observation: we use CDE fixed effects to formally absorb the
+heterogeneity Theodos et al. document, and decompose the rural-leverage
+gap into between-CDE and within-CDE components.
+
+## The methodological template
+
+Three transferable elements of the strategy that travel across
+institutional settings:
+
+1. **Leverage as outcome.** Any blended-finance program with project-
+   level disclosure of public + total financing supports the same
+   measurement framework. International examples include EIB project
+   finance and EU Cohesion Fund deployments [@eib2024].
+2. **Intermediary FE for decomposition.** Wherever capital flows
+   through a regulated intermediary structure, the within-intermediary
+   versus between-intermediary decomposition asks the same question.
+3. **Rural-vs-urban heterogeneity framing.** The U.S. metro / non-metro
+   binary maps onto Eurostat's NUTS3 urban-rural typology, USDA RUCA
+   codes, OECD predominantly-rural classifications, and analogous
+   country-specific schemes globally.
+
+The within-program decomposition is one paper; the comparative work
+that asks whether the same finding holds in different institutional
+settings is what gives the methodology external validity.

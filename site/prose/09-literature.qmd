@@ -1,0 +1,134 @@
+---
+title: "Where this paper sits in the literature"
+---
+
+The papers below are grouped by relevance to the contribution. The full
+bibliography is in the [References](../references.qmd).
+
+## Canonical NMTC empirical literature
+
+**@freedman2012.** *"Teaching New Markets Old Tricks."* The canonical
+regression-discontinuity application on the NMTC LIC-eligibility
+cutoff. Modest positive effects on neighborhood employment and
+demographics. Sets the methodological template for the planned RDD
+extension. Does not split metro/non-metro; does not use CDE-level
+analysis; does not use leverage as an outcome.
+
+**@harger2016.** *"Do Capital Tax Incentives Attract New Businesses?"*
+RDD by industry; finds NMTC attracts business activity in some sectors
+but not others. Demonstrates the LIC RDD is statistically powered.
+Same caveats as Freedman 2012 with respect to the questions this paper
+asks.
+
+**@theodos2022.** *"Place-Based Investment and Neighborhood Change."*
+The dominant recent NMTC paper. Estimates a tract-level event-study
+difference-in-differences with tract and year fixed effects only. No
+CDE FE in any specification; project heterogeneity is absorbed via
+13-category project-purpose dummies, not CDE identity. Outcomes are
+neighborhood-level (jobs, poverty, demographics), not capital-stack.
+
+## CDE-level descriptive precursor
+
+**@theodos2021which.** *"Which Community Development Entities Receive
+NMTC Funding?"* The closest existing work on CDE heterogeneity. A 12-
+page Urban Institute brief that classifies CDEs into five mutually
+exclusive types — CDFIs and other mission lenders, for-profit financial
+institutions, governmental and quasi-governmental entities, for-profit
+nonfinancial institutions, and nonprofit nonfinancial institutions —
+and tabulates allocations and project-type associations. **Contains
+zero regressions.** From the conclusion (p. 7):
+
+> *"CDE type also associates with project types, with important
+> correlations among CDE types and certain types of projects."*
+
+This paper's contribution is the regression extension of that
+descriptive observation: we absorb the CDE heterogeneity Theodos et al.
+document as a fixed effect and decompose its contribution to the rural-
+leverage gap.
+
+## CDFI Fund's own program evaluation
+
+**@abravanel2013.** *NMTC Program Evaluation Final Report.* The
+official commissioned program evaluation. Reports descriptive leverage
+statistics and qualitative case studies of early-cohort projects. Source
+for descriptive leverage facts in the broader literature.
+
+## Cross-program comparison
+
+**@corinth2024oz.** *"The Targeting of Place-Based Policies: NMTC vs.
+Opportunity Zones."* Pairwise comparison of NMTC and Opportunity Zone
+*targeting* — which tracts get which program — at the tract level.
+Outcome is targeting characteristics, not leverage or mobilization.
+NMTC vs. OZ only — no LIHTC or IRA. No metro/non-metro interaction.
+Adjacent territory; we cite as a contemporaneous comparison framework
+but the present paper's contribution is non-overlapping.
+
+## Investor-side analysis
+
+**@gurleycalvez2009.** *"Do Tax Incentives Affect Investment? An
+Analysis of the NMTC."* Tax-data panel on investor response. Looks at
+the QEI-side, not the QLICI-side. Cited as the complement to our
+project-side analysis.
+
+## Methodological anchors
+
+**@chetty2011adjustment.** *"Adjustment Costs, Firm Responses..."* The
+foundational bunching paper using Danish administrative tax records.
+Identifies taxable-income elasticities at kink points. Source for the
+excess-mass estimator we apply to the cross-CDE non-metro share
+distribution at the 20% mandate.
+
+**@kleven2013notches.** *"Using Notches to Uncover Optimization
+Frictions and Structural Elasticities."* The canonical notch-design
+paper. The 20% NMTC mandate is, in form, a notch — and Kleven & Waseem's
+methodology is the right framework for it.
+
+**@kleven2016bunching.** *"Bunching."* The standard review of bunching
+estimators across applications.
+
+**@imbens2008rdd.** *"Regression Discontinuity Designs: A Guide to
+Practice."* Methodological reference for the LIC-eligibility RDD
+extension.
+
+## Place-based-policy and LIHTC anchors
+
+**@diamond2019.** *"Who Wants Affordable Housing in Their Backyard?
+Equilibrium Effects of LIHTC."* The canonical LIHTC paper. Different
+program, different identification, but the spirit of place-based-
+subsidy capitalization is the same. Useful as an anchor for the LIHTC
+literature one might compare to.
+
+**@neumark2015placebased.** *"Place-Based Policies."* The handbook
+chapter. Foundational survey of the U.S. place-based policy literature,
+with NMTC, LIHTC, Opportunity Zones, and EZ/EC programs in scope.
+
+**@kline2014people.** *"People, Places, and Public Policy."*
+Contemporary review framing the welfare economics of place-based
+policy.
+
+**@glaeser2008placemaking.** *"The Economics of Place-Making
+Policies."* Foundational essay on place-based policy economics in the
+*Brookings Papers* tradition.
+
+## European parallel literature
+
+**@becker2010nuts.** *"Going NUTS: The Effect of EU Structural Funds
+on Regional Performance."* Implements an RDD at the 75%-of-EU-average
+GDP eligibility cutoff for Objective 1 Structural Funds. The European
+methodological parallel to Freedman (2012).
+
+**@becker2012toomuch.** *"Too Much of a Good Thing? On the Growth
+Effects of the EU's Regional Policy."* Nonlinear treatment-intensity
+extension; finds diminishing returns above ~1.3% of regional GDP. Useful
+"absorptive capacity" framing for EU rural-finance settings.
+
+## How to summarize the literature in one sentence
+
+The NMTC empirical literature — Freedman, Harger and Ross, Theodos,
+Abravanel — has overwhelmingly focused on neighborhood outcomes
+(jobs, demographics, prices), occasionally on investor behavior
+[@gurleycalvez2009], and once descriptively on CDE-level heterogeneity
+[@theodos2021which]. **This paper is the first to model project-level
+leverage as the central outcome variable, and the first to use CDE
+fixed effects to econometrically decompose the rural mobilization gap
+into intermediary-selection and within-CDE deployment components.**

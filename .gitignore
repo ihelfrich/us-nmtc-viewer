@@ -15,3 +15,8 @@ venv/
 *.swo
 .vscode/
 .idea/
+
+# Quarto build artifacts (source in site/, output in docs/ which IS committed)
+site/.quarto/
+site/_freeze/
+site/_book/

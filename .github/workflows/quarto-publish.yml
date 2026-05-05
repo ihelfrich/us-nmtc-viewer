@@ -1,0 +1,48 @@
+name: Render and publish Quarto site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "figures/**"
+      - "viewer/**"
+      - "data/raw/**"
+      - ".github/workflows/quarto-publish.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.9.37"
+
+      - name: Render Quarto site
+        working-directory: site
+        run: quarto render
+
+      - name: Ensure CNAME and .nojekyll
+        run: |
+          echo "nmtc.ianhelfrich.com" > docs/CNAME
+          touch docs/.nojekyll
+
+      - name: Commit rendered docs back to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if ! git diff --cached --quiet; then
+            git commit -m "auto: re-render Quarto site [skip ci]"
+            git push
+          else
+            echo "No docs/ changes to commit."
+          fi

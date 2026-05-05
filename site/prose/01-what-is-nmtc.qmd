@@ -1,0 +1,136 @@
+---
+title: "What is the New Markets Tax Credit?"
+---
+
+The New Markets Tax Credit (NMTC), enacted under the Community Renewal
+Tax Relief Act of 2000 and codified at 26 USC §45D, is the U.S. federal
+government's largest place-based tax-credit program. It works by
+offering private investors a 39% federal tax credit, claimed over seven
+years, in exchange for putting their equity into a certified
+intermediary called a Community Development Entity (CDE). The CDE then
+re-deploys that capital as loans or equity into qualifying projects
+located in low-income census tracts. This chapter walks through the
+institutional setup with enough precision that the empirical results in
+later chapters are interpretable.
+
+## The four entities
+
+There are four parties in the NMTC cash flow:
+
+1. **The Investor.** A bank, corporation, or wealthy individual with a
+   federal income-tax liability. The investor wants the 39% credit and
+   places their equity into a CDE.
+
+2. **The Community Development Entity (CDE).** A regulated intermediary
+   certified by the CDFI Fund, the U.S. Treasury division that
+   administers NMTC. Roughly 600 active CDEs operated over the FY2001–
+   FY2022 sample period, ranging from bank subsidiaries (e.g., USBCDE
+   LLC, Banc of America CDE) to nonprofit community-development
+   financial institutions (e.g., Local Initiatives Support Corporation,
+   Reinvestment Fund) to specialized rural CDEs (e.g., Rural Development
+   Partners LLC, Montana Community Development Corporation). The CDE
+   accepts the investor's equity — called a *Qualified Equity
+   Investment*, or **QEI** — and is required to deploy substantially
+   all of it (at least 85%) into qualifying low-income community
+   businesses within twelve months.
+
+3. **The Qualified Active Low-Income Community Business (QALICB).** The
+   ultimate recipient — a real-estate development, an operating
+   business, a special-purpose entity, or another CDE in a pass-through
+   arrangement. The CDE's deployment to the QALICB is called a
+   *Qualified Low-Income Community Investment*, or **QLICI**. *This is
+   the level that the public CDFI Fund data records.*
+
+4. **The federal government** — specifically Treasury, which issues the
+   credit through the IRS, and the Community Development Financial
+   Institutions (CDFI) Fund, which administers the program (allocates
+   credits to CDEs, certifies CDEs, monitors compliance, and publishes
+   the annual transaction data release used in this paper).
+
+## The cash flow
+
+```
+                    QEI $                         QLICI $
+   Investor  ────────────────►  CDE  ────────────────────►  QALICB
+            ◄──────────────                                  (project /
+              39% tax credit                                 business in
+            (over 7 years)                                   LIC tract)
+```
+
+What the public data records is the second arrow — the QLICI flow from
+CDE to QALICB. The first arrow (the QEI from investor to CDE) is
+governed by securities-law disclosures, not CDFI Fund disclosures, and
+is not in our analytical sample.
+
+## The eligibility rules
+
+A census tract qualifies as a "Low-Income Community" (LIC) — and is
+therefore NMTC-eligible — if either of the following holds:
+
+$$\text{LICeligible}_\ell \;=\; \mathbf{1}\!\left\{ \text{Poverty}_\ell \geq 0.20 \;\;\vee\;\; \frac{\text{MFI}_\ell}{\text{AreaMFI}_\ell} \leq 0.80 \right\}$$
+
+In words: the tract qualifies if poverty rate ≥ 20%, *or* median
+family income ≤ 80% of area median family income. Either condition
+alone is sufficient. There are also "targeted population" provisions
+and high-migration-rural-county overrides that we treat as part of the
+residual variation.
+
+The 20% poverty cutoff is what makes NMTC amenable to a sharp
+regression-discontinuity design: tracts at 19.9% poverty are nearly
+identical to tracts at 20.1% poverty in everything except eligibility
+status. @freedman2012 is the canonical paper using this design;
+@harger2016 is the second canonical reference.
+
+## The 20% non-metropolitan statutory mandate
+
+The statute requires CDEs to direct at least 20% of their QLICIs to
+non-metropolitan census tracts (Public Law 106-554 §121, codified at
+26 USC §45D). This rule was added because, without it, CDEs were
+expected to concentrate deployments in urban areas where deal flow is
+denser and underwriting is easier. The 20% is enforced at the
+allocation-award stage: a CDE must demonstrate intent to deploy at
+least 20% rurally as part of its competitive application for an NMTC
+allocation award.
+
+In our data — which captures *deployments* (QLICIs), not *allocation
+commitments* — non-metro tracts received exactly 19.6% of dollars and
+19.3% of transactions over 2001–2022. That's just under 20%, suggesting
+the mandate binds in some sense at the program level. Whether it binds
+at the individual CDE level is something we test directly via a
+[bunching diagnostic](06-results.qmd#bunching).
+
+## QALICB types
+
+The CDFI Fund classifies every project into one of four QALICB types.
+The classification matters because different types have very different
+leverage capabilities:
+
+| code | meaning | leverage profile | n |
+|---|---|---|---:|
+| **RE** | Real Estate | Stackable: mezzanine debt, second mortgages, equity tranches all possible. Highest median leverage in our data. | 2,862 |
+| **NRE** | Non-Real-Estate (operating business) | Less collateral, harder to leverage. | 3,775 |
+| **SPE** | Special-Purpose Entity | Flexible structurally, typically simpler stacks. | 1,296 |
+| **CDE** | Loan-to-CDE | Mechanically pinned at 1.0× by structure. | 91 |
+
+The cross-tabulation by metro status is informative: real-estate is
+~40% of metro projects but only ~17% of non-metro; operating businesses
+(NRE) are ~50% of metro and ~65% of non-metro. Project-type composition
+itself differs between rural and urban — a confounder our regression
+strategy explicitly addresses.
+
+## Why this institutional detail matters for the empirical strategy
+
+Three features of the institutional setup are load-bearing for the
+analysis in [Chapter 5](05-empirical-strategy.qmd):
+
+1. **CDEs are heterogeneous and persistent.** A CDE applies for an NMTC
+   allocation award, gets one (or doesn't), then deploys it over several
+   years. The *same* CDE often does both metro and non-metro deals.
+   This persistence is what makes within-CDE fixed-effects identification
+   feasible.
+2. **The 20% rule creates an institutional reason to expect bunching.**
+   If the rule binds at the cumulative-deployment level, we should see
+   CDEs piled up at exactly $s_j = 0.20$ in the cross-CDE distribution.
+3. **The LIC eligibility cutoff creates an exogenous source of program
+   access.** Tracts that just barely qualify are otherwise similar to
+   tracts that just barely don't.

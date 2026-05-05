@@ -1,0 +1,131 @@
+---
+title: "Empirical strategy"
+---
+
+The descriptive chapter establishes that there is a rural leverage gap,
+that it is not composition, and that there is enormous variation in
+CDE-level rural orientation. The natural research question is whether
+the gap is a *market-structure* phenomenon (rural markets are
+structurally less leverageable) or an *intermediary-selection*
+phenomenon (the CDEs that go rural are systematically different from
+the ones that stay urban).
+
+Both stories are consistent with the descriptive evidence. They have
+very different policy implications — and a fixed-effects decomposition
+can distinguish them.
+
+## The measurement framework
+
+Project-level leverage and the implied mobilization ratio are directly
+observable from the CDFI Fund release:
+
+$$\Leverage_i \;=\; \frac{\ProjectCost_i}{\QLICI_i} \qquad \Mobilization_i \;=\; \Leverage_i - 1$$
+
+Note that $\Leverage_i \geq 1$ by construction — the QLICI is part of
+the project cost by definition. A leverage of 1 means the project was
+100% NMTC-financed (zero private mobilization). A leverage of 3 means
+each federal dollar pulled in $2 of non-federal capital. The mobilization
+ratio is the central blended-finance quantity that the OECD, World
+Bank, Convergence Finance, and ODI report annually but that is rarely
+directly observed at the project level.
+
+## The layered fixed-effects regressions
+
+We estimate a sequence of OLS specifications, each adding a layer of
+fixed effects. The unit of observation is the project. The outcome is
+project-level leverage, winsorized at [1, 20]. The treatment indicator
+$R_i$ equals 1 if project $i$ is in a non-metropolitan census tract.
+
+| Spec | Equation | Adds |
+|------|----------|------|
+| **M0** | $L_i = \alpha + \beta R_i + \varepsilon_i$ | nothing |
+| **M1** | $L_i = \alpha + \beta R_i + \delta_{t(i)} + \varepsilon_i$ | year FE |
+| **M2** | $L_i = \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \varepsilon_i$ | + QALICB type |
+| **M3** | $L_i = \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \mu_{s(i)} + \varepsilon_i$ | + state |
+| **M4** | $L_i = \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \gamma_{c(i)} + \varepsilon_i$ | + CDE *(workhorse)* |
+
+where:
+
+- $L_i$: leverage of project $i$ (winsorized [1, 20])
+- $R_i \in \{0, 1\}$: 1 if non-metro
+- $\delta_{t(i)}$: year fixed effect (a separate intercept for each origination year)
+- $\eta_{q(i)}$: QALICB-type fixed effect (RE / NRE / SPE / CDE)
+- $\mu_{s(i)}$: state fixed effect
+- $\gamma_{c(i)}$: CDE fixed effect (a separate intercept for each of ~600 CDEs)
+
+Standard errors are HC1 for M0–M3 and clustered at the CDE level for
+M4 — the conservative choice given that $\gamma_c$ absorbs persistent
+within-CDE error correlation.
+
+## What each fixed effect absorbs
+
+- **Year FE** ($\delta_t$): macro credit cycle. The 2008 financial crisis
+  depressed leverage everywhere. Without year FE, if rural deals are
+  over-represented in low-leverage years, the rural coefficient picks
+  that up.
+- **QALICB-type FE** ($\eta_q$): project type. RE projects stack more
+  leverage than NRE; rural is more NRE-heavy. Without project-type FE,
+  the rural coefficient picks up the composition difference.
+- **State FE** ($\mu_s$): state-level capital-market depth. New York
+  has deeper capital markets than Mississippi regardless of metro/non-
+  metro.
+- **CDE FE** ($\gamma_c$): which intermediary deploys the credit.
+  *This is the load-bearing fixed effect.* If rural-specialist CDEs are
+  systematically less effective at private-capital mobilization than
+  the urban-specialist CDEs, the rural coefficient before CDE FE picks
+  up that organization-level skill difference. CDE FE absorbs it.
+
+The economic content of going M3 → M4 is the decomposition. The
+shrinkage in $\hat\beta$ from M3 to M4 is the *between-CDE selection*
+component. The remaining $\hat\beta$ in M4 is the *within-CDE rural
+penalty* — the gap that persists for the same CDE deploying both rural
+and urban.
+
+## Quantile regression at the median
+
+The OLS specifications target the conditional mean of leverage. Because
+the leverage distribution has a long right tail (winsorized at 20×, but
+still heavily right-skewed), the mean is influenced by outlier-ish
+high-leverage deals. The median is less sensitive. We re-estimate M4
+at the conditional median:
+
+$$Q_{0.5}(L_i \mid X_i) = \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \gamma_{c(i)}$$
+
+## Rural × QALICB-type interaction
+
+To check whether the within-CDE rural penalty differs across project
+types:
+
+$$L_i = \alpha + \beta R_i + \sum_{q \in \{NRE, RE, SPE\}} \theta_q (R_i \times \mathbf{1}\{\text{Type}_i = q\}) + \delta_{t(i)} + \gamma_{c(i)} + \varepsilon_i$$
+
+The $\theta_q$ coefficients tell us how much larger or smaller the rural
+penalty is for each project type relative to the baseline. From the
+[Chapter 3 figures](03-descriptive-findings.qmd) we expect the largest
+within-type gap in real estate and the smallest in CDE-to-CDE deals.
+
+## The 20% mandate as a Kleven–Waseem notch {#bunching}
+
+The 20% non-metropolitan deployment statute is, in form, a notch in
+the Kleven–Waseem [@kleven2013notches] sense: it imposes a cliff in
+required behavior. We test whether it binds at the cumulative-deployment
+level by computing, for each CDE $j$ with at least five QLICI
+transactions:
+
+$$s_j = \frac{n_{j,\text{non-metro}}}{n_{j,\text{total}}}$$
+
+If the mandate is just a paper rule, the cross-CDE distribution of
+$s_j$ is smooth through 0.20. If it binds, there should be excess mass
+piling up at exactly $s_j = 0.20$. The Chetty–Kleven excess-mass
+estimator [@chetty2011adjustment; @kleven2016bunching]:
+
+$$B = \int_{0.20-h}^{0.20+h} \left[\hat f(s) - \tilde f(s)\right] ds$$
+
+where $\hat f$ is the empirical density of $s_j$ and $\tilde f$ is a
+polynomial fit excluding the $\pm h$ window around 0.20. $B > 0$ is the
+excess mass — the share of CDEs bunched at the mandate floor.
+
+## Identification assumptions and limitations
+
+- The fixed-effects strategy is **selection on observables within CDE × year × type cells.** Within-CDE deal allocation (rural vs. urban) is *not* random; we are not claiming a causal interpretation of $\hat\beta_{M4}$ in the LATE sense. The decomposition is descriptive but framed economically.
+- The fully causal piece — a regression-discontinuity design at the LIC-eligibility cutoff — requires merging in tract-level demographics from the American Community Survey [@imbens2008rdd]. This is a planned extension; a forthcoming version of the paper will add Chapter 6.5 with the metro-vs-non-metro RDD interaction estimate.
+- The bunching test addresses one form of the 20% mandate; the realized-deployment-share test we run does not capture binding behavior at the allocation-award stage (which CDFI does not disclose in the public release).

@@ -1,0 +1,149 @@
+---
+title: "Data and provenance"
+---
+
+Every number in this paper traces to one source: the Community
+Development Financial Institutions (CDFI) Fund's *New Markets Tax
+Credit Public Data Release, FY2003–FY2022*, released June 2024. The
+data is in the U.S. public domain (17 USC §105) and we redistribute it
+unmodified alongside the cleaning code.
+
+## The source
+
+> **Community Development Financial Institutions (CDFI) Fund**, U.S.
+> Department of the Treasury. *New Markets Tax Credit Public Data
+> Release, FY2003–FY2022.* Released June 2024.
+> <https://www.cdfifund.gov/documents/data-releases>
+
+We did not request or receive any non-public data. Treasury is
+statutorily required to publish program activity once allocations have
+run their course; the published transaction-level dataset is the
+backbone of the CDFI Fund's program-evaluation literature
+[@abravanel2013; @theodos2020where; @theodos2021which].
+
+## What we downloaded
+
+| file | size | purpose |
+|---|---|---|
+| `NMTC_Public_Data_Release_FY2003-FY2022.xlsx` | 1.95 MB | the actual transaction- and project-level records |
+| `NMTC_Public_Data_Release_Summary_FY2003-FY2022.pdf` | 0.49 MB | the CDFI Fund's own codebook |
+
+Both are in `data/raw/` of the project repository, **unmodified** from
+the bytes pulled off the CDFI Fund's web server. The integrity hashes
+(recorded in `PROVENANCE.md`):
+
+```
+NMTC_Public_Data_Release_FY2003-FY2022.xlsx
+  SHA-256: fa709714e93d67356b90a1c0f98dbed71ec1998d0b686e969ad3bacafc112683
+
+NMTC_Public_Data_Release_Summary_FY2003-FY2022.pdf
+  SHA-256: 6e205240f31670fe66095d506f6db08fadd65575b2f198ab52d95882364a1433
+```
+
+## Structure of the source xlsx
+
+The workbook contains two relevant sheets:
+
+**Sheet 1 — `Financial Notes 1 - Data Set PU` (19,907 rows).** One row
+per QLICI transaction, each row a single financial flow from a CDE to a
+QALICB on a specific date.
+
+**Sheet 2 — `Projects 2 - Data Set PUBLISH.P` (8,024 rows).** One row
+per project. The relationship is one-to-many: a project can receive
+multiple QLICIs from multiple CDEs in multiple tranches. **Leverage is a
+project-level concept** (project cost / total QLICI to that project),
+so all leverage analysis runs on Sheet 2.
+
+## The cleaning pipeline
+
+Every step is in `scripts/describe_nmtc.py` (~240 lines, runs in ~25
+seconds). In order:
+
+1. **Strip whitespace from column headers.** CDFI's headers have stray
+   whitespace.
+2. **Rename columns to short snake_case names.** The full mapping is in
+   `DATA_DICTIONARY.md`.
+3. **Normalize the metro flag.** CDFI's source column
+   `"Metro/Non-Metro, 2020 Census"` contains three literal strings —
+   `"Metro"`, `"Non-metro"`, and `"Non-Metro"` (inconsistent
+   capitalization across years). We fold them into a clean lowercase
+   `metro` column with three values: `metro`, `non_metro`, or `unknown`.
+4. **Coerce dollar columns to numeric** with
+   `pd.to_numeric(errors="coerce")`. Coercion failures become NaN,
+   which means specifically "the source had a non-numeric value" — a
+   distinction that matters for sample-construction transparency.
+5. **Compute project-level leverage:**
+
+```python
+pr["leverage_ratio"] = pr["project_cost"] / pr["project_qlici"]
+pr["leverage_win"]   = pr["leverage_ratio"].clip(lower=1.0, upper=20.0)
+```
+
+   Both columns are kept. `leverage_win` is what we use for summary
+   statistics; `leverage_ratio` is the raw version for robustness checks.
+
+6. **Justify the [1, 20] winsorization.** About 1% of projects report
+   `project_cost < project_qlici` (leverage < 1), implausible because
+   the QLICI is part of the project cost by construction. About 0.3%
+   report ratios > 20, typically a small QLICI into a very large RE
+   stack. Capping at [1, 20] preserves the shape of the distribution
+   but stops the right tail from dominating the mean.
+
+7. **Group-by rollups** produce the seven summary CSVs (by metro, by
+   QALICB type, by year, top 20 CDEs, leverage distribution, multi-CDE
+   crosstab).
+
+8. **Emit `headline.json`** with the program-level numbers.
+
+## Geocoding
+
+The CDFI release gives a 2020 census tract FIPS code for each project
+but no latitude/longitude. We merge with the **U.S. Census 2020 Tract
+National Gazetteer** (16 MB tab-separated file, 85,395 tracts) which
+contains the internal-point lat/lon for every census tract:
+
+```python
+pr = pr.merge(gaz, on="tract_fips", how="left")
+```
+
+**8,019 of the 8,024 projects merge cleanly** (99.94% match rate). The
+five unmatched projects have tract codes that were renumbered between
+the 2010 and 2020 censuses; they remain in the analytical tables but do
+not appear on the [interactive map](04-the-map.qmd).
+
+## Reproducibility
+
+From a blank machine, three commands rebuild every figure and every
+regression:
+
+```bash
+git clone https://github.com/ihelfrich/us-nmtc-viewer
+cd us-nmtc-viewer
+pip install -r requirements.txt
+python3 scripts/describe_nmtc.py
+python3 scripts/make_figures.py
+python3 scripts/run_regressions.py
+```
+
+Total runtime: about two minutes on a laptop. **Every number, figure,
+and dot on the map is regeneratable from the SHA-256-anchored raw xlsx
+in less than two minutes.**
+
+## What's not in the data
+
+For transparency:
+
+- **No QEI flow** (investor → CDE side). We see only the downstream
+  deployment.
+- **No allocation-round data.** CDFI's allocation awards specify how
+  much each CDE may deploy, but we observe the deployment, not the
+  award.
+- **No tract demographics** beyond metro status. Poverty rate, MFI,
+  population, and racial composition need to be merged from the
+  American Community Survey for the LIC-eligibility regression-
+  discontinuity extension.
+- **Nominal dollars throughout.** No CPI deflation in the headline
+  figures.
+- **CDE institutional form is unobserved.** The data lists CDE names
+  but does not tag them as bank-subsidiary / nonprofit / for-profit
+  / government.

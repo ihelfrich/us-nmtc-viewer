@@ -1,0 +1,157 @@
+/*-- scss:defaults --*/
+
+// Color palette — restrained, scholarly, slightly warm
+$primary: #0e7c7b;          // teal accent for links and headers
+$secondary: #3d8ecc;        // metro blue (echoes the viewer)
+$danger: #e05555;           // non-metro red (echoes the viewer)
+$body-bg: #fbfaf7;          // warm off-white
+$body-color: #1a1a1a;
+$link-color: $primary;
+$code-color: #b7410e;       // sienna for inline code
+$light: #f3efe7;
+$border-color: #e6e3dc;
+
+// Typography
+$font-family-sans-serif: "Inter", -apple-system, "Segoe UI", sans-serif;
+$font-family-serif: "Newsreader", Georgia, serif;
+$font-family-monospace: "IBM Plex Mono", Menlo, monospace;
+
+$h1-font-size: 2rem;
+$h2-font-size: 1.45rem;
+$h3-font-size: 1.15rem;
+
+// Sidebar
+$sidebar-bg: #f6f3ec;
+$sidebar-fg: #1a1a1a;
+$sidebar-hl: $primary;
+
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+body {
+  font-family: $font-family-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar, .sidebar, .nav-link,
+.btn, .quarto-title-block {
+  font-family: $font-family-sans-serif;
+}
+
+h1.title {
+  font-family: $font-family-serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid $primary;
+  padding-bottom: 0.6rem;
+}
+
+h1 {
+  font-weight: 600;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+}
+
+h2 {
+  color: $primary;
+  font-weight: 600;
+  margin-top: 2.5rem;
+}
+
+h3 {
+  font-weight: 600;
+}
+
+p, li {
+  font-family: $font-family-serif;
+}
+
+strong {
+  font-weight: 600;
+  color: #000;
+}
+
+em {
+  color: $primary;
+  font-style: italic;
+}
+
+code {
+  background: $light;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+pre {
+  background: $light;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid $primary;
+  border-radius: 4px;
+}
+
+blockquote {
+  border-left: 3px solid $primary;
+  background: #f6f3ec;
+  padding: 0.8rem 1.2rem;
+  font-style: italic;
+  color: #4a4a4a;
+}
+
+table {
+  font-family: $font-family-sans-serif;
+  font-size: 0.93rem;
+}
+
+th {
+  color: $primary;
+  font-weight: 600;
+  border-bottom: 2px solid $primary !important;
+}
+
+// Equation display
+.math.display {
+  background: #f6f3ec;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid #a78bfa;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+
+.callout {
+  border-radius: 4px;
+}
+
+// Cesium viewer iframe wrapper
+.cesium-embed {
+  width: 100%;
+  height: 70vh;
+  min-height: 480px;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 2rem 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.cesium-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+// Tighten sidebar
+#quarto-sidebar {
+  font-size: 0.92rem;
+}
+
+#quarto-sidebar a {
+  color: $body-color;
+}
+
+#quarto-sidebar a:hover {
+  color: $primary;
+}

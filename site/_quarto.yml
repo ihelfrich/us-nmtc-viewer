@@ -1,0 +1,101 @@
+project:
+  type: book
+  output-dir: ../docs
+  post-render:
+    - bash -c "cp -R ../viewer ../docs/viewer && cp -R ../data/raw ../docs/data-raw 2>/dev/null || true"
+
+book:
+  title: "The Rural Mobilization Gap"
+  subtitle: "Intermediary Selection vs. Market Structure in the U.S. New Markets Tax Credit"
+  author:
+    - name: "Dr. Ian Helfrich"
+      affiliation: "Independent researcher"
+      email: "ianthelfrich@gmail.com"
+  date: last-modified
+  date-format: "MMMM YYYY"
+  site-url: "https://nmtc.ianhelfrich.com"
+  repo-url: "https://github.com/ihelfrich/us-nmtc-viewer"
+  repo-branch: main
+  repo-actions: [edit, source, issue]
+  google-analytics: ""
+  chapters:
+    - index.qmd
+    - part: "Setup"
+      chapters:
+        - prose/01-what-is-nmtc.qmd
+        - prose/02-data-and-provenance.qmd
+    - part: "Empirical foundation"
+      chapters:
+        - prose/03-descriptive-findings.qmd
+        - prose/04-the-map.qmd
+    - part: "Identification"
+      chapters:
+        - prose/05-empirical-strategy.qmd
+        - prose/06-results.qmd
+    - part: "Discussion"
+      chapters:
+        - prose/07-interpretation.qmd
+        - prose/08-limitations.qmd
+        - prose/09-literature.qmd
+        - prose/10-next-steps.qmd
+    - references.qmd
+  search: true
+  page-navigation: true
+  reader-mode: true
+  sidebar:
+    style: "docked"
+    background: "light"
+  page-footer:
+    left: |
+      © 2026 Dr. Ian Helfrich. CDFI Fund data is U.S. public-domain (17 USC §105).
+    center: |
+      [Source on GitHub](https://github.com/ihelfrich/us-nmtc-viewer)
+    right: |
+      Built with [Quarto](https://quarto.org).
+
+bibliography: references.bib
+csl: https://www.zotero.org/styles/chicago-author-date
+
+highlight-style: a11y
+
+format:
+  html:
+    theme:
+      light: [cosmo, assets/theme.scss]
+    css: assets/styles.css
+    toc: true
+    toc-depth: 3
+    toc-expand: 2
+    fig-format: png
+    fig-dpi: 200
+    fig-width: 9
+    fig-height: 5
+    fig-align: center
+    fig-cap-location: bottom
+    code-copy: true
+    code-overflow: wrap
+    smooth-scroll: true
+    citations-hover: true
+    crossrefs-hover: true
+    link-external-newwindow: true
+    html-math-method: katex
+    include-in-header:
+      - text: |
+          <script>
+          window.MathJax = {
+            tex: {
+              macros: {
+                E: ["\\operatorname{\\mathbb{E}}"],
+                Var: ["\\operatorname{Var}"],
+                Cov: ["\\operatorname{Cov}"],
+                Leverage: ["\\operatorname{Leverage}"],
+                Mobilization: ["\\operatorname{Mobilization}"],
+                QLICI: ["\\operatorname{QLICI}"],
+                ProjectCost: ["\\operatorname{ProjectCost}"]
+              }
+            }
+          };
+          </script>
+
+execute:
+  freeze: auto

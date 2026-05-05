@@ -1,0 +1,108 @@
+---
+title: "Limitations"
+---
+
+The contribution is real but bounded. This chapter inventories every
+non-trivial limitation honestly so a referee or reader can calibrate
+the strength of the inference.
+
+## Selection on observables, not causal
+
+The fixed-effects strategy is a *decomposition* of the rural-vs-urban
+gap into observable components, not a causal estimate of "the effect
+of rural location on leverage." Even within-CDE, deal allocation is not
+random. A CDE that decides to take on a rural deal has selected that
+deal from its opportunity set; the unobserved characteristics of the
+deal differ from those of its metro deals in ways the regression cannot
+absorb.
+
+What the result tells us is: *among the deals CDEs actually do*, there
+is no within-CDE rural penalty. It does not tell us what would happen
+if a CDE were forced to do a randomly-selected rural deal. The LATE-
+style interpretation requires the LIC-eligibility regression
+discontinuity, which is a planned extension.
+
+## The LIC RDD is not yet in the paper
+
+The fully causal piece of the empirical strategy compares NMTC
+investment outcomes for tracts at 19.9% poverty (ineligible) vs. 20.1%
+poverty (eligible), separately for metro and non-metro samples, with
+the differential local average treatment effect as the rural-versus-
+urban interaction estimator. This requires merging in tract-level
+demographics from the American Community Survey and is the next data
+move. Until that merge is complete the paper is a within-program
+decomposition, not a causal RDD.
+
+@imbens2008rdd is the methodological reference; @freedman2012 and
+@harger2016 establish the canonical NMTC-RDD design at the LIC
+eligibility cutoff.
+
+## CDE institutional form is unobserved
+
+The data lists CDE names but does not tag them as bank subsidiary,
+nonprofit CDFI, for-profit specialized, or government. The fixed
+effect $\gamma_c$ absorbs whatever organizational characteristics are
+constant within a CDE — but cannot tell us *which* organizational
+characteristics drive the between-CDE selection effect. Hand-classifying
+the top 50 CDEs by institutional form, building on the typology from
+@theodos2021which, is a planned extension that would let us interact
+CDE form with rural status and pin down the mechanism.
+
+## Allocation-round data is unavailable
+
+The CDFI Fund publishes allocation awards (which CDEs got how much in
+each annual round) separately from the deployment data. We use only
+the deployment side. Bringing in allocation-round data would let us
+test the bunching hypothesis at the right margin (commitment, not
+realization).
+
+## Nominal dollars throughout
+
+No CPI deflation. The aggregate program-level numbers (\$66.6 B total
+deployed, \$120.9 B project cost) are nominal. A robustness check with
+real 2022 dollars is straightforward and does not change the within-
+program decomposition results — inflation affects rural and metro
+projects equally and is absorbed by year FE — but the headline
+program-aggregate numbers should be read as nominal.
+
+## Winsorization choice
+
+Leverage is winsorized at [1, 20]. The lower bound is structurally
+meaningful (project cost ≥ QLICI by construction). The upper bound is
+chosen so the top ~0.3% of observations don't dominate the mean. The
+median is unaffected by either bound. We report robustness to the
+unwinsorized version in §5.3 of the formal paper; the headline result
+holds.
+
+## CDE consolidation
+
+CDEs are listed as-named in the source data; affiliated CDEs (for
+example, multiple bank-subsidiary vehicles owned by the same parent)
+are not consolidated. A larger CDE family operating multiple registered
+CDEs would appear in our data as several separate units. This is
+unlikely to change the decomposition direction but may affect the
+precise magnitudes.
+
+## The 20% mandate is not the only rural rule
+
+There are also overrides for "high-migration rural counties" and
+certain "targeted population" rules under the LIC framework. We treat
+these as part of the residual variation. A more granular institutional
+analysis would distinguish them.
+
+## External validity beyond NMTC
+
+Whether the within-CDE-equals-zero finding generalizes to other place-
+based subsidy programs (LIHTC, Opportunity Zones, IRA energy credits)
+is a question the present paper does not answer. The methodological
+framework transfers; whether the empirical answer transfers is open.
+A comparative-program extension is forthcoming.
+
+External validity beyond the United States is a separate question.
+European blended finance involves a different intermediary architecture
+— state-owned banks like Caixa Geral de Depósitos in Portugal, the
+European Investment Bank, EU Cohesion Fund disbursements through
+managing authorities — and the rural-vs-urban allocation gap there has
+its own institutional setting [@eib2024]. The U.S. finding generates
+a *testable hypothesis* for those settings; whether the answer is the
+same is empirically open and worth working out elsewhere.

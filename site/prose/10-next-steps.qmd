@@ -1,0 +1,93 @@
+---
+title: "Where this paper goes next"
+---
+
+This chapter sketches what the paper will look like in its final
+working-paper form, what is still in progress, and what natural
+follow-on questions the methodology raises.
+
+## In the working-paper draft (forthcoming on SSRN)
+
+Three tasks remain before the formal preprint:
+
+**1. The LIC-eligibility regression discontinuity.** Adding tract-level
+poverty rate and median family income from the American Community
+Survey enables the canonical NMTC RDD design [@freedman2012;
+@harger2016] — extended to estimate the rural-versus-urban differential
+local average treatment effect as a clean causal complement to the
+descriptive decomposition reported here. Estimated time to add: ~2–3
+weeks of data work.
+
+**2. Robustness battery.** Already partially complete. Includes the
+unwinsorized leverage version, the top-50-CDE subsample, the pre-2010
+versus post-2010 sub-period split, two-way clustering on (CDE, tract),
+and a USDA-RUCA-based continuous rurality measure replacing the binary
+metro flag. Reported in §5.3 of the working paper.
+
+**3. CDE institutional-form classification.** Hand-classifying the top
+50 CDEs as bank subsidiary, nonprofit CDFI, for-profit specialized, or
+governmental — building on the typology in @theodos2021which — and
+interacting form with rural status. Lets us pin down the mechanism
+behind the between-CDE component.
+
+## Natural follow-on questions
+
+**Does the within-CDE-equals-zero result generalize to other U.S.
+place-based subsidy programs?** The two natural counterfactuals are
+LIHTC (@diamond2019; same eligibility logic, different intermediary
+architecture, longer history) and Opportunity Zones (post-2017, no
+certified intermediary at all). A multi-program tract-level comparison
+of mobilization ratios — building on @corinth2024oz — would establish
+the external validity of the framework within the U.S.
+
+**Does it generalize internationally?** The methodological framework
+— leverage as outcome, intermediary FE for decomposition, rural-versus-
+urban heterogeneity — transfers directly to settings where project-
+level public-credit-subsidized investments are observable alongside
+total project cost. Candidates include EU Cohesion Fund deployments
+[@medeiros2014; @crescenzi2020], EIB project finance [@eib2024], and
+multilateral development bank lending more broadly. Whether the answer
+is the same is an open empirical question.
+
+**What is the optimal NMTC allocation rule?** If the binding constraint
+on aggregate rural mobilization is intermediary selection rather than
+market structure, the policy lever most likely to move outcomes is the
+allocation rule — which CDEs receive credits, how much, and on what
+performance criteria. A formal mechanism-design analysis of the
+allocation problem, conditional on the empirical decomposition, is a
+natural next paper.
+
+**Does the 20% mandate bind at the allocation-award stage?** The
+current paper finds no bunching at the realized-deployment level. CDFI
+Fund allocation-award data, were it merged in, would let us test the
+mandate's binding behavior at the margin where it is actually enforced.
+
+## Reading the working paper when it ships
+
+The full working paper (forthcoming on SSRN) will have the standard
+empirical-economics structure:
+
+1. Introduction
+2. Institutional background ([Chapter 1](01-what-is-nmtc.qmd) here)
+3. Data ([Chapter 2](02-data-and-provenance.qmd))
+4. Empirical strategy ([Chapter 5](05-empirical-strategy.qmd))
+5. Results ([Chapter 6](06-results.qmd)) including the RDD piece
+6. Discussion ([Chapters 7–8](07-interpretation.qmd))
+7. Conclusion
+
+The site will be updated with each paper revision; the GitHub
+repository at <https://github.com/ihelfrich/us-nmtc-viewer> tracks all
+changes.
+
+## How to follow updates
+
+Citation form for the work in its current state:
+
+> Helfrich, I. T. (2026). *The Rural Mobilization Gap in U.S. Place-
+> Based Tax Credit: Intermediary Selection vs. Market Structure in the
+> New Markets Tax Credit.* Working paper.
+> <https://nmtc.ianhelfrich.com>
+
+For substantive comments, corrections, or research collaboration
+inquiries: contact via the email on the title page or by opening an
+issue on the GitHub repository.
