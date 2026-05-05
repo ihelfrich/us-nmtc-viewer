@@ -1,6 +1,6 @@
 # US NMTC — Blended-Finance First Look
 
-**For:** Katia · **From:** Ian · **Date:** 2026-04-22 · **Status:** First-look, for discussion
+**Author:** Ian Helfrich · **Date:** 2026-04-22 · **Status:** Working paper, pre-submission
 
 This folder is a drag-and-drop starter package for our US blended-finance
 empirical setting. Everything you need to tell the story — cleaned data,

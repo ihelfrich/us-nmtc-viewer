@@ -1,7 +1,7 @@
 # NMTC Viewer — browser-based first look
 
 A single-page interactive presentation of the NMTC data bundled in this
-repo. Built for Katia but works as a general explainer for the program.
+repo. Companion to the working paper (Helfrich 2026).
 
 ## What's inside
 

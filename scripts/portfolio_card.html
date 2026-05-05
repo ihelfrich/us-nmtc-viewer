@@ -1,0 +1,57 @@
+<!--
+  Drop-in card for ihelfrich/portfolio/index.html
+  Paste inside <section id="research"> <div class="project-grid"> …
+  Position: after the "La Mita Mining Externality Viewer" card (same dark / IBM Plex Mono / cyan-violet aesthetic).
+-->
+<div class="project-card">
+    <h3>NMTC Blended-Finance Atlas — Phase 0</h3>
+    <div style="margin-bottom: 1rem;">
+        <span class="project-tag">Public Finance</span>
+        <span class="project-tag">Spatial Econometrics</span>
+        <span class="project-tag">Regression Discontinuity</span>
+        <span class="project-tag">CesiumJS</span>
+        <span class="project-tag">Python</span>
+    </div>
+    <p><strong>Author:</strong> Dr. Ian Helfrich</p>
+
+    <p style="margin-top: 0.75rem;"><strong>Research Question:</strong> Does the US federal
+       New Markets Tax Credit mobilize private capital differently in rural vs. urban
+       markets — and is the rural leverage gap a story about <em>market structure</em> or
+       about <em>which intermediary CDEs get allocated to rural deals</em>?</p>
+
+    <p style="margin-top: 0.75rem;"><strong>Setting &amp; identification:</strong></p>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+        <li><strong>Data:</strong> CDFI Fund NMTC Public Data Release FY2003–FY2022 — 19,907 QLICI transactions across 8,024 projects, $66.6 B of public credit deployed, $120.9 B of total project cost</li>
+        <li><strong>Within-program FE decomposition:</strong> CDE × year × QALICB-type fixed effects to decompose the rural leverage gap into between-CDE selection vs. within-CDE deployment heterogeneity</li>
+        <li><strong>LIC-eligibility RDD:</strong> sharp 20%-poverty cutoff (or 80%-MFI) as a fuzzy first-stage instrument for NMTC investment, run separately for metro and non-metro to identify the rural × treatment-effect interaction</li>
+        <li><strong>20% mandate bunching test:</strong> Chetty–Kleven excess-mass estimator on the cross-CDE distribution of non-metro deal share, validating that the statutory minimum binds for a subset of intermediaries</li>
+    </ul>
+
+    <p style="margin-top: 0.75rem;"><strong>Headline empirics:</strong>
+       Median metro leverage <strong>1.19×</strong>, non-metro <strong>1.07×</strong>; mobilization
+       ratio <strong>0.82× across the program</strong>. The within-CDE rural penalty is
+       <strong>statistically zero</strong> (β = −0.05, p = 0.64) — about <strong>80% of the aggregate
+       rural gap is between-CDE selection</strong>, not market structure. The mechanism candidate.</p>
+
+    <p style="margin-top: 0.75rem;"><strong>Technical Implementation:</strong> Browser-based
+       presentation: CesiumJS 1.118 over tokenless Esri World Imagery with all 8,019 geocoded
+       projects rendered as filterable Cartesian primitives, year-range slider, KaTeX-rendered
+       econometric specifications, fully reproducible Python pipeline
+       (<code>scripts/describe_nmtc.py</code>, <code>scripts/run_regressions.py</code>,
+       <code>scripts/build_viewer_data.py</code>),
+       static GitHub Pages deploy with SHA-256-verified raw data alongside.</p>
+
+    <p style="margin-top: 0.75rem;"><strong>Positioning:</strong> Phase 0 of the proposed
+       <em>Spatial Public-Finance Atlas</em> — a multi-program, geographically-disaggregated
+       panel of US and international subsidy programs (NMTC, LIHTC, Opportunity Zones, IRA
+       energy credits, MDB project lending) with their private-capital follow-on, in the
+       spirit of the Opportunity Atlas but for the public-private finance interaction.</p>
+
+    <p style="margin-top: 0.75rem;"><strong>Live:</strong>
+       <a href="https://nmtc.ianhelfrich.com/" target="_blank" style="color: var(--cyan);">nmtc.ianhelfrich.com</a>
+       &nbsp;·&nbsp;
+       <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" style="color: var(--cyan);">source</a>
+       &nbsp;·&nbsp;
+       <a href="https://github.com/ihelfrich/us-nmtc-viewer/blob/main/briefs/spatial_finance_atlas_vision.md" target="_blank" style="color: var(--cyan);">strategic memo</a>
+    </p>
+</div>

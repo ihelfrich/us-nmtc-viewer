@@ -1,0 +1,16 @@
+{
+  "n_cde_active": 310,
+  "window": [
+    0.175,
+    0.225
+  ],
+  "counterfactual_polyorder": 3,
+  "empirical_mass_in_window": 0.0274,
+  "counterfactual_mass": 0.028,
+  "excess_mass_B": -0.0006,
+  "excess_mass_pct": -2.2,
+  "density_at_20pct": 1.097,
+  "density_near_20pct": 0.946,
+  "ratio_at_to_near": 1.16,
+  "binding": false
+}
