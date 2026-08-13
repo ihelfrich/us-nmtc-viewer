@@ -405,7 +405,7 @@ mechanically pinned at 1×).
 
 Of {bunch['n_cde_active']:,} CDEs with ≥ 5 QLICI transactions, the cross-CDE
 distribution of non-metro deal shares shows excess mass at the 20% statutory line of
-**{bunch['excess_mass_pct']:+.1f}%** above a 5th-order polynomial counterfactual fit
+**{bunch['excess_mass_pct']:+.1f}%** above a degree-3 polynomial counterfactual fit
 on the surrounding distribution.
 
 **Verdict: {"the 20% mandate appears to bind" if bunch['binding'] else "no clean evidence of binding bunching at the 20% line"}**
