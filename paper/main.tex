@@ -118,9 +118,15 @@ reports it where it lives: the median within-CDE penalty is $-0.001$
 private capital at all, and mobilize no less when they do. What differs
 across space is \emph{which} intermediaries show up.
 
-This paper makes three contributions to a literature that has examined NMTC
-outcomes extensively but mobilization sparingly
-\citep{freedman2012, hargerross2016, theodos2022}. First, to my knowledge it
+This paper sits inside two literatures. The NMTC evaluation literature
+has examined program targeting and neighborhood outcomes extensively
+\citep{gurley2009, freedman2012, hargerross2016, freedmankuhns2018,
+theodos2020, theodos2022, corinth2024}, with program-evaluation
+foundations in \citet{abravanel2013}; the place-based policy literature
+supplies the welfare frame \citep{glaesergottlieb2008, klinemoretti2014,
+neumarksimpson2015, diamondmcquade2019}. Against both, this paper makes
+three contributions, since mobilization has been examined sparingly in
+either. First, to my knowledge it
 is the first econometric paper to treat project-level leverage as the
 central NMTC outcome variable, importing the blended-finance mobilization
 framework into a literature otherwise focused on neighborhood employment,
@@ -180,10 +186,13 @@ dollars over the sample period.
 
 \subsection{The intermediary layer}
 
-Roughly 600 CDEs were active at least once over 2001--2022; 310 executed
-five or more transactions. Concentration is high---the top twenty CDEs
-account for more than half of dollars---and specialization is extreme:
-cross-CDE non-metro deployment shares range from 0\% to more than 80\%.
+The public release names 345 distinct CDEs in the transaction ledger
+(343 at the project level); 310 executed five or more transactions. The
+twenty largest account for 23.9\% of QLICI dollars, so deployment is
+moderately concentrated, and specialization is extreme: among CDEs with at
+least five transactions, cumulative non-metro shares span the full range
+from 0\% to 100\%, with 39\% of such CDEs never deploying non-metro and
+6.5\% deploying there at least four times out of five.
 This heterogeneity is the engine of the paper's decomposition. If rural
 deals systematically flow through intermediaries who mobilize less
 \emph{everywhere}, an aggregate rural penalty can arise without any
@@ -227,6 +236,16 @@ shoulder.
 \label{tab:desc}
 \input{tables/descriptives}
 \end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.48\textwidth]{1_allocation_timeseries.png}\hfill
+\includegraphics[width=0.48\textwidth]{2_non_metro_share_timeseries.png}
+\caption{Deployment over time. Left: annual QLICI dollars, metro and
+non-metro. Right: the non-metro dollar share against the 20\% statutory
+line.}
+\label{fig:deploy}
+\end{figure}
 
 \begin{figure}[t]
 \centering
@@ -328,15 +347,6 @@ CDE composition component is large, negative, and statistically distinct
 from zero, while the within-CDE component is statistically
 indistinguishable from zero.
 
-\begin{table}[t]
-\centering
-\caption{Gelbach (order-invariant) decomposition of the raw rural gap,
-full-model reference. Contributions sum to
-$\hat\beta_{M0} - \hat\beta_{\mathrm{full}}$ by identity (verified to
-$10^{-14}$ in the replication code).}
-\label{tab:gelbach}
-\input{tables/gelbach}
-\end{table}
 
 \begin{table}[t]
 \centering
@@ -346,6 +356,16 @@ errors; columns (5)--(6) cluster at the CDE level.
 $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.}
 \label{tab:main}
 \input{tables/main}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Gelbach (order-invariant) decomposition of the raw rural gap,
+full-model reference. Contributions sum to
+$\hat\beta_{M0} - \hat\beta_{\mathrm{full}}$ by identity (verified to
+$10^{-14}$ in the replication code).}
+\label{tab:gelbach}
+\input{tables/gelbach}
 \end{table}
 
 \subsection{Precision, power, and margins}\label{sec:power}
@@ -507,6 +527,11 @@ allocation levers.
 Attridge, S., \& Engen, L. (2019). \emph{Blended Finance in the Poorest
 Countries: The Need for a Better Approach}. ODI Report.
 
+\bibitem[Abravanel et al.(2013)]{abravanel2013}
+Abravanel, M.~D., Pindus, N., Theodos, B., Bertumen, K., Brash, R., \&
+McDade, Z. (2013). \emph{New Markets Tax Credit Program Evaluation: Final
+Report}. Urban Institute, for the CDFI Fund.
+
 \bibitem[Chetty et al.(2011)]{chetty2011}
 Chetty, R., Friedman, J., Olsen, T., \& Pistaferri, L. (2011). Adjustment
 costs, firm responses, and micro vs.\ macro labor supply elasticities:
@@ -516,14 +541,38 @@ Evidence from Danish tax records. \emph{Quarterly Journal of Economics},
 \bibitem[Convergence(2024)]{convergence2024}
 Convergence Finance. (2024). \emph{State of Blended Finance 2024}.
 
+\bibitem[Freedman \& Kuhns(2018)]{freedmankuhns2018}
+Freedman, M., \& Kuhns, A. (2018). Supply-side subsidies to improve food
+access and dietary outcomes: Evidence from the New Markets Tax Credit.
+\emph{Urban Studies}, 55(14), 3234--3252.
+
 \bibitem[Gelbach(2016)]{gelbach2016}
 Gelbach, J.~B. (2016). When do covariates matter? And which ones, and how
 much? \emph{Journal of Labor Economics}, 34(2), 509--543.
+
+\bibitem[Corinth et al.(2024)]{corinth2024}
+Corinth, K., Coyne, D., Feldman, N., \& Johnson, C.~E. (2024). The
+targeting of place-based policies: The New Markets Tax Credit versus
+Opportunity Zones. NBER chapter / SSRN 5122131.
+
+\bibitem[Diamond \& McQuade(2019)]{diamondmcquade2019}
+Diamond, R., \& McQuade, T. (2019). Who wants affordable housing in their
+backyard? An equilibrium analysis of low-income property development.
+\emph{Journal of Political Economy}, 127(3), 1063--1117.
 
 \bibitem[Freedman(2012)]{freedman2012}
 Freedman, M. (2012). Teaching new markets old tricks: The effects of
 subsidized investment on low-income neighborhoods. \emph{Journal of Public
 Economics}, 96(11--12), 1000--1014.
+
+\bibitem[Glaeser \& Gottlieb(2008)]{glaesergottlieb2008}
+Glaeser, E.~L., \& Gottlieb, J.~D. (2008). The economics of place-making
+policies. \emph{Brookings Papers on Economic Activity}, 2008(1), 155--253.
+
+\bibitem[Gurley-Calvez et al.(2009)]{gurley2009}
+Gurley-Calvez, T., Gilbert, T.~J., Harper, K., Marples, D.~J., \& Daly, K.
+(2009). Do tax incentives affect investment? An analysis of the New
+Markets Tax Credit. \emph{Public Finance Review}, 37(4), 371--398.
 
 \bibitem[Harger \& Ross(2016)]{hargerross2016}
 Harger, K., \& Ross, A. (2016). Do capital tax incentives attract new
@@ -539,9 +588,24 @@ Kleven, H.~J., \& Waseem, M. (2013). Using notches to uncover optimization
 frictions and structural elasticities: Theory and evidence from Pakistan.
 \emph{Quarterly Journal of Economics}, 128(2), 669--723.
 
+\bibitem[Kline \& Moretti(2014)]{klinemoretti2014}
+Kline, P., \& Moretti, E. (2014). People, places, and public policy: Some
+simple welfare economics of local economic development programs.
+\emph{Annual Review of Economics}, 6, 629--662.
+
 \bibitem[Lankes(2021)]{lankes2021}
 Lankes, H.~P. (2021). \emph{Blended Finance for Scaling Up Climate and
 Nature Investments}. CEPR / LSE Report.
+
+\bibitem[Neumark \& Simpson(2015)]{neumarksimpson2015}
+Neumark, D., \& Simpson, H. (2015). Place-based policies. In G. Duranton,
+J.~V. Henderson, \& W.~C. Strange (Eds.), \emph{Handbook of Regional and
+Urban Economics}, Vol.~5B, Ch.~18. Elsevier.
+
+\bibitem[Theodos et al.(2020)]{theodos2020}
+Theodos, B., Hariharan, A., Gonz\'alez-Hermoso, J., \& Edelman, S.
+(2020). \emph{Where Do New Markets Tax Credit Projects Go?} Urban
+Institute.
 
 \bibitem[Theodos et al.(2021)]{theodos2021}
 Theodos, B., Stacy, C.~P., Teles, D., Davis, C., Rajasekaran, P., \&

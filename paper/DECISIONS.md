@@ -113,3 +113,22 @@ or trimming choices changed in this round. The bunching analysis is
 unchanged. Bootstrap: 499 CDE-cluster resamples, seed 20260813, zero failed
 replications; resampled duplicate CDEs are treated as distinct clusters
 (standard cluster-bootstrap practice).
+
+## D9. SSRN pass (2026-08-13, second round)
+
+**Decision.** Before submission, every institutional claim inherited from
+the outline was recomputed against the release. Three were false and are
+corrected in the text: (a) "roughly 600 CDEs" -> the release names 345
+distinct CDEs in the transaction ledger (343 at the project level); (b)
+"top twenty CDEs account for more than half of dollars" -> computed 23.9%
+of QLICI dollars, described as moderate concentration; (c) "shares range
+0% to 80%+" -> the computed range is 0% to 100%, with 39% of >=5-tx CDEs
+never deploying non-metro and 6.5% at 80%+. The outline's figures likely
+referred to certified allocatees program-wide; the paper now claims only
+what its own ledger shows.
+
+**Also in this pass.** Deployment figures (annual QLICI, non-metro share
+vs the 20% line) added to the data section; the Gelbach table moved after
+the main table so numbering follows the narrative; eleven bibliography
+entries added and cited in text (program-evaluation and place-based
+literatures). Compile verified: zero undefined references, zero warnings.
