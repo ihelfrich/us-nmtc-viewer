@@ -1,0 +1,109 @@
+% helfrich-wp.sty — house working-paper style, Helfrich (2026)
+% Design intent: a paper that reads like a well-set book page and signals
+% craft without costume. Palatino text with matching math; a single ink-blue
+% accent reserved for structure (section numbers, rules, links) and never
+% for emphasis; generous outer margin carrying sidenotes, echoing the
+% author's website typography; hairline-ruled small-caps captions.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{helfrich-wp}[2026/08/13 Helfrich working paper style]
+
+% ── type ────────────────────────────────────────────────────────────────
+\RequirePackage[T1]{fontenc}
+\RequirePackage{amsmath, amssymb}
+\RequirePackage{newpxtext}          % Palatino-descended text
+\RequirePackage{newpxmath}          % matching math
+\RequirePackage{microtype}
+\linespread{1.12}
+
+% ── color: one ink, one accent ──────────────────────────────────────────
+\RequirePackage{xcolor}
+\definecolor{inkblack}{HTML}{16161D}
+\definecolor{inkblue}{HTML}{1F3A5F}   % fountain-pen blue-black
+\definecolor{penblue}{HTML}{2852E8}   % signal blue: sparing, structural
+\definecolor{pencil}{HTML}{6B6B70}
+\definecolor{washblue}{HTML}{EEF2FA}
+\color{inkblack}
+
+% ── page geometry: asymmetric, with a working margin ───────────────────
+\RequirePackage[
+  paperwidth=8.5in, paperheight=11in,
+  textwidth=4.9in, textheight=8.6in,
+  inner=1.0in, top=1.05in,
+  marginparwidth=1.7in, marginparsep=0.28in,
+]{geometry}
+
+% ── running heads ───────────────────────────────────────────────────────
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\scshape\color{pencil} helfrich \textperiodcentered\ the rural mobilization gap}
+\fancyhead[R]{\footnotesize\scshape\color{pencil} working paper \textperiodcentered\ august 2026}
+\fancyfoot[C]{\footnotesize\color{pencil}\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\footnotesize\color{pencil}\thepage}}
+
+% ── section titling: small caps, ink-blue numeral, hairline ────────────
+\RequirePackage{titlesec}
+\titleformat{\section}
+  {\Large\scshape}{\textcolor{penblue}{\oldstylenums{\thesection}}}{0.8em}
+  {}[{\vspace{2pt}\textcolor{inkblue!30}{\hrule height 0.4pt}}]
+\titleformat{\subsection}
+  {\large\itshape}{\textcolor{penblue}{\oldstylenums{\thesubsection}}}{0.7em}{}
+\titlespacing*{\section}{0pt}{1.6\baselineskip}{0.9\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.2\baselineskip}{0.5\baselineskip}
+
+% ── captions: small-caps label, hairline above ─────────────────────────
+\RequirePackage[font=small, labelsep=period]{caption}
+\DeclareCaptionFormat{hairline}{{\color{inkblue!30}\rule{\linewidth}{0.4pt}}\\[3pt]#1#2#3}
+\captionsetup{format=hairline, labelfont={sc,color=inkblue}, textfont={}}
+
+% ── sidenotes: the margin works for a living ───────────────────────────
+\RequirePackage{marginnote}
+\renewcommand*{\marginfont}{\footnotesize\itshape\color{pencil}}
+\newcommand{\sidenote}[1]{\marginnote{\raggedright #1}}
+
+% ── links, rules, tables ────────────────────────────────────────────────
+\RequirePackage{natbib}
+\RequirePackage{booktabs}
+\RequirePackage{graphicx}
+\RequirePackage[colorlinks=true, allcolors=penblue]{hyperref}
+\urlstyle{same}
+
+% ── the title block ─────────────────────────────────────────────────────
+\newcommand{\wptitle}[4]{% {title}{subtitle}{author line}{date line}
+  \begin{center}
+    {\footnotesize\scshape\color{pencil} working paper \textperiodcentered\ comments welcome}\\[1.6em]
+    {\LARGE #1\par}\vspace{0.5em}
+    {\large\itshape\color{inkblue} #2\par}\vspace{1.6em}
+    {\color{inkblue!35}\rule{2.2in}{0.4pt}}\\[1.2em]
+    {\scshape #3\par}\vspace{0.3em}
+    {\small\color{pencil} #4\par}
+  \end{center}\vspace{1.2em}}
+
+% ── abstract as a set-off measure ───────────────────────────────────────
+\renewenvironment{abstract}
+  {\begin{center}\begin{minipage}{0.86\textwidth}
+   {\centering\scshape\small\color{inkblue} abstract\par}\vspace{0.5em}
+   \small\noindent}
+  {\end{minipage}\end{center}\vspace{1.4em}}
+
+% ── hand-drawn diagram machinery (fineliner + pencil registers) ─────────
+\RequirePackage{tikz}
+\usetikzlibrary{decorations.pathmorphing, arrows.meta, positioning, calc}
+\tikzset{
+  fineliner/.style={draw=inkblack, line width=0.55pt,
+    decorate, decoration={random steps, segment length=7pt, amplitude=0.45pt},
+    line cap=round, line join=round},
+  fountain/.style={draw=inkblue, line width=0.8pt,
+    decorate, decoration={random steps, segment length=9pt, amplitude=0.55pt},
+    line cap=round, line join=round},
+  pencilline/.style={draw=pencil, line width=0.45pt,
+    decorate, decoration={random steps, segment length=5pt, amplitude=0.5pt},
+    line cap=round},
+  sketchbox/.style={fineliner, fill=white},
+  washbox/.style={fineliner, fill=washblue},
+  inkarrow/.style={fountain, -{Stealth[length=6pt, width=5pt]}},
+  pencilarrow/.style={pencilline, -{Stealth[length=5pt, width=4pt]}},
+  sketchlabel/.style={font=\small\itshape, text=inkblack},
+  sketchnote/.style={font=\footnotesize\itshape, text=pencil},
+}

@@ -2,6 +2,11 @@
 
 **File to upload:** `paper/main.pdf` (rebuild first: `cd paper && tectonic main.tex`)
 
+**Overleaf:** upload the `paper/` directory as a project (main.tex is the
+root; compiles under pdfLaTeX or XeLaTeX with BibTeX). The project is
+self-contained except `../figures/`, so either copy `figures/` in beside
+it or flatten the two `\graphicspath` entries.
+
 **Title:** The Rural Mobilization Gap in U.S. Place-Based Tax Credit:
 Intermediary Selection versus Market Structure in the New Markets Tax Credit
 

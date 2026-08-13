@@ -1,0 +1,55 @@
+\section{Data}\label{sec:data}
+
+The analysis uses the CDFI Fund's NMTC Public Data Release covering
+FY2003--FY2022 award years (released June 2024), which reports 19{,}907
+QLICI transactions across 8{,}024 projects with origination years
+2001--2022. Transactions are aggregated to the project level; the project
+is the unit at which total cost---and therefore leverage---is defined.
+Cleaning steps, field definitions, and file hashes are documented in the
+public repository's data dictionary and provenance files, and the full
+pipeline from the raw workbook to every table in this paper runs from a
+single script sequence.
+
+The outcome is project-level leverage,
+\[
+\mathrm{Leverage}_i \;=\; \frac{\mathrm{ProjectCost}_i}{\mathrm{QLICI}_i},
+\]
+the blended-finance mobilization ratio plus one. Leverage is bounded below
+at 1 by construction; the mass at exactly 1 has the substantive
+interpretation of zero private mobilization. The baseline outcome is
+winsorized to $[1, 20]$ to discipline a long right tail of large
+capital-stack deals; Section~\ref{sec:robust} shows the headline result is
+insensitive to the cap, including its removal.
+
+Table~\ref{tab:desc} reports descriptives. Non-metro projects are 19.5\% of
+the sample---again, the statutory line---and lag metro projects in both
+mean (1.73 versus 1.99) and median (1.07 versus 1.19) leverage.
+Figure~\ref{fig:dist} shows the shape of the gap: non-metro mass piles up
+near the 1.0 floor while the metro distribution carries a fatter right
+shoulder.
+
+\begin{table}[t]
+\centering
+\caption{NMTC deployment by metro status, FY2001--FY2022.}
+\label{tab:desc}
+\input{tables/descriptives}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.48\textwidth]{1_allocation_timeseries.png}\hfill
+\includegraphics[width=0.48\textwidth]{2_non_metro_share_timeseries.png}
+\caption{Deployment over time. Left: annual QLICI dollars, metro and
+non-metro. Right: the non-metro dollar share against the 20\% statutory
+line.}
+\label{fig:deploy}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{3_leverage_distribution.png}
+\caption{Project-level leverage distributions by metro status. Non-metro
+mass concentrates at the $1.0\times$ floor (zero private mobilization);
+the metro distribution has the fatter right shoulder.}
+\label{fig:dist}
+\end{figure}

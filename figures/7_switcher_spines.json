@@ -1,0 +1,14 @@
+{
+  "min_projects_per_side": 3,
+  "n_switchers_shown": 104,
+  "median_within_gap": -0.1195,
+  "iqr_within_gap": [
+    -0.4587,
+    0.3635
+  ],
+  "pooled_level_range": [
+    1.0,
+    3.9959
+  ],
+  "share_abs_gap_below_0p25": 0.2885
+}

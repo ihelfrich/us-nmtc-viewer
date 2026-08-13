@@ -132,3 +132,33 @@ vs the 20% line) added to the data section; the Gelbach table moved after
 the main table so numbering follows the narrative; eleven bibliography
 entries added and cited in text (program-evaluation and place-based
 literatures). Compile verified: zero undefined references, zero warnings.
+
+## D10. Overleaf restructure, house style, and artwork (2026-08-13)
+
+**Decision.** The manuscript becomes a multi-file Overleaf project:
+main.tex + helfrich-wp.sty + sections/00-08 + references.bib (BibTeX,
+plainnat) + figures-tex/ (TikZ) + generated tables/. The style commits to
+Palatino text and math, a narrow book measure with a wide working margin,
+one fountain-ink accent reserved for structure, small-caps hairline
+captions, and a sidenote command for the margin.
+
+**Artwork decisions.** Two registers, per the author's direction. (a) A
+hand-drawn institutional sketch of the program's mechanics, built as TikZ
+with random-step path decoration in fineliner/fountain/pencil weights, so
+the drawing stays vector-exact while reading as a working sketch. (b) The
+switchboard figure: each dual-market CDE as a spine from urban-book mean
+to rural-book mean, ordered by pooled mean, with a marginal distribution
+of within-CDE gaps against zero. Sample rule: at least three projects per
+side (104 CDEs qualify); the rule, the medians, and the ranges displayed
+are recorded in figures/7_switcher_spines.json, and the pooled-mean
+between-books identity is asserted in the generator. The figure's second
+annotation was revised before inclusion because its first draft ("books
+sit nearly on top of each other") overstated what the spines show; the
+accurate claim is that gaps center on zero and are an order of magnitude
+smaller than the between-CDE range. Statistics quoted in Section 5.2's
+new paragraph (104, median -0.12, IQR [-0.46, +0.36], levels 1.0-4.0)
+come from that sidecar.
+
+**Prose decision.** Paragraph-opening single-clause sentences were
+expanded in four places (introduction, results twice, discussion) per the
+author's stylistic direction; content unchanged.

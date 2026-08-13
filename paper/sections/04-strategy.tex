@@ -1,0 +1,53 @@
+\section{Empirical strategy}\label{sec:strategy}
+
+\subsection{Layered fixed-effects decomposition}
+
+Let $R_i$ indicate a non-metro project. The paper estimates the sequence
+\[
+L_i \;=\; \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \mu_{s(i)}
++ \gamma_{c(i)} + \varepsilon_i,
+\]
+adding origination-year ($\delta$), QALICB-type ($\eta$), state ($\mu$),
+and CDE ($\gamma$) fixed effects in turn. Each layer removes a candidate
+composition story. The CDE step is the workhorse: with $\gamma_{c(i)}$
+included, $\bhat$ is identified from rural--urban comparisons \emph{within}
+intermediary, so it measures the within-CDE rural penalty---the
+market-structure component. The shrinkage of $\bhat$ upon adding CDE fixed
+effects measures the between-CDE selection component. Standard errors in
+CDE-fixed-effects specifications are clustered at the CDE level, the level
+of the fixed effect and the economic decision-maker.
+
+\subsection{Interpretation and limits}
+
+The decomposition is descriptive in the sense of
+selection-on-observables: within-CDE allocation of deals across rural and
+urban tracts is not random, and no LATE interpretation of $\bhat$ is
+claimed. What the design does establish is an accounting fact with economic
+content: whether the aggregate rural penalty survives comparisons inside
+the intermediary, where deal-structuring capacity, underwriting practice,
+and investor relationships are held fixed. A causal companion
+design---fuzzy RDD at the LIC eligibility threshold, run separately for
+metro and non-metro samples---requires tract-level ACS covariates and is
+deferred to the follow-on paper.
+
+One further caution belongs here, because it constrains the language the
+paper is entitled to use. The between-CDE component is a composition fact;
+its ``selection'' reading is an interpretation. Rural market conditions
+could in principle cause low-leverage intermediaries to specialize in rural
+deployment, in which case part of the between-CDE component is market
+structure operating through intermediary business models. The paper's
+secure claim is the within-CDE null; the decomposition locates the gap, and
+the discussion section is explicit about which readings of its location the
+data can and cannot separate.
+
+\subsection{The 20\% mandate as a notch}
+
+For each CDE $j$, define its cumulative non-metro deployment share
+$s_j = n_{j,\mathrm{nonmetro}} / n_{j,\mathrm{total}}$ over 2001--2022. If
+the statutory 20\% minimum binds at the deployment margin, optimizing CDEs
+should pile up at $s_j = 0.20$, producing excess mass in the
+\citet{chetty2011}/\citet{kleven2016} sense. The test compares empirical
+mass in a $\pm 2.5$ percentage-point window around 20\% against a
+degree-3 polynomial counterfactual fitted outside the window, over the 310
+CDEs with at least five transactions, with a CDE-level bootstrap for
+inference.

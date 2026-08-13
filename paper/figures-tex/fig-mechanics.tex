@@ -1,0 +1,44 @@
+% The program, as a working sketch. Fineliner boxes, fountain-pen money
+% flows, pencil annotations. Drawn to be read in ten seconds: capital walks
+% left to right, the credit walks back, and the CDE sits where every
+% decision happens.
+\begin{tikzpicture}[x=1cm, y=1cm, font=\small]
+
+% ── actors ──
+\node[sketchbox, minimum width=2.5cm, minimum height=1.5cm, align=center]
+  (inv) at (0,0) {\textbf{Investor}\\[-1pt]{\footnotesize private capital}};
+\node[washbox, minimum width=2.9cm, minimum height=1.8cm, align=center]
+  (cde) at (4.6,0) {\textbf{CDE}\\[-1pt]{\footnotesize certified intermediary}\\[-1pt]{\footnotesize \emph{holds the allocation}}};
+\node[sketchbox, minimum width=2.7cm, minimum height=1.5cm, align=center]
+  (qal) at (9.4,0) {\textbf{QALICB}\\[-1pt]{\footnotesize the project}};
+
+% ── the eligible-tract ground the project stands in ──
+\draw[pencilline] (7.7,-1.28) .. controls (8.4,-1.5) and (10.4,-1.5) .. (11.1,-1.28);
+\node[sketchnote, anchor=north] at (9.4,-1.42)
+  {low-income tract: poverty $\geq 20\%$ or MFI $\leq 80\%$};
+
+% ── flows forward ──
+\draw[inkarrow] (inv.east) -- node[above, sketchlabel] {QEI} (cde.west);
+\draw[inkarrow] (cde.east) -- node[above, sketchlabel] {QLICI} (qal.west);
+
+% ── the credit walks home along the top ──
+\draw[inkarrow] (cde.north) .. controls (4.6,1.75) and (0,1.75) .. (inv.north);
+\node[sketchlabel, anchor=south] at (2.3,1.62)
+  {39\% federal credit, over 7 years};
+
+% ── private stack joins at the project ──
+\draw[pencilarrow] (9.4,2.1) -- (qal.north);
+\node[sketchnote, anchor=south, align=center] at (9.4,2.18)
+  {other private debt \& equity\\[-2pt] joins the stack here};
+
+% ── the object of study ──
+\draw[pencilline] (11.35,-0.55) -- (11.75,-0.55) -- (11.75,0.55) -- (11.35,0.55);
+\node[sketchnote, rotate=90, anchor=south] at (12.35,0)
+  {Leverage $=$ cost/QLICI};
+
+% ── the observed ledger, underlined like a margin scribble ──
+\node[sketchnote, anchor=north west] at (-1.2,-2.05)
+  {the public ledger records both dollars of the ratio, project by project, 2001--2022};
+\draw[pencilline] (-1.2,-2.62) -- (7.6,-2.62);
+
+\end{tikzpicture}

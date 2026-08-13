@@ -1,0 +1,173 @@
+\section{Results}\label{sec:results}
+
+\subsection{The decomposition}\label{sec:main}
+
+Table~\ref{tab:main} is the paper's central exhibit. The raw rural gap
+(column 1) is $-0.262$ with a heteroskedasticity-robust standard error of
+$0.060$: non-metro projects mobilize about a quarter of a dollar less
+private capital per public dollar, and the difference is precise.
+Origination-year effects barely move it (column 2, $-0.249$): the gap is
+not a vintage story. QALICB-type effects (column 3) shrink it to
+$-0.186$---rural deals skew toward operating-business types with
+structurally lower leverage, and that composition explains roughly a
+quarter of the raw gap. State effects (column 4) move it modestly further
+to $-0.172$.
+
+Adding CDE fixed effects in column 5 collapses the rural coefficient to
+$-0.047$ with a CDE-clustered standard error of $0.101$: an order of
+magnitude smaller than the raw gap in point-estimate terms, though the
+interval ($[-0.245, +0.151]$) is wide, and
+Section~\ref{sec:power} quantifies exactly how much the mean regression
+can and cannot rule out. The median specification (column 6) is the
+precise one: the within-CDE rural penalty at the median is $-0.001$
+(SE $0.008$).
+
+Because sequential addition of fixed-effect blocks is order-dependent,
+Table~\ref{tab:gelbach} reports the \citet{gelbach2016} decomposition
+with the full model as reference, which is invariant to listing order. Of
+the $-0.216$ movement from the raw to the full specification, CDE identity
+contributes $-0.185$ (86\% of the movement; CDE-cluster bootstrap 95\% CI
+$[-0.347, -0.023]$), QALICB type $-0.041$, and origination year a small
+offsetting $+0.010$. The share version of this statement---82\% of the raw
+gap---carries a wide bootstrap interval ($[25\%, 255\%]$) because it is a
+ratio of estimates, and the paper therefore rests on the level claim: the
+CDE composition component is large, negative, and statistically distinct
+from zero, while the within-CDE component is statistically
+indistinguishable from zero.
+
+
+\begin{table}[t]
+\centering
+\caption{The rural leverage gap under layered fixed effects. Outcome:
+project leverage, winsorized $[1,20]$. Columns (1)--(4) report HC1 standard
+errors; columns (5)--(6) cluster at the CDE level.
+$^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.}
+\label{tab:main}
+\input{tables/main}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Gelbach (order-invariant) decomposition of the raw rural gap,
+full-model reference. Contributions sum to
+$\hat\beta_{M0} - \hat\beta_{\mathrm{full}}$ by identity (verified to
+$10^{-14}$ in the replication code).}
+\label{tab:gelbach}
+\input{tables/gelbach}
+\end{table}
+
+\subsection{Precision, power, and margins}\label{sec:power}
+
+The mean and median estimates differ in precision by an order of magnitude,
+and the paper states plainly what each can support. For the mean
+specification, a one-sided 5\% test can reject within-CDE rural penalties
+larger than $0.213$---nearly the size of the raw gap---so the mean
+regression alone is weak evidence for a zero; the outcome's long right
+tail, which inflates mean-regression variance, is the proximate reason.
+The median specification can reject penalties larger than $0.013$. The
+paper's null is therefore carried by the median estimate and by the
+margins, with the mean reported for comparability. (The median standard
+error is the quantile-regression asymptotic one; a CDE-clustered bootstrap
+for the median with roughly six hundred fixed effects is computationally
+disproportionate for this draft and is noted as an outstanding item.)
+
+Figure~\ref{fig:switch} shows the identifying variation itself, and it
+is the paper's argument in a single drawing. Restricting to the 104
+dual-market intermediaries with at least three projects on each side of
+the rural line, each vertical spine connects a CDE's urban-book mean
+leverage to its rural-book mean. The spines climb a staircase from
+1.0$\times$ to 4.0$\times$ across intermediaries, while the within-spine
+gaps distribute tightly around zero (median $-0.12$, interquartile range
+$[-0.46, +0.36]$): the between-CDE range dwarfs the typical within-CDE
+gap by an order of magnitude.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{7_switcher_spines.pdf}
+\caption{The switchboard. Every intermediary with at least three urban and
+three rural projects appears as a spine from its urban-book mean (filled)
+to its rural-book mean (open), ordered by pooled mean leverage; the
+marginal panel gives the distribution of within-CDE gaps against zero. The
+figure's sample rule and every displayed statistic are recorded in a
+machine-readable sidecar alongside the figure in the repository.}
+\label{fig:switch}
+\end{figure}
+
+The margins address a second way a mean could mislead: 27.4\% of projects
+sit exactly at the leverage floor of one, meaning zero private
+mobilization, so a within-CDE penalty could in principle hide in the
+probability of mobilizing at all. It does not. Within CDE, rural deals are
+$1.8$ percentage points less likely to clear the floor (SE $1.8$pp,
+$p = 0.34$), and among deals that mobilize, the rural coefficient is
+$-0.039$ ($p = 0.77$). Both margins are stable when the floor is moved to
+$1.05$. Identification for all within-CDE results comes from the 163 of
+343 CDEs that deploy on both sides of the rural line; these switchers
+originate 94\% of all rural projects, so the comparison is broad, not a
+boutique subsample.
+
+\subsection{Heterogeneity by project type}
+
+Interacting the rural indicator with QALICB type (with CDE and year fixed
+effects retained) yields uniformly imprecise interactions: the rural main
+effect is $0.091$ (SE $0.621$), and no type-specific rural penalty is
+distinguishable from zero. The within-CDE null is not concentrated in, nor
+masked by, any single project type. The point estimates weakly echo the
+descriptive pattern---most negative for real estate, where private
+debt-stacking is most natural---but the data cannot reject homogeneity.
+
+\subsection{Robustness}\label{sec:robust}
+
+Because a null this central should not depend on any single analytic
+choice, Table~\ref{tab:robust} probes the workhorse specification from
+eight directions. Unwinsorizing the outcome makes the naive gap \emph{larger} ($-0.338$, $p = 0.01$) and
+the within-CDE estimate remains null ($-0.215$, $p = 0.48$): the
+winsorization is not producing the headline result. A log outcome puts the
+within-CDE penalty at $-3.2\%$ ($p = 0.18$). Tightening or loosening the
+winsorization cap ($[1,10]$, $[1,50]$), splitting the sample at 2010, and
+restricting to single-CDE projects all leave the within-CDE rural
+coefficient statistically indistinguishable from zero. Restricting to the
+fifty largest CDEs, where the fixed effects are estimated most precisely,
+gives $-0.100$ (SE $0.148$); two-way clustering by CDE and census tract
+moves the headline standard error from $0.101$ to $0.105$. The null is not
+an artifact of outcome trimming, era, stacked-allocation deals, subsample,
+or clustering choice.
+
+\begin{table}[t]
+\centering
+\caption{Robustness of the within-CDE rural coefficient. All rows except
+the first include year, QALICB-type, and CDE fixed effects with
+CDE-clustered standard errors. $^{***}p<0.01$, $^{**}p<0.05$,
+$^{*}p<0.10$.}
+\label{tab:robust}
+\input{tables/robustness}
+\end{table}
+
+\subsection{No bunching at the 20\% line}\label{sec:bunching}
+
+Figure~\ref{fig:bunch} plots the cross-CDE distribution of cumulative
+non-metro shares against the polynomial counterfactual. Excess mass in the
+window around the 20\% statutory line is $\hat B = -0.0006$---that is,
+\emph{negative} and $-2.2\%$ of the counterfactual mass---with a CDE-level
+bootstrap 95\% confidence interval of $[-0.014, +0.013]$; 47\% of bootstrap
+draws are positive. There is no evidence that CDEs manage their cumulative
+deployment to the mandate line.
+
+Two readings are consistent with this null. First, the mandate may bind at
+the allocation-award level---commitments CDEs make in their allocation
+agreements---which the public release does not report; cumulative realized
+deployment would then sit wherever award-level compliance leaves it.
+Second, the cross-CDE distribution is close to bimodal, with urban
+specialists near zero and rural specialists far above 20\%, leaving the
+mandate line in a low-density valley between modes. Both readings imply
+the same caution for policy discussion: the 20\% line, prominent as it is
+in NMTC debate, is not where deployment decisions pile up.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{6_bunching_diagnostic.png}
+\caption{Cross-CDE distribution of cumulative non-metro deployment shares
+$s_j$, CDEs with at least five transactions ($n = 310$). The dashed line is
+a degree-3 polynomial counterfactual fitted excluding the shaded
+$\pm 2.5$pp window at the 20\% statutory line.}
+\label{fig:bunch}
+\end{figure}
