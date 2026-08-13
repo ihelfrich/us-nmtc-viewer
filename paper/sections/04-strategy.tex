@@ -2,50 +2,39 @@
 
 \subsection{Layered fixed-effects decomposition}
 
-Let $R_i$ indicate a non-metro project. The paper estimates the sequence
+Let $R_i$ indicate a non-metro project. I estimate the sequence
 \[
 L_i \;=\; \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \mu_{s(i)}
 + \gamma_{c(i)} + \varepsilon_i,
 \]
 adding origination-year ($\delta$), QALICB-type ($\eta$), state ($\mu$),
-and CDE ($\gamma$) fixed effects in turn. One feature of the sequence
-deserves flagging at the outset, because it governs how the layered columns
-should be read. The workhorse CDE specification replaces the state effects
-of the preceding column rather than adding to them, since intermediary
-identity already absorbs much of what state effects capture. Column 7 of
-Table~\ref{tab:main} therefore reports the fully nested model carrying both
-sets of effects, and I refer to it whenever a comparison across layers needs
-to be strictly nested. Each layer removes a candidate
-composition story. The CDE step is the workhorse: with $\gamma_{c(i)}$
-included, $\bhat$ is identified from rural--urban comparisons \emph{within}
-intermediary, so it measures the within-CDE rural penalty---the
-market-structure component. The shrinkage of $\bhat$ upon adding CDE fixed
-effects measures the between-CDE selection component. Standard errors in
-CDE-fixed-effects specifications are clustered at the CDE level, the level
-of the fixed effect and the economic decision-maker.
+and CDE ($\gamma$) fixed effects in turn. The workhorse CDE specification
+substitutes intermediary effects for the state effects in the preceding
+column, since intermediary identity already absorbs much of the same
+variation. Column 7 of Table~\ref{tab:main} carries both sets of effects and
+provides the strictly nested comparison. With $\gamma_{c(i)}$ included,
+$\bhat$ comes from rural--urban comparisons \emph{within} an intermediary.
+It measures the within-CDE rural penalty, or the market-structure component.
+The change in $\bhat$ after adding CDE effects measures the between-CDE
+selection component. I cluster standard errors in these specifications at
+the CDE level, where both the fixed effect and the economic decision reside.
 
 \subsection{Interpretation and limits}
 
-The decomposition is descriptive in the sense of
-selection-on-observables: within-CDE allocation of deals across rural and
-urban tracts is not random, and no LATE interpretation of $\bhat$ is
-claimed. What the design does establish is an accounting fact with economic
-content: whether the aggregate rural penalty survives comparisons inside
-the intermediary, where deal-structuring capacity, underwriting practice,
-and investor relationships are held fixed. A causal companion
-design---fuzzy RDD at the LIC eligibility threshold, run separately for
-metro and non-metro samples---requires tract-level ACS covariates and is
-deferred to the follow-on paper.
+This is a selection-on-observables decomposition. CDEs do not allocate deals
+randomly across rural and urban tracts, so I give $\bhat$ no LATE
+interpretation. The design establishes whether the aggregate rural penalty
+survives comparison within the intermediary. That comparison holds fixed
+its deal-structuring capacity, underwriting practice, and investor
+relationships. A fuzzy RDD at the LIC eligibility threshold, estimated
+separately for metro and non-metro samples, requires tract-level ACS
+covariates and remains for the follow-on paper.
 
-One further caution belongs here, because it constrains the language the
-paper is entitled to use. The between-CDE component is a composition fact;
-its ``selection'' reading is an interpretation. Rural market conditions
-could in principle cause low-leverage intermediaries to specialize in rural
-deployment, in which case part of the between-CDE component is market
-structure operating through intermediary business models. The paper's
-secure claim is the within-CDE null; the decomposition locates the gap, and
-the discussion section is explicit about which readings of its location the
-data can and cannot separate.
+The between-CDE component is an observed composition fact. Calling it
+``selection'' adds an interpretation. Rural market conditions could cause
+low-leverage intermediaries to specialize in rural deployment, placing part
+of the between-CDE component in market structure operating through their
+business models. The within-CDE null is directly identified.
 
 \subsection{Excess mass at the 20\% target}
 
@@ -57,10 +46,9 @@ CDEs should pile up at $s_j = 0.20$ and produce excess mass in the sense of
 \citet{chetty2011} and \citet{kleven2016}. The test compares empirical mass
 in a $\pm 2.5$ percentage-point window around 20\% against a degree-3
 polynomial counterfactual fitted outside the window, over the 310 CDEs with
-at least five transactions, with a CDE-level bootstrap for inference. I
-avoid describing the target as a notch. The public data reveal no
-discontinuity in a CDE's objective or budget set at the threshold, and
-whatever consequence attaches to falling short operates through future
+at least five transactions, with a CDE-level bootstrap for inference. The
+public data reveal no discontinuity in a CDE's objective or budget set at
+the threshold. Any consequence of falling short operates through future
 allocation rounds that the release does not observe. Because the
 proportionality instruction dates from 2006, I report the test for the full
 period and again for origination years from 2007 onward.

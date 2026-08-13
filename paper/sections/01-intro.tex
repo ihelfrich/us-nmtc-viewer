@@ -1,89 +1,76 @@
 \section{Introduction}\label{sec:intro}
 
-The blended-finance literature has long debated which structures most
-effectively mobilize private capital alongside public concessional finance
-\citep{convergence2024, attridge2019, lankes2021}. A persistent empirical
-limitation runs through that debate: the ``mobilization ratio''---private
-dollars moved per public dollar committed---is rarely observed directly at
-the project level. Most evidence relies on survey-reported figures or on
-coarse program-level aggregates.
+The blended-finance literature has long debated which structures best
+mobilize private capital alongside public concessional finance
+\citep{convergence2024, attridge2019, lankes2021}. Its recurring empirical
+problem is measurement. The ``mobilization ratio,'' private dollars moved
+per public dollar committed, is rarely observed at the project level. Most
+evidence comes from survey reports or coarse program aggregates.
 
 The U.S. New Markets Tax Credit offers a setting where the financing
 structure behind that ratio becomes visible at the deal level. For every
 project, the CDFI Fund's public release records both the subsidized
 investment that the intermediary places (the Qualified Low-Income Community
-Investment, or QLICI) and the total project cost. I work throughout with
-their ratio, which measures how much total project capital accompanies each
-dollar of subsidized investment. Section~\ref{sec:data} is careful about
-what this ratio is and is not: the government's cost is the credit claimed
-against the equity basis, so the ratio describes financing structure rather
-than fiscal leverage, and I report both denominators wherever magnitudes
-carry weight. The panel covers a single instrument in a single country
-across twenty-two years and roughly 8{,}000 projects, which is an unusual
-amount of directly measured structure for this literature.
+Investment, or QLICI) and total project cost. I use their ratio, the amount
+of project capital accompanying each dollar of subsidized investment.
+Section~\ref{sec:data} defines the measure more fully. The government's cost
+is the credit claimed against the equity basis, so fiscal leverage uses a
+different denominator. I report both denominators when magnitudes matter.
+The panel follows one instrument in one country for twenty-two years and
+roughly 8{,}000 projects, with the financing structure observed directly.
 
-The question this paper asks is simple to state. Projects in
-non-metropolitan tracts carry less capital beyond the subsidized investment
-than projects in metropolitan ones. Is that gap a \emph{market-structure} phenomenon---rural
-projects are fundamentally less leverageable---or an
-\emph{intermediary-selection} phenomenon---the Community Development
-Entities that deploy in rural tracts are systematically weaker mobilizers
-everywhere they operate? The distinction carries direct policy content. A
-market-structure story argues for redesigning the credit; a selection story
-argues for reallocating it.
+Projects in non-metropolitan tracts carry less capital beyond the subsidized
+investment than projects in metropolitan ones. The question is where that
+gap originates. It may reflect \emph{market structure}, with rural projects
+fundamentally less leverageable. It may instead reflect \emph{intermediary
+selection}: the Community Development Entities active in rural tracts may
+mobilize less capital everywhere they operate. The policy prescriptions
+differ. Market structure points toward redesigning the credit; selection
+points toward reallocating it.
 
-In this data the answer is composition, and the layers of the argument
-sit in plain view. The raw rural penalty in project-level leverage is
-$-0.262$ and precisely estimated. Layering in
-origination-year, project-type, and state fixed effects moves it to
-$-0.172$. Introducing CDE fixed effects, which compare rural and urban deals
-\emph{made by the same intermediary} and draw on the 163 of 343 CDEs that
-work both sides of the line, collapses the point estimate to $-0.047$; a
-fully nested model retaining state effects alongside CDE effects gives
-$-0.060$. This paper is deliberate about what that null does
-and does not establish: the mean regression is imprecise (cluster-robust
-95\% CI $[-0.245, +0.152]$), and on its own can reject only within-CDE
-penalties larger than $0.21$. The precision lives elsewhere, and the paper
-reports it where it lives: the median within-CDE penalty is $-0.001$
-(SE $0.008$), rural deals within a CDE are no less likely to draw
-capital beyond the subsidized investment, and draw no less when they do. What differs
-across space is \emph{which} intermediaries show up.
+The estimates point to composition. The raw rural penalty in project-level
+leverage is $-0.262$ and precisely estimated. Origination-year,
+project-type, and state fixed effects move it to $-0.172$. CDE fixed effects
+compare rural and urban deals \emph{made by the same intermediary}, using
+the 163 of 343 CDEs that work on both sides of the line. With those effects,
+the point estimate falls to $-0.047$; a fully nested model retaining state
+effects gives $-0.060$. The mean regression remains imprecise
+(cluster-robust 95\% CI $[-0.245, +0.152]$) and can reject only within-CDE
+penalties larger than $0.21$. The other estimates are tighter. The median
+within-CDE penalty is $-0.001$ (SE $0.008$). Within a CDE, rural deals are
+equally likely to draw capital beyond the subsidized investment and draw no
+less when they do. The spatial difference comes from which intermediaries
+originate the deals.
 
-This paper sits inside two literatures. The NMTC evaluation literature
-has examined program targeting and neighborhood outcomes extensively
+The NMTC evaluation literature has examined program targeting and
+neighborhood outcomes extensively
 \citep{gurley2009, freedman2012, hargerross2016, freedmankuhns2018,
 theodos2020, theodos2022, corinth2024}, with program-evaluation
 foundations in \citet{abravanel2013}; the place-based policy literature
 supplies the welfare frame \citep{glaesergottlieb2008, klinemoretti2014,
-neumarksimpson2015, diamondmcquade2019}. Against both, this paper makes
-three contributions, since mobilization has been examined sparingly in
-either. First, and subject to the caveat that one cannot prove a negative about
-a literature this large, I am not aware of prior econometric work treating
-project-level financing structure as the central NMTC outcome, which brings
-the mobilization framework into a literature otherwise focused on
-neighborhood employment, demographic change, and price effects. Second, it implements a layered
-fixed-effects decomposition with CDE fixed effects, separating the
-within-CDE rural penalty from the between-CDE selection component---a
-decomposition that descriptive work by \citet{theodos2021} motivates but
-does not estimate. Third, it brings the excess-mass logic of \citet{chetty2011} and
-\citet{kleven2016} to the cross-CDE distribution of non-metro deployment
-shares around the program's 20\% target, a test that the target's
-prominence in policy discussion would seem to invite and that I have not
-found in the published literature. No excess mass appears at the 20\% line,
-in deal counts or in dollars, over the full period or over the years after
-the proportionality rule entered the code. Compliance plausibly operates
-through the allocation agreements that the public release does not
-report.
+neumarksimpson2015, diamondmcquade2019}. Mobilization has received much less
+attention in either literature. I have found no prior econometric study
+that treats project-level financing structure as the main NMTC outcome.
+Doing so brings the mobilization framework to work otherwise centered on
+neighborhood employment, demographic change, and price effects.
 
-The rest of the paper proceeds as follows. Section~\ref{sec:background}
-describes the program's mechanics and the institutional heterogeneity of
-the CDE intermediary layer. Section~\ref{sec:data} describes the public
-data release and the construction of the leverage outcome.
-Section~\ref{sec:strategy} lays out the layered fixed-effects design, its
-interpretation, and its limits. Section~\ref{sec:results} presents the
-decomposition, heterogeneity, robustness, and the bunching diagnostic.
-Section~\ref{sec:discussion} draws out the policy reading, and
-Section~\ref{sec:conclusion} concludes. A causal companion design---a
-regression-discontinuity analysis at the low-income-community eligibility
-threshold---requires a tract-level ACS merge and is deferred to follow-on
-work.
+I then use CDE fixed effects to separate the within-CDE rural penalty from
+the between-CDE selection component. Descriptive work by
+\citet{theodos2021} motivates this decomposition without estimating it. I
+also apply the excess-mass logic of \citet{chetty2011} and
+\citet{kleven2016} to the cross-CDE distribution of non-metro deployment
+shares around the program's 20\% target. I have not found this test in the
+published literature. There is no excess mass at the 20\% line in deal
+counts or dollars, either over the full period or after the proportionality
+rule entered the code. One explanation is that compliance operates through
+allocation agreements absent from the public release.
+
+Section~\ref{sec:background} describes the program and its CDE intermediary
+layer. Section~\ref{sec:data} covers the public release and construction of
+the leverage outcome. Section~\ref{sec:strategy} sets out the fixed-effects
+design and its limits, and Section~\ref{sec:results} reports the
+decomposition, heterogeneity, robustness, and bunching diagnostic.
+Section~\ref{sec:discussion} gives the policy reading;
+Section~\ref{sec:conclusion} concludes. A causal companion design, using a
+regression discontinuity at the low-income-community eligibility threshold,
+requires a tract-level ACS merge and remains for follow-on work.

@@ -237,3 +237,45 @@ bimodal share distribution and a polynomial counterfactual, the excess-mass
 test has limited power near 20%, so its null cannot establish that the
 target fails to bind. The paper should not, and now does not, claim more
 than the absence of detectable bunching.
+
+## D12. Second Codex round: figures rebuilt, prose humanized (2026-08-13)
+
+**Graphics.** scripts/make_paper_figures.py regenerates the four legacy
+matplotlib exhibits as paper_*.pdf/.png in the house design: serif type,
+ink and pencil with the accent reserved for the focal element, hairline
+spines, direct labels in place of framed legends, and no baked-in titles
+duplicating the LaTeX captions. The originals are untouched, since the
+viewer site uses them. The bunching estimator is reproduced exactly from
+run_regressions.py rather than reimplemented, and each figure prints a
+provenance line: 19,907 transactions and $66.6B QLICI; 22 years at a 19.6%
+overall non-metro share; 8,024 projects with medians of 1.19x and 1.07x;
+310 CDEs with B = -0.0006. All four match the manuscript.
+
+I overrode one choice. The first pass painted the entire bunching
+histogram in signal blue, which puts the accent on the distribution
+instead of on the target the figure is about; bars are now ink at 62%
+opacity and the accent marks the 20% line and its test window.
+
+**Prose.** The section files were rewritten to remove the standard
+machine-written tells: self-congratulatory meta-commentary ("This paper is
+deliberate about...", "the paper reports it where it lives", "is the
+paper's central exhibit"), throat-clearing openers, rule-of-three padding,
+paragraph-ending restatements, and over-balanced clause pairs. Word count
+fell from 4,536 to 3,948, about 13%, with no claim added, weakened, or
+strengthened.
+
+**Verification.** scripts/verify_prose_edit.py extracts every numeric
+token, citation key, and cross-reference from the section files at two
+revisions and diffs them. Against the pre-edit baseline (2d97430):
+citations identical at 21, labels and references identical at 41, and the
+single reported numeric difference is an artifact of the regex reading the
+em dash in "---82\%" as part of the number when that dash became a comma.
+No statistic moved. Compile is clean, and the two figure tests pass.
+
+**Two edits restored.** The rewrite dropped "and cannot" from the sentence
+describing what the mean regression can rule out, which removes the
+concession that carries the paragraph's honesty, and it dropped the
+two-word answer ("It does not.") to the question the margins paragraph
+poses. Both are back. One further word choice was corrected: "outcomes"
+was used to mean "estimates" in the introduction, which collides with the
+term's technical sense in this paper.
