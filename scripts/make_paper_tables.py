@@ -86,6 +86,20 @@ t2 = [
     "\\bottomrule",
     "\\end{tabular}",
 ]
+# append the genuinely nested column (year + type + state + CDE)
+G = json.load(open(IN / "regressions" / "review_round2.json"))["G1_specs"]["M4S_nested"]
+t2 = [r.replace("\\begin{tabular}{l" + "c" * len(order) + "}",
+                "\\begin{tabular}{l" + "c" * (len(order) + 1) + "}") for r in t2]
+def addcol(row, val):
+    return row.rstrip().removesuffix("\\\\").rstrip() + f" & {val} \\\\"
+t2[2] = addcol(t2[2], "(7)")
+t2[3] = addcol(t2[3], "OLS")
+t2[5] = addcol(t2[5], f"{G['beta']:.3f}{stars(G['p'])}")
+t2[6] = addcol(t2[6], f"({G['se']:.3f})")
+for i in range(8, 12):
+    t2[i] = addcol(t2[i], "\\checkmark")
+t2[12] = addcol(t2[12], f"{G['rsq']:.3f}")
+t2[13] = addcol(t2[13], f"{G['n']:,}")
 (OUT / "main.tex").write_text("\n".join(t2) + "\n")
 
 # ── Table 3: robustness ─────────────────────────────────────────────────────

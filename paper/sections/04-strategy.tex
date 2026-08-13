@@ -8,7 +8,14 @@ L_i \;=\; \alpha + \beta R_i + \delta_{t(i)} + \eta_{q(i)} + \mu_{s(i)}
 + \gamma_{c(i)} + \varepsilon_i,
 \]
 adding origination-year ($\delta$), QALICB-type ($\eta$), state ($\mu$),
-and CDE ($\gamma$) fixed effects in turn. Each layer removes a candidate
+and CDE ($\gamma$) fixed effects in turn. One feature of the sequence
+deserves flagging at the outset, because it governs how the layered columns
+should be read. The workhorse CDE specification replaces the state effects
+of the preceding column rather than adding to them, since intermediary
+identity already absorbs much of what state effects capture. Column 7 of
+Table~\ref{tab:main} therefore reports the fully nested model carrying both
+sets of effects, and I refer to it whenever a comparison across layers needs
+to be strictly nested. Each layer removes a candidate
 composition story. The CDE step is the workhorse: with $\gamma_{c(i)}$
 included, $\bhat$ is identified from rural--urban comparisons \emph{within}
 intermediary, so it measures the within-CDE rural penalty---the
@@ -40,14 +47,20 @@ secure claim is the within-CDE null; the decomposition locates the gap, and
 the discussion section is explicit about which readings of its location the
 data can and cannot separate.
 
-\subsection{The 20\% mandate as a notch}
+\subsection{Excess mass at the 20\% target}
 
-For each CDE $j$, define its cumulative non-metro deployment share
-$s_j = n_{j,\mathrm{nonmetro}} / n_{j,\mathrm{total}}$ over 2001--2022. If
-the statutory 20\% minimum binds at the deployment margin, optimizing CDEs
-should pile up at $s_j = 0.20$, producing excess mass in the
-\citet{chetty2011}/\citet{kleven2016} sense. The test compares empirical
-mass in a $\pm 2.5$ percentage-point window around 20\% against a
-degree-3 polynomial counterfactual fitted outside the window, over the 310
-CDEs with at least five transactions, with a CDE-level bootstrap for
-inference.
+For each CDE $j$, define its cumulative non-metro deployment share $s_j$,
+computed both as a count share, $n_{j,\mathrm{nonmetro}}/n_{j,\mathrm{total}}$,
+and as a dollar share of QLICI, since the requirement is written in terms of
+investment. If the 20\% target binds at the deployment margin, optimizing
+CDEs should pile up at $s_j = 0.20$ and produce excess mass in the sense of
+\citet{chetty2011} and \citet{kleven2016}. The test compares empirical mass
+in a $\pm 2.5$ percentage-point window around 20\% against a degree-3
+polynomial counterfactual fitted outside the window, over the 310 CDEs with
+at least five transactions, with a CDE-level bootstrap for inference. I
+avoid describing the target as a notch. The public data reveal no
+discontinuity in a CDE's objective or budget set at the threshold, and
+whatever consequence attaches to falling short operates through future
+allocation rounds that the release does not observe. Because the
+proportionality instruction dates from 2006, I report the test for the full
+period and again for origination years from 2007 onward.

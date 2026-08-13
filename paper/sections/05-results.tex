@@ -13,14 +13,17 @@ structurally lower leverage, and that composition explains roughly a
 quarter of the raw gap. State effects (column 4) move it modestly further
 to $-0.172$.
 
-Adding CDE fixed effects in column 5 collapses the rural coefficient to
-$-0.047$ with a CDE-clustered standard error of $0.101$: an order of
-magnitude smaller than the raw gap in point-estimate terms, though the
-interval ($[-0.245, +0.151]$) is wide, and
+Introducing CDE fixed effects in column 5 collapses the rural coefficient
+to $-0.047$ with a CDE-clustered standard error of $0.101$, roughly a fifth
+of the raw gap in point-estimate terms, though the interval
+($[-0.245, +0.152]$) is wide, and
 Section~\ref{sec:power} quantifies exactly how much the mean regression
-can and cannot rule out. The median specification (column 6) is the
-precise one: the within-CDE rural penalty at the median is $-0.001$
-(SE $0.008$).
+can and cannot rule out. The median specification (column 6) is the precise one, placing the
+within-CDE rural penalty at $-0.001$ (SE $0.008$). Because column 5
+substitutes CDE effects for the state effects of column 4, column 7 reports
+the strictly nested model carrying year, type, state, and CDE effects
+together; it returns $-0.060$ (SE $0.099$, $p = 0.54$), so no part of the
+reading depends on that substitution.
 
 Because sequential addition of fixed-effect blocks is order-dependent,
 Table~\ref{tab:gelbach} reports the \citet{gelbach2016} decomposition
@@ -39,8 +42,9 @@ indistinguishable from zero.
 \begin{table}[t]
 \centering
 \caption{The rural leverage gap under layered fixed effects. Outcome:
-project leverage, winsorized $[1,20]$. Columns (1)--(4) report HC1 standard
-errors; columns (5)--(6) cluster at the CDE level.
+project leverage, winsorized $[1,20]$. Columns (1)--(4) report HC1 standard errors; columns
+(5) and (7) cluster at the CDE level; column (6) reports the
+quantile-regression asymptotic standard error, which is not clustered.
 $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.}
 \label{tab:main}
 \input{tables/main}
@@ -68,8 +72,8 @@ The median specification can reject penalties larger than $0.013$. The
 paper's null is therefore carried by the median estimate and by the
 margins, with the mean reported for comparability. (The median standard
 error is the quantile-regression asymptotic one; a CDE-clustered bootstrap
-for the median with roughly six hundred fixed effects is computationally
-disproportionate for this draft and is noted as an outstanding item.)
+for the median across 343 intermediary effects is computationally
+disproportionate for this draft, and it remains an outstanding item.)
 
 Figure~\ref{fig:switch} shows the identifying variation itself, and it
 is the paper's argument in a single drawing. Restricting to the 104
@@ -78,8 +82,8 @@ the rural line, each vertical spine connects a CDE's urban-book mean
 leverage to its rural-book mean. The spines climb a staircase from
 1.0$\times$ to 4.0$\times$ across intermediaries, while the within-spine
 gaps distribute tightly around zero (median $-0.12$, interquartile range
-$[-0.46, +0.36]$): the between-CDE range dwarfs the typical within-CDE
-gap by an order of magnitude.
+$[-0.46, +0.36]$): the range of levels across intermediaries runs several
+times wider than the spread of gaps within them.
 
 \begin{figure}[t]
 \centering
@@ -93,10 +97,10 @@ machine-readable sidecar alongside the figure in the repository.}
 \label{fig:switch}
 \end{figure}
 
-The margins address a second way a mean could mislead: 27.4\% of projects
-sit exactly at the leverage floor of one, meaning zero private
-mobilization, so a within-CDE penalty could in principle hide in the
-probability of mobilizing at all. It does not. Within CDE, rural deals are
+The margins address a second way a mean could mislead: measured at a
+threshold of 1.001, 27.4\% of projects record no capital beyond the
+subsidized investment, so a within-CDE penalty could in principle hide in
+the probability of drawing any additional capital at all. It does not. Within CDE, rural deals are
 $1.8$ percentage points less likely to clear the floor (SE $1.8$pp,
 $p = 0.34$), and among deals that mobilize, the rural coefficient is
 $-0.039$ ($p = 0.77$). Both margins are stable when the floor is moved to
@@ -118,9 +122,10 @@ debt-stacking is most natural---but the data cannot reject homogeneity.
 \subsection{Robustness}\label{sec:robust}
 
 Because a null this central should not depend on any single analytic
-choice, Table~\ref{tab:robust} probes the workhorse specification from
-eight directions. Unwinsorizing the outcome makes the naive gap \emph{larger} ($-0.338$, $p = 0.01$) and
-the within-CDE estimate remains null ($-0.215$, $p = 0.48$): the
+choice, Table~\ref{tab:robust} probes the workhorse specification across
+alternative outcome transformations, winsorization caps, eras, samples, and
+clustering schemes. Unwinsorizing the outcome makes the naive gap \emph{larger} ($-0.338$, $p = 0.01$) and
+the within-CDE estimate remains null ($-0.216$, $p = 0.48$): the
 winsorization is not producing the headline result. A log outcome puts the
 within-CDE penalty at $-3.2\%$ ($p = 0.18$). Tightening or loosening the
 winsorization cap ($[1,10]$, $[1,50]$), splitting the sample at 2010, and
@@ -142,7 +147,7 @@ $^{*}p<0.10$.}
 \input{tables/robustness}
 \end{table}
 
-\subsection{No bunching at the 20\% line}\label{sec:bunching}
+\subsection{No excess mass at the 20\% target}\label{sec:bunching}
 
 Figure~\ref{fig:bunch} plots the cross-CDE distribution of cumulative
 non-metro shares against the polynomial counterfactual. Excess mass in the
@@ -151,6 +156,15 @@ window around the 20\% statutory line is $\hat B = -0.0006$---that is,
 bootstrap 95\% confidence interval of $[-0.014, +0.013]$; 47\% of bootstrap
 draws are positive. There is no evidence that CDEs manage their cumulative
 deployment to the mandate line.
+
+Two extensions guard against the objection that the test measures the
+wrong object. Measuring shares in QLICI dollars, which matches how the
+requirement is written, gives excess mass of $+0.005$ with a bootstrap
+interval of $[-0.008, +0.020]$. Restricting to origination years from 2007
+onward, after the proportionality instruction enters the code, gives
+$-0.003$ in counts and $+0.001$ in dollars, with intervals of
+$[-0.016, +0.011]$ and $[-0.013, +0.016]$ across 291 intermediaries. The
+null holds in the units the mandate uses and in the era it governs.
 
 Two readings are consistent with this null. First, the mandate may bind at
 the allocation-award level---commitments CDEs make in their allocation

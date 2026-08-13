@@ -1,0 +1,68 @@
+{
+  "G1_specs": {
+    "M3_state_only": {
+      "beta": -0.172,
+      "se": 0.0674,
+      "p": 0.0107,
+      "rsq": 0.0387,
+      "n": 8024
+    },
+    "M4_cde_no_state": {
+      "beta": -0.0467,
+      "se": 0.1011,
+      "p": 0.6443,
+      "rsq": 0.1314,
+      "n": 8024
+    },
+    "M4S_nested": {
+      "beta": -0.0602,
+      "se": 0.0991,
+      "p": 0.5436,
+      "rsq": 0.1414,
+      "n": 8024
+    }
+  },
+  "G1_note": "M4 as published omits state effects; M4S adds them to the CDE-effects model so the layered comparison is nested.",
+  "G2_full_count": {
+    "n_cde": 310,
+    "B": -0.00063,
+    "ci95": [
+      -0.014,
+      0.01306
+    ]
+  },
+  "G2_full_dollar": {
+    "n_cde": 310,
+    "B": 0.00523,
+    "ci95": [
+      -0.00832,
+      0.02001
+    ]
+  },
+  "G2_corr_count_dollar": 0.982,
+  "G3_post2007_count": {
+    "n_cde": 291,
+    "B": -0.00275,
+    "ci95": [
+      -0.01562,
+      0.01105
+    ]
+  },
+  "G3_post2007_dollar": {
+    "n_cde": 291,
+    "B": 0.00094,
+    "ci95": [
+      -0.01263,
+      0.01556
+    ]
+  },
+  "G4_denominators": {
+    "qlici_total_musd": 66611.2,
+    "project_cost_total_musd": 120902.2,
+    "other_capital_per_qlici_dollar": 0.815,
+    "credit_rate_on_qei_basis": 0.39,
+    "implied_tax_expenditure_musd": 25978.4,
+    "other_capital_per_credit_dollar": 2.09,
+    "note": "QLICI principal is subsidized investment, not public outlay. The federal cost is the 39% credit on QEI basis claimed over seven years; QEI approximately equals QLICI under the substantially-all requirement. Both ratios are reported so the paper never labels QLICI principal a federal dollar."
+  }
+}

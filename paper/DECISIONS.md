@@ -162,3 +162,78 @@ come from that sidecar.
 **Prose decision.** Paragraph-opening single-clause sentences were
 expanded in four places (introduction, results twice, discussion) per the
 author's stylistic direction; content unchanged.
+
+## D11. Cross-model review round (2026-08-13)
+
+Two reviewers worked the paper independently: this session's own pass and
+Codex (gpt-5.6-sol, xhigh), whose report is preserved as
+paper/CODEX-PAPER-REVIEW.md. I verified every claim from that report
+computationally or against primary sources before acting on it; the
+verification script is scripts/run_review_round2.py and its outputs are in
+data/processed/regressions/review_round2.json. Both reviewers independently
+flagged the loose "order of magnitude" quantifier, which was wrong: the
+ratio of the raw to the within-CDE coefficient is 5.6.
+
+**D11.1 The workhorse was not nested (structural).** The published M4 adds
+CDE effects while dropping the state effects of M3, so the layered
+narrative describing an addition was inaccurate. I estimated the strictly
+nested model carrying year, type, state, and CDE effects: the rural
+coefficient is -0.0602 (SE 0.0991, p = 0.54), and its R-squared weakly
+exceeds both restricted models, which is asserted in code. The nested model
+now appears as column 7 of Table 2 and the text states the substitution
+plainly. The paper's conclusion is unchanged and better supported.
+
+**D11.2 QLICI principal is not a federal dollar (substantive).** The draft
+called the QLICI a public or federal dollar and read leverage minus one as
+private capital mobilized per federal dollar. That is wrong: the federal
+cost is the 39% credit claimed against the qualified equity investment, so
+a dollar of QLICI corresponds to roughly thirty-nine cents of tax
+expenditure. The abstract and data section now describe leverage as a
+financing multiple on subsidized investment and report both denominators
+($0.82 of other capital per dollar of subsidized investment; about $2.09
+per dollar of implied tax expenditure). No estimate changes, because a
+constant rescaling of the denominator leaves every coefficient's sign,
+relative magnitude, and test unchanged.
+
+**D11.3 The mandate citation was wrong and the period was wrong.** The
+draft attributed the non-metropolitan proportionality rule to the 2000
+authorizing act. Verified against the U.S. Code: the instruction is IRC
+Sec. 45D(i)(6), added by the Tax Relief and Health Care Act of 2006
+(P.L. 109-432, Sec. 102(b)), so it does not govern the early sample. The
+statute names no percentage; the 20% figure is the CDFI Fund's
+administrative implementation, and the paper now says so and carries a
+footnote directing readers to primary sources. The excess-mass test is
+additionally reported for origination years from 2007 onward, where the
+rule applies: -0.003 in counts and +0.001 in dollars, both intervals
+containing zero across 291 CDEs.
+
+**D11.4 The mandate is described in investment terms, so the test now uses
+dollars.** The published test used deal counts. Dollar shares give excess
+mass of +0.005 with interval [-0.008, +0.020]; the two share measures
+correlate at 0.98. Both are reported. The word "notch" is removed, since
+no discontinuity in the CDE budget set at 20% is established.
+
+**D11.5 Numeric corrections.** CI upper endpoint 0.151 to 0.152 (three
+places, matching the sidecar's rounding of 0.1515); unwinsorized within-CDE
+coefficient -0.215 to -0.216 (exact value -0.215500); "roughly six hundred
+fixed effects" to 343, the count in the estimation sample; "27.4% sit
+exactly at the leverage floor" restated as measured at the 1.001 threshold;
+"eight directions" replaced with the list of dimensions; the Table 2 caption
+corrected, since column 6 reports an unclustered quantile-regression
+standard error and had been described as CDE-clustered.
+
+**D11.6 Claims qualified.** The two novelty claims now carry the caveat
+that a negative about a literature this size cannot be proven from a
+reference list.
+
+**D11.7 Project hygiene.** The appendix now precedes the bibliography;
+main.tex documents that compilation happens from paper/; a duplicate
+sec:bunching label was removed. Compile is clean: no undefined references,
+no multiply-defined labels.
+
+**Reviewer objections recorded and not yet resolved.** Codex's third
+referee point stands as a limitation rather than a fix: with a discrete,
+bimodal share distribution and a polynomial counterfactual, the excess-mass
+test has limited power near 20%, so its null cannot establish that the
+target fails to bind. The paper should not, and now does not, claim more
+than the absence of detectable bunching.
