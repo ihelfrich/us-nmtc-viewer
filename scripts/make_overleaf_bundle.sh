@@ -4,16 +4,20 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-FIGS=(1_allocation_timeseries.png 2_non_metro_share_timeseries.png
-      3_leverage_distribution.png 6_bunching_diagnostic.png
-      7_switcher_spines.pdf)
+# Figures actually referenced by the manuscript. Derived from the sections
+# so this list cannot silently drift out of sync again.
+FIGS=$(grep -rho 'includegraphics\[[^]]*\]{[^}]*}' paper/sections/ \
+  | sed 's/.*{//; s/}//' | sort -u)
 rm -rf overleaf overleaf-nmtc-paper.zip
 mkdir -p overleaf/{sections,tables,figures,figures-tex}
 cp paper/main.tex paper/helfrich-wp.sty paper/references.bib overleaf/
 cp paper/sections/*.tex overleaf/sections/
 cp paper/tables/*.tex   overleaf/tables/
 cp paper/figures-tex/*.tex overleaf/figures-tex/
-for f in "${FIGS[@]}"; do cp "figures/$f" overleaf/figures/; done
+for f in $FIGS; do
+  if [ ! -f "figures/$f" ]; then echo "MISSING figure: $f" >&2; exit 1; fi
+  cp "figures/$f" overleaf/figures/
+done
 [ -f paper/main.pdf ] && cp paper/main.pdf overleaf/main-preview.pdf
 python3 - <<'PY'
 p = "overleaf/main.tex"; s = open(p).read()
