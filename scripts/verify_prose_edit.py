@@ -24,6 +24,15 @@ SECTIONS = "paper/sections"
 
 # numbers, including signed decimals, percentages, and LaTeX-escaped forms
 NUM = re.compile(r"-?\$?-?\d[\d,]*\.?\d*")
+# Layout parameters are not evidence: figure widths, spacing lengths, and
+# similar typesetting arguments change freely during a design pass and would
+# otherwise drown the signal this check exists to give.
+LAYOUT = re.compile(
+    r"\\includegraphics\[[^]]*\]|"
+    r"\\(?:v|h)space\*?\{[^}]*\}|"
+    r"\[[0-9.]+(?:pt|em|ex|in|cm|mm)\]|"
+    r"width=[0-9.]*\\?\w*|"
+    r"\\resizebox\{[^}]*\}\{[^}]*\}")
 CITE = re.compile(r"\\cite[tp]?\{([^}]*)\}")
 REFLBL = re.compile(r"\\(?:label|ref|eqref)\{([^}]*)\}")
 
@@ -48,6 +57,7 @@ def head_files() -> dict[str, str]:
 def tokens(text: str) -> tuple[Counter, Counter, Counter]:
     # strip comments so commented-out text is not compared
     body = "\n".join(l.split("%")[0] for l in text.splitlines())
+    body = LAYOUT.sub(" ", body)
     nums = Counter(t.replace("$", "").replace(",", "") for t in NUM.findall(body))
     cites = Counter(k.strip() for m in CITE.findall(body) for k in m.split(","))
     refs = Counter(REFLBL.findall(body))

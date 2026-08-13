@@ -71,38 +71,40 @@ print(f"{n} switcher CDEs with >= {MIN_PER_SIDE} projects per side; "
       f"median within gap {med_gap:+.3f}; IQR [{iqr_gap[0]:+.3f}, {iqr_gap[1]:+.3f}]; "
       f"pooled levels {lvl_range[0]:.2f} to {lvl_range[1]:.2f}")
 
+# Drawn at the printed width (the 4.9in text block) so no scaling shrinks
+# the labels; the figure prints at width=\textwidth.
 fig, (ax, axg) = plt.subplots(
-    1, 2, figsize=(10.6, 5.4), width_ratios=[5.0, 1.15], sharey=False,
+    1, 2, figsize=(4.9, 3.35), width_ratios=[5.0, 1.15], sharey=False,
     gridspec_kw={"wspace": 0.06})
 
 # ── main panel: the spines ──────────────────────────────────────────────
 x = np.arange(n)
 for i, r in sw.iterrows():
     lo, hi = sorted([r["urban_mean"], r["rural_mean"]])
-    ax.plot([i, i], [lo, hi], color=PENCIL, lw=0.85, alpha=0.75, zorder=1)
-ax.scatter(x, sw["urban_mean"], s=13, color=INK, zorder=3, label="urban book mean")
-ax.scatter(x, sw["rural_mean"], s=13, facecolors="white", edgecolors=PENBLUE,
+    ax.plot([i, i], [lo, hi], color=PENCIL, lw=0.6, alpha=0.75, zorder=1)
+ax.scatter(x, sw["urban_mean"], s=7, color=INK, zorder=3, label="urban book mean")
+ax.scatter(x, sw["rural_mean"], s=7, facecolors="white", edgecolors=PENBLUE,
            linewidths=1.1, zorder=3, label="rural book mean")
 
 ax.set_xlim(-2, n + 1)
 ax.set_ylim(0.85, 6.4)
-ax.set_xlabel("intermediaries, ordered by pooled mean leverage", fontsize=10)
-ax.set_ylabel("mean leverage of the book", fontsize=10)
-ax.tick_params(labelsize=9)
-leg = ax.legend(loc="upper left", frameon=False, fontsize=9, handletextpad=0.4)
+ax.set_xlabel("intermediaries, ordered by pooled mean leverage", fontsize=8)
+ax.set_ylabel("mean leverage of the book", fontsize=8)
+ax.tick_params(labelsize=7)
+leg = ax.legend(loc="upper left", frameon=False, fontsize=7.2, handletextpad=0.4)
 
 ax.annotate(
-    "levels differ enormously\nacross intermediaries …",
-    xy=(n * 0.86, sw["pooled"].iloc[int(n * 0.93)]),
-    xytext=(n * 0.44, 5.45), fontsize=10, style="italic", color=INK,
-    arrowprops=dict(arrowstyle="-|>", color=PENCIL, lw=0.9,
-                    connectionstyle="arc3,rad=-0.25"))
+    "levels differ widely\nacross intermediaries",
+    xy=(n * 0.90, sw["pooled"].iloc[int(n * 0.95)]),
+    xytext=(n * 0.52, 5.55), fontsize=6.8, style="italic", color=INK,
+    arrowprops=dict(arrowstyle="-|>", color=PENCIL, lw=0.7,
+                    connectionstyle="arc3,rad=-0.28"))
 ax.annotate(
-    "… while within an intermediary the two\nbooks track each other: gaps center on zero",
-    xy=(n * 0.35, sw["pooled"].iloc[int(n * 0.35)]),
-    xytext=(n * 0.06, 4.35), fontsize=10, style="italic", color=INK,
-    arrowprops=dict(arrowstyle="-|>", color=PENCIL, lw=0.9,
-                    connectionstyle="arc3,rad=0.22"))
+    "within one intermediary the two\nbooks track each other",
+    xy=(n * 0.28, sw["pooled"].iloc[int(n * 0.28)] + 0.5),
+    xytext=(n * 0.03, 4.6), fontsize=6.8, style="italic", color=INK,
+    arrowprops=dict(arrowstyle="-|>", color=PENCIL, lw=0.7,
+                    connectionstyle="arc3,rad=0.24"))
 
 # ── marginal panel: within-CDE gaps against zero ────────────────────────
 axg.axhspan(iqr_gap[0], iqr_gap[1], color=WASH, zorder=0)
@@ -111,19 +113,16 @@ axg.hist(sw["gap"], bins=25, orientation="horizontal", color=PENBLUE,
 axg.axhline(0, color=INK, lw=1.0)
 axg.axhline(med_gap, color=PENBLUE, lw=1.0, ls=(0, (3, 2)))
 axg.set_ylim(-2.6, 2.6)
-axg.set_xlabel("within-CDE gap\n(rural $-$ urban)", fontsize=9)
-axg.tick_params(labelsize=8)
+axg.set_xlabel("within-CDE gap\n(rural $-$ urban)", fontsize=7.2)
+axg.tick_params(labelsize=6.5)
 axg.spines["left"].set_visible(True)
 axg.text(0.96, 0.985, f"median {med_gap:+.2f}", transform=axg.transAxes,
-         ha="right", va="top", fontsize=8.5, color=PENBLUE, style="italic")
+         ha="right", va="top", fontsize=7, color=PENBLUE, style="italic")
 
-fig.suptitle(
-    "The switchboard: every dual-market intermediary's urban and rural books",
-    fontsize=12, x=0.085, ha="left", color=INK)
-fig.text(0.085, 0.925,
-         f"{n} CDEs with at least {MIN_PER_SIDE} projects on each side of the rural line",
-         fontsize=9.5, color=PENCIL, style="italic")
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+# No figure title: the LaTeX caption names the exhibit, and repeating it
+# inside the image wastes the scarce vertical room at this printed width.
+fig.tight_layout(pad=0.4)
+fig.subplots_adjust(bottom=0.17, top=0.97)
 fig.savefig(FIG / "7_switcher_spines.pdf")
 fig.savefig(FIG / "7_switcher_spines.png")
 

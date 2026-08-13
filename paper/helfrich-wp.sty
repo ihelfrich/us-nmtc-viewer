@@ -10,10 +10,18 @@
 % ── type ────────────────────────────────────────────────────────────────
 \RequirePackage[T1]{fontenc}
 \RequirePackage{amsmath, amssymb}
+% EB Garamond is loaded first only to capture its family name; newpxtext is
+% loaded afterwards and wins the body. \displayfam therefore gives a
+% classical display face for the title and structural type while the reading
+% text keeps Palatino's larger x-height.
+\RequirePackage{ebgaramond}
+\makeatletter\edef\displayfam{\rmdefault}\makeatother
 \RequirePackage{newpxtext}          % Palatino-descended text
 \RequirePackage{newpxmath}          % matching math
 \RequirePackage{microtype}
-\linespread{1.12}
+\RequirePackage{soul}
+\newcommand{\display}{\fontfamily{\displayfam}\selectfont}
+\linespread{1.15}
 
 % ── color: one ink, one accent ──────────────────────────────────────────
 \RequirePackage{xcolor}
@@ -32,30 +40,54 @@
   marginparwidth=1.7in, marginparsep=0.28in,
 ]{geometry}
 
+% ── float placement ─────────────────────────────────────────────────────
+% LaTeX's defaults are tuned for a wider measure. On this narrow page they
+% strand figures at the top of a page and leave a third of it blank, so the
+% thresholds are loosened and the separations set by hand.
+\renewcommand{\topfraction}{0.86}
+\renewcommand{\bottomfraction}{0.70}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.72}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{3}
+\setlength{\floatsep}{15pt plus 3pt minus 3pt}
+\setlength{\textfloatsep}{20pt plus 4pt minus 4pt}
+\setlength{\intextsep}{18pt plus 3pt minus 3pt}
+\setlength{\parskip}{0pt plus 1pt}
+
 % ── running heads ───────────────────────────────────────────────────────
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\footnotesize\scshape\color{pencil} helfrich \textperiodcentered\ the rural mobilization gap}
-\fancyhead[R]{\footnotesize\scshape\color{pencil} working paper \textperiodcentered\ august 2026}
+\fancyhead[L]{\display\footnotesize\scshape\color{pencil} Helfrich \textperiodcentered\ The Rural Mobilization Gap}
+\fancyhead[R]{\display\footnotesize\scshape\color{pencil} Working Paper \textperiodcentered\ August 2026}
 \fancyfoot[C]{\footnotesize\color{pencil}\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\footnotesize\color{pencil}\thepage}}
 
 % ── section titling: small caps, ink-blue numeral, hairline ────────────
+% A heading stranded at the foot of a page, with its rule carried to the
+% next, is the most visible typesetting failure in a draft. Every heading
+% therefore reserves enough room for itself and the first lines beneath it.
 \RequirePackage{titlesec}
-\titleformat{\section}
-  {\Large\scshape}{\textcolor{penblue}{\oldstylenums{\thesection}}}{0.8em}
-  {}[{\vspace{2pt}\textcolor{inkblue!30}{\hrule height 0.4pt}}]
+\RequirePackage{needspace}
+\RequirePackage{etoolbox}
+\pretocmd{\section}{\Needspace*{7\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace*{5\baselineskip}}{}{}
+\titleformat{\section}[hang]
+  {\display\LARGE\scshape}{\textcolor{penblue}{\oldstylenums{\thesection}}}{0.8em}
+  {}[{\vspace{-6pt}\color{inkblue!30}\titlerule[0.4pt]}]
 \titleformat{\subsection}
-  {\large\itshape}{\textcolor{penblue}{\oldstylenums{\thesubsection}}}{0.7em}{}
-\titlespacing*{\section}{0pt}{1.6\baselineskip}{0.9\baselineskip}
-\titlespacing*{\subsection}{0pt}{1.2\baselineskip}{0.5\baselineskip}
+  {\display\large\itshape}{\textcolor{penblue}{\oldstylenums{\thesubsection}}}{0.7em}{}
+\titlespacing*{\section}{0pt}{1.9\baselineskip}{0.8\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.35\baselineskip}{0.45\baselineskip}
 
 % ── captions: small-caps label, hairline above ─────────────────────────
 \RequirePackage[font=small, labelsep=period]{caption}
 \DeclareCaptionFormat{hairline}{{\color{inkblue!30}\rule{\linewidth}{0.4pt}}\\[3pt]#1#2#3}
-\captionsetup{format=hairline, labelfont={sc,color=inkblue}, textfont={}}
+\captionsetup{format=hairline, labelfont={sc,color=inkblue}, textfont={},
+  skip=6pt, belowskip=2pt}
 
 % ── sidenotes: the margin works for a living ───────────────────────────
 \RequirePackage{marginnote}
@@ -70,22 +102,34 @@
 \urlstyle{same}
 
 % ── the title block ─────────────────────────────────────────────────────
-\newcommand{\wptitle}[4]{% {title}{subtitle}{author line}{date line}
+% Designed so the title and the abstract share the opening page. A separate
+% title page leaves two thirds of a sheet empty, which reads as an
+% unfinished draft.
+\newcommand{\wptitle}[4]{% {title}{subtitle}{author}{imprint lines}
   \begin{center}
-    {\footnotesize\scshape\color{pencil} working paper \textperiodcentered\ comments welcome}\\[1.6em]
-    {\LARGE #1\par}\vspace{0.5em}
-    {\large\itshape\color{inkblue} #2\par}\vspace{1.6em}
-    {\color{inkblue!35}\rule{2.2in}{0.4pt}}\\[1.2em]
-    {\scshape #3\par}\vspace{0.3em}
-    {\small\color{pencil} #4\par}
-  \end{center}\vspace{1.2em}}
+    {\footnotesize\scshape\color{pencil}\so{working paper}\par}
+    \vspace{0.5em}
+    {\color{inkblue!30}\rule{1.1in}{0.4pt}}\\[1.5em]
+    {\display\fontsize{25}{29}\selectfont #1\par}\vspace{0.75em}
+    {\display\large\itshape\color{inkblue} #2\par}\vspace{1.5em}
+    {\display\large\scshape #3\par}\vspace{0.35em}
+    {\footnotesize\color{pencil} #4\par}
+    \vspace{1.1em}
+    {\color{inkblue!30}\rule{2.4in}{0.4pt}}
+  \end{center}\vspace{0.9em}}
 
 % ── abstract as a set-off measure ───────────────────────────────────────
 \renewenvironment{abstract}
-  {\begin{center}\begin{minipage}{0.86\textwidth}
-   {\centering\scshape\small\color{inkblue} abstract\par}\vspace{0.5em}
-   \small\noindent}
-  {\end{minipage}\end{center}\vspace{1.4em}}
+  {\begin{center}{\display\scshape\small\color{inkblue} Abstract}\end{center}
+   \vspace{0.35em}
+   \begin{list}{}{%
+     \setlength{\leftmargin}{0.055\textwidth}%
+     \setlength{\rightmargin}{0.055\textwidth}%
+     \setlength{\listparindent}{1.2em}%
+     \setlength{\parsep}{0.45em}%
+     \setlength{\topsep}{0pt}}%
+   \item\relax\small}
+  {\end{list}\vspace{0.9em}}
 
 % ── hand-drawn diagram machinery (fineliner + pencil registers) ─────────
 \RequirePackage{tikz}

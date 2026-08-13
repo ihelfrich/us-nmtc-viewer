@@ -18,7 +18,9 @@ for f in $FIGS; do
   if [ ! -f "figures/$f" ]; then echo "MISSING figure: $f" >&2; exit 1; fi
   cp "figures/$f" overleaf/figures/
 done
-[ -f paper/main.pdf ] && cp paper/main.pdf overleaf/main-preview.pdf
+[ -f paper/main.pdf ] && cp paper/main.pdf "overleaf/Helfrich-NMTC-working-paper.pdf"
+cp paper/DECISIONS.md overleaf/DECISIONS.md
+cp paper/SSRN_SUBMISSION.md overleaf/SSRN_SUBMISSION.md
 python3 - <<'PY'
 p = "overleaf/main.tex"; s = open(p).read()
 s = s.replace("\\graphicspath{{../figures/}}", "\\graphicspath{{figures/}}")

@@ -71,6 +71,7 @@ fe = {
 }
 yn = lambda b: "\\checkmark" if b else "--"
 t2 = [
+    "{\\footnotesize\\setlength{\\tabcolsep}{3.4pt}",
     "\\begin{tabular}{l" + "c" * len(order) + "}",
     "\\toprule",
     f" & {cols} \\\\",
@@ -84,7 +85,7 @@ t2 = [
         ("--" if s == "M4-Q" else f"{m.loc[s,'rsq']:.3f}") for s in order) + " \\\\",
     "$N$ & " + " & ".join(f"{int(m.loc[s,'n']):,}" for s in order) + " \\\\",
     "\\bottomrule",
-    "\\end{tabular}",
+    "\\end{tabular}}",
 ]
 # append the genuinely nested column (year + type + state + CDE)
 G = json.load(open(IN / "regressions" / "review_round2.json"))["G1_specs"]["M4S_nested"]
@@ -115,6 +116,7 @@ label = {
     "R5_single_cde_M4": "Single-CDE projects only",
 }
 t3 = [
+    "{\\footnotesize\\setlength{\\tabcolsep}{4pt}",
     "\\begin{tabular}{lrrrr}",
     "\\toprule",
     " & $\\hat\\beta$ & (SE) & $p$ & $N$ \\\\",
@@ -135,7 +137,7 @@ t3 += [
     f"\\multicolumn{{3}}{{l}}{{95\\% CI [{b['ci95'][0]:.4f}, {b['ci95'][1]:.4f}], "
     f"{b['boot_reps']} CDE-bootstrap reps}} \\\\",
     "\\bottomrule",
-    "\\end{tabular}",
+    "\\end{tabular}}",
 ]
 (OUT / "robustness.tex").write_text("\n".join(t3) + "\n")
 

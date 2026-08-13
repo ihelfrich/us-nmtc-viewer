@@ -1,39 +1,45 @@
-# Overleaf bundle — The Rural Mobilization Gap (Helfrich 2026)
+# The Rural Mobilization Gap — complete project folder
 
-Self-contained. Nothing outside this folder is required.
+Everything needed to read, compile, edit, or submit the paper.
 
-## Uploading
-1. Overleaf → New Project → **Upload Project** → drop `overleaf-nmtc-paper.zip`
-   (or upload this folder).
-2. Menu → **Main document**: `main.tex`.
-3. Menu → **Compiler**: pdfLaTeX (XeLaTeX also compiles).
-4. Recompile. BibTeX runs automatically; if citations show as `[?]`, hit
-   Recompile once more.
+## Read it now
+`Helfrich-NMTC-working-paper.pdf` — the compiled 18-page paper.
 
-## What is here
-| Path | What it is |
+## Edit it on Overleaf
+1. Overleaf → **New Project → Upload Project** → select
+   `overleaf-nmtc-paper.zip` (or drag this whole folder in).
+2. Menu → **Main document:** `main.tex`.
+3. Menu → **Compiler:** pdfLaTeX (XeLaTeX also compiles).
+4. Recompile. If citations render as `[?]`, press Recompile once more so
+   BibTeX runs.
+
+## What each file is
+| Path | Purpose |
 |---|---|
-| `main.tex` | root document: title block, abstract, `\input`s, bibliography |
-| `helfrich-wp.sty` | the house style. Type, color, geometry, section titling, captions, the `\sidenote{}` command, and the hand-drawn TikZ pen styles all live here. Edit this to restyle the whole paper. |
-| `sections/00-08` | one file per section, in reading order |
-| `tables/*.tex` | table bodies, **generated** by `scripts/make_paper_tables.py` in the research repo. Editing them by hand breaks the guarantee that every number traces to the pipeline; change the generator instead and re-copy. |
-| `figures/` | the five raster/vector figures used in the text |
-| `figures-tex/fig-mechanics.tex` | the hand-drawn program diagram, as TikZ source you can edit directly |
-| `references.bib` | BibTeX, `plainnat` style |
+| `main.tex` | Root document. Title block, abstract, section inputs, bibliography. |
+| `helfrich-wp.sty` | **The house style: everything visual lives here.** Type (EB Garamond display over a Palatino text face), the four-color palette, page geometry with a working margin, section titling, captions, float tuning, the `\sidenote{}` command, and the hand-drawn TikZ pen styles. Change this file to restyle the whole paper. |
+| `sections/00-08` | One file per section, in reading order. |
+| `tables/*.tex` | Table bodies. **Generated** by `scripts/make_paper_tables.py` in the research repo. |
+| `figures/` | The five exhibits used in the text. |
+| `figures-tex/fig-mechanics.tex` | The hand-drawn program diagram, editable TikZ source. |
+| `references.bib` | 21 entries, `plainnat`. |
+| `DECISIONS.md` | Every analytical and editorial decision (D1–D12) with its rationale and verification. Read this before changing a number. |
+| `SSRN_SUBMISSION.md` | Paste-ready submission metadata and the pre-upload checklist. |
 
-## Editing notes
-- **Restyle:** everything visual is in `helfrich-wp.sty`. The palette is four
-  colors (`inkblack`, `inkblue`, `penblue`, `pencil`); the accent is used only
-  for structure.
-- **Margin notes:** `\sidenote{...}` puts an italic note in the outer margin.
-  The geometry already reserves 1.7in for it.
-- **The sketch:** `figures-tex/fig-mechanics.tex` is plain TikZ using the
-  `fineliner`, `fountain`, and `pencilline` styles defined in the `.sty`.
-- **Regenerating numbers:** tables and the switchboard figure come from
-  `github.com/ihelfrich/us-nmtc-viewer` (`scripts/make_paper_tables.py`,
-  `scripts/make_paper_art.py`). Re-run those, then copy `paper/tables/*.tex`
-  and `figures/7_switcher_spines.pdf` back into this bundle.
+## Two rules worth keeping
+- **Do not hand-edit `tables/`.** Every number in them is written by a script
+  that read it from the pipeline. Change the generator in the research repo
+  (`scripts/make_paper_tables.py`), rerun, and re-copy. The same holds for
+  `figures/`, which come from `make_paper_figures.py` and `make_paper_art.py`.
+- **Figures are drawn at their printed width** (the 4.9in text block) so that
+  `\includegraphics[width=\textwidth]` applies no scaling. If you resize a
+  figure in LaTeX, its labels stop matching the body type.
+
+## Known cosmetic warning
+Under XeLaTeX you may see `Font shape T1/EBGaramond(0)/m/n undefined`. The
+title still sets in EB Garamond, which resolves through the Unicode font
+path; pdfLaTeX has the Type 1 files and does not warn. Output is correct on
+both engines.
 
 ## Provenance
-`DECISIONS.md` in the research repo logs every analytical and editorial
-decision (D1–D11) with its rationale and verification.
+Data, pipeline, and full history: https://github.com/ihelfrich/us-nmtc-viewer

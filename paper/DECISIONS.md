@@ -279,3 +279,56 @@ two-word answer ("It does not.") to the question the margins paragraph
 poses. Both are back. One further word choice was corrected: "outcomes"
 was used to mean "estimates" in the introduction, which collides with the
 term's technical sense in this paper.
+
+## D13. Design and legibility pass (2026-08-13)
+
+**The opening pages.** A separate title page left two thirds of a sheet
+blank, which reads as an unfinished draft, and the abstract then filled a
+second page as an unbroken block of three hundred words. Title, abstract,
+and keywords now share the opening page, the abstract is set in a flowing
+indented measure that can break across pages rather than a minipage that
+cannot, and it is divided into three paragraphs at its natural joints.
+Section 1 follows on the same page as the keywords.
+
+**Type.** EB Garamond is loaded first only so its family name can be
+captured, after which newpxtext is loaded and wins the body. The title,
+section headings, running heads, and the author line therefore set in a
+classical display face while the reading text keeps Palatino's larger
+x-height. Under XeLaTeX this raises a benign warning about a T1 shape,
+since the display face resolves through the Unicode path; pdfLaTeX has the
+Type 1 files and does not warn. Output is correct on both engines and the
+README says so.
+
+**Figures were illegible and are now drawn at the size they print.** The
+exhibits were generated 6.5 to 10.6 inches wide and then scaled into a 4.9
+inch measure, which shrank their labels to roughly five points. Every
+figure is now drawn at 4.9 inches with type set for that size, and included
+at width=\textwidth so no scaling occurs. The two deployment panels are
+stacked rather than placed side by side at 0.48 width each, and the caption
+was corrected from left and right to above and below. The switchboard lost
+its internal title and subtitle, which duplicated the caption and collided
+with each other at the smaller size, and its annotations were shortened and
+moved into empty quadrants.
+
+**Layout faults fixed.** Section headings were stranded at the feet of
+pages with their rules carried to the next; every heading now reserves
+seven lines for itself. Float thresholds were loosened, since LaTeX's
+defaults are tuned for a wider measure and were leaving thirds of pages
+blank. The section rule now sits against its heading instead of floating
+below it. The two tables that overflowed the measure by 97 and 75 points
+are set in footnotesize with tightened column separation, and one sentence
+was rewrapped; the worst remaining overhang is 18 points, which is ordinary
+in justified text.
+
+**A defect this pass introduced and caught.** Wrapping the main table in a
+size group added an opening brace whose closing brace landed in the wrong
+branch of the generator, so the table was unbalanced and the document
+stopped compiling. The clean-room bundle check caught it. Both the
+generator and the bundle script now fail loudly instead of producing
+output that does not build.
+
+**Harness correction.** verify_prose_edit.py counted figure widths and
+spacing lengths as evidence, so a design pass looked like a change to the
+numbers. Layout arguments are now stripped before comparison. Against the
+pre-design revision the section files carry 241 numeric tokens, 21
+citations, and 41 references, all identical.

@@ -31,7 +31,13 @@ PENCIL = "#6B6B70"
 SIGNAL = "#2852E8"
 WASH = "#EEF2FA"
 WHITE = "#FFFFFF"
-FIGSIZE = (6.5, 3.8)
+# Figures are drawn at the width they print at (the 4.9in text block), so
+# \includegraphics[width=\textwidth] applies no scaling and the labels keep
+# the size set here. Drawing wide and shrinking to fit was what made the
+# earlier exhibits illegible.
+TEXTWIDTH_IN = 4.9
+FIGSIZE = (TEXTWIDTH_IN, 3.05)
+FIGSIZE_WIDE = (TEXTWIDTH_IN, 2.45)
 
 OUTPUT_STEMS = {
     "deployment": "paper_1_deployment",
@@ -49,8 +55,8 @@ plt.rcParams.update(
         "axes.facecolor": WHITE,
         "font.family": "serif",
         "font.serif": ["Palatino", "TeX Gyre Pagella", "DejaVu Serif"],
-        "font.size": 10,
-        "axes.labelsize": 10,
+        "font.size": 8.5,
+        "axes.labelsize": 8.5,
         "xtick.labelsize": 9,
         "ytick.labelsize": 9,
         "text.color": INK,
@@ -192,7 +198,7 @@ def _plot_deployment(transactions: pd.DataFrame, output_dir: Path) -> str:
         nonmetro[last] / 2,
         "non-metro",
         color=SIGNAL,
-        fontsize=8.5,
+        fontsize=7.6,
         va="center",
     )
     ax.text(
@@ -200,7 +206,7 @@ def _plot_deployment(transactions: pd.DataFrame, output_dir: Path) -> str:
         nonmetro[last] + metro[last] * 0.54,
         "metro",
         color=INK,
-        fontsize=8.5,
+        fontsize=7.6,
         va="center",
     )
     _finish_axes(ax)
@@ -230,20 +236,23 @@ def _plot_nonmetro_share(transactions: pd.DataFrame, output_dir: Path) -> str:
         zorder=3,
     )
     ax.axhline(20, color=PENCIL, linewidth=0.75, linestyle=(0, (3, 2)), zorder=1)
+    # left-hand placement: the series runs well below the line in the early
+    # years, so the label sits clear of the data instead of across it
     ax.text(
-        years.max() + 0.35,
-        20,
-        "20% target",
+        years.min() + 0.3,
+        21.0,
+        "20% administrative target",
         color=PENCIL,
-        fontsize=8.5,
-        va="center",
+        fontsize=7.6,
+        va="bottom",
+        ha="left",
     )
     ax.text(
         years.max() + 0.35,
         share.iloc[-1],
         "non-metro share",
         color=SIGNAL,
-        fontsize=8.5,
+        fontsize=7.6,
         va="center",
     )
     ax.set_xlabel("Origination year")
@@ -303,7 +312,7 @@ def _plot_leverage(projects: pd.DataFrame, output_dir: Path) -> str:
         f"metro  n={len(metro):,}, median {metro_median:.2f}×",
         transform=ax.transAxes,
         color=INK,
-        fontsize=8.5,
+        fontsize=7.6,
         ha="right",
     )
     ax.text(
@@ -312,7 +321,7 @@ def _plot_leverage(projects: pd.DataFrame, output_dir: Path) -> str:
         f"non-metro  n={len(nonmetro):,}, median {nonmetro_median:.2f}×",
         transform=ax.transAxes,
         color=SIGNAL,
-        fontsize=8.5,
+        fontsize=7.6,
         ha="right",
     )
     ax.set_xlabel("Leverage ratio (total project cost / QLICI)")
@@ -361,7 +370,7 @@ def _plot_bunching(transactions: pd.DataFrame, output_dir: Path) -> str:
         "20% target",
         transform=ax.get_xaxis_transform(),
         color=SIGNAL,
-        fontsize=8.5,
+        fontsize=7.6,
         ha="center",
         va="top",
     )
@@ -375,7 +384,7 @@ def _plot_bunching(transactions: pd.DataFrame, output_dir: Path) -> str:
         xytext=(8, 6),
         textcoords="offset points",
         color=INK,
-        fontsize=8.5,
+        fontsize=7.6,
     )
     ax.text(
         0.985,
@@ -383,7 +392,7 @@ def _plot_bunching(transactions: pd.DataFrame, output_dir: Path) -> str:
         "empirical density",
         transform=ax.transAxes,
         color=INK,
-        fontsize=8.5,
+        fontsize=7.6,
         ha="right",
     )
     ax.set_xlabel("CDE non-metro share of QLICI transactions")
