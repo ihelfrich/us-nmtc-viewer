@@ -20,3 +20,5 @@ venv/
 site/.quarto/
 site/_freeze/
 site/_book/
+overleaf/
+overleaf-nmtc-paper.zip
