@@ -110,6 +110,10 @@ for k, lab in label.items():
     v = R[k]
     t3.append(
         f"{lab} & {v['beta']:.3f}{stars(v['p'])} & ({v['se']:.3f}) & {v['p']:.2f} & {v['n']:,} \\\\")
+F = json.load(open(IN / "regressions" / "referee_fixes.json"))
+t50, tw = F["F6_top50"], F["F6_twoway"]
+t3.append(f"Top-50 CDEs only & {t50['beta']:.3f}{stars(t50['p'])} & ({t50['se']:.3f}) & {t50['p']:.2f} & {t50['n']:,} \\\\")
+t3.append(f"Two-way cluster (CDE $\\times$ tract) & {tw['beta']:.3f} & ({tw['se_twoway_cgm']:.3f}) & {tw['p_twoway']:.2f} & 8,024 \\\\")
 b = R["R6_bunching"]
 t3 += [
     "\\midrule",
@@ -122,3 +126,27 @@ t3 += [
 (OUT / "robustness.tex").write_text("\n".join(t3) + "\n")
 
 print("Wrote", *[p.name for p in OUT.glob("*.tex")])
+
+
+# ── Table 4: Gelbach decomposition ──────────────────────────────────────────
+G = F["F1_gelbach"]
+B = F["F2_bootstrap"]
+gap = G["beta_M0"] - G["beta_full"]
+t4 = [
+    "\\begin{tabular}{lrr}",
+    "\\toprule",
+    " & Contribution & Share of movement \\\\",
+    "\\midrule",
+    f"Origination year & {G['contrib_year']:+.3f} & {100*G['contrib_year']/gap:.1f}\\% \\\\",
+    f"QALICB type & {G['contrib_qalicb']:+.3f} & {100*G['contrib_qalicb']/gap:.1f}\\% \\\\",
+    f"CDE identity & {G['contrib_cde']:+.3f} & {100*G['contrib_cde']/gap:.1f}\\% \\\\",
+    "\\midrule",
+    f"Total ($\\hat\\beta_{{M0}} - \\hat\\beta_{{\\mathrm{{full}}}}$) & {gap:+.3f} & 100\\% \\\\",
+    f"\\multicolumn{{3}}{{l}}{{\\footnotesize CDE component bootstrap 95\\% CI: "
+    f"[{B['cde_contrib_ci95'][0]:.3f}, {B['cde_contrib_ci95'][1]:.3f}] "
+    f"({B['reps_used']} CDE-cluster reps)}} \\\\",
+    "\\bottomrule",
+    "\\end{tabular}",
+]
+(OUT / "gelbach.tex").write_text("\n".join(t4) + "\n")
+print("Wrote gelbach.tex")

@@ -47,12 +47,16 @@ paper decomposes the rural mobilization penalty using project-level
 fixed-effects regressions on the CDFI Fund's public release. The naive
 estimate is a precise $-0.262$ rural penalty in mean leverage. Year,
 project-type, and state fixed effects shrink it to $-0.172$. Adding CDE
-fixed effects reduces the rural coefficient by 82.2\% to a statistically
-insignificant $-0.047$ (cluster-robust $p = 0.64$), with a
-quantile-regression analog at the median of essentially zero. The aggregate
-rural leverage gap is therefore almost entirely explained by \emph{which}
-intermediary CDEs deploy in rural tracts, not by within-CDE heterogeneity in
-deployment. A cross-CDE bunching test on the 20\% non-metropolitan statutory
+fixed effects moves the coefficient to $-0.047$; the mean regression is
+imprecise (cluster-robust 95\% CI $[-0.245, +0.151]$), but the
+median-regression analog is a precise $-0.001$ (SE $0.008$), and within
+intermediary both the extensive margin (any private mobilization) and the
+intensive margin are null. An order-invariant Gelbach decomposition
+attributes $-0.185$ of the raw gap to CDE identity (CDE-cluster bootstrap
+95\% CI $[-0.347, -0.023]$; 86\% of the explained movement), against
+$-0.041$ for project type. The aggregate rural leverage gap is therefore
+largely a between-CDE composition fact, not a within-CDE deployment
+penalty. A cross-CDE bunching test on the 20\% non-metropolitan statutory
 share finds no excess mass at the cumulative-deployment level (excess mass
 $\hat B = -0.0006$; cluster-bootstrap 95\% CI $[-0.014, +0.013]$),
 consistent with the mandate binding at the allocation-award level rather
@@ -99,16 +103,19 @@ everywhere they operate? The distinction carries direct policy content. A
 market-structure story argues for redesigning the credit; a selection story
 argues for reallocating it.
 
-The answer, in this data, is selection. The raw rural penalty in
+The answer, in this data, is composition. The raw rural penalty in
 project-level leverage is $-0.262$ and precisely estimated. Layering in
 origination-year, project-type, and state fixed effects moves it to
 $-0.172$. Adding CDE fixed effects---comparing rural and urban deals
-\emph{made by the same intermediary}---eliminates 82.2\% of the raw gap,
-leaving a statistically insignificant $-0.047$ (cluster-robust
-$p = 0.64$). A median regression with the same fixed effects puts the
-within-CDE rural penalty at $-0.001$. The same intermediary, deploying the
-same federal credit in the same year into the same project type, mobilizes
-private capital in rural tracts at essentially the metro rate. What differs
+\emph{made by the same intermediary}, a comparison to which 163 of 343
+CDEs contribute, covering 94\% of rural projects---collapses the point
+estimate to $-0.047$. This paper is deliberate about what that null does
+and does not establish: the mean regression is imprecise (cluster-robust
+95\% CI $[-0.245, +0.151]$), and on its own can reject only within-CDE
+penalties larger than $0.21$. The precision lives elsewhere, and the paper
+reports it where it lives: the median within-CDE penalty is $-0.001$
+(SE $0.008$), rural deals within a CDE are no less likely to mobilize any
+private capital at all, and mobilize no less when they do. What differs
 across space is \emph{which} intermediaries show up.
 
 This paper makes three contributions to a literature that has examined NMTC
@@ -262,6 +269,16 @@ design---fuzzy RDD at the LIC eligibility threshold, run separately for
 metro and non-metro samples---requires tract-level ACS covariates and is
 deferred to the follow-on paper.
 
+One further caution belongs here, because it constrains the language the
+paper is entitled to use. The between-CDE component is a composition fact;
+its ``selection'' reading is an interpretation. Rural market conditions
+could in principle cause low-leverage intermediaries to specialize in rural
+deployment, in which case part of the between-CDE component is market
+structure operating through intermediary business models. The paper's
+secure claim is the within-CDE null; the decomposition locates the gap, and
+the discussion section is explicit about which readings of its location the
+data can and cannot separate.
+
 \subsection{The 20\% mandate as a notch}
 
 For each CDE $j$, define its cumulative non-metro deployment share
@@ -290,13 +307,36 @@ quarter of the raw gap. State effects (column 4) move it modestly further
 to $-0.172$.
 
 Column 5 adds CDE fixed effects. The rural coefficient collapses to
-$-0.047$ with a CDE-clustered standard error of $0.101$
-($p = 0.64$): statistically zero, and economically an order of magnitude
-smaller than the raw gap. Relative to column 1, 82.2\% of the rural
-penalty is absorbed by \emph{which} CDE originates the deal. The median
-specification (column 6) sharpens the point: the within-CDE rural penalty
-at the median is $-0.001$. The within-CDE rural penalty is a null result,
-and the aggregate gap is a between-CDE selection phenomenon.
+$-0.047$ with a CDE-clustered standard error of $0.101$: an order of
+magnitude smaller than the raw gap in point-estimate terms, though the
+interval ($[-0.245, +0.151]$) is wide, and
+Section~\ref{sec:power} quantifies exactly how much the mean regression
+can and cannot rule out. The median specification (column 6) is the
+precise one: the within-CDE rural penalty at the median is $-0.001$
+(SE $0.008$).
+
+Because sequential addition of fixed-effect blocks is order-dependent,
+Table~\ref{tab:gelbach} reports the \citet{gelbach2016} decomposition
+with the full model as reference, which is invariant to listing order. Of
+the $-0.216$ movement from the raw to the full specification, CDE identity
+contributes $-0.185$ (86\% of the movement; CDE-cluster bootstrap 95\% CI
+$[-0.347, -0.023]$), QALICB type $-0.041$, and origination year a small
+offsetting $+0.010$. The share version of this statement---82\% of the raw
+gap---carries a wide bootstrap interval ($[25\%, 255\%]$) because it is a
+ratio of estimates, and the paper therefore rests on the level claim: the
+CDE composition component is large, negative, and statistically distinct
+from zero, while the within-CDE component is statistically
+indistinguishable from zero.
+
+\begin{table}[t]
+\centering
+\caption{Gelbach (order-invariant) decomposition of the raw rural gap,
+full-model reference. Contributions sum to
+$\hat\beta_{M0} - \hat\beta_{\mathrm{full}}$ by identity (verified to
+$10^{-14}$ in the replication code).}
+\label{tab:gelbach}
+\input{tables/gelbach}
+\end{table}
 
 \begin{table}[t]
 \centering
@@ -307,6 +347,33 @@ $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.}
 \label{tab:main}
 \input{tables/main}
 \end{table}
+
+\subsection{Precision, power, and margins}\label{sec:power}
+
+The mean and median estimates differ in precision by an order of magnitude,
+and the paper states plainly what each can support. For the mean
+specification, a one-sided 5\% test can reject within-CDE rural penalties
+larger than $0.213$---nearly the size of the raw gap---so the mean
+regression alone is weak evidence for a zero; the outcome's long right
+tail, which inflates mean-regression variance, is the proximate reason.
+The median specification can reject penalties larger than $0.013$. The
+paper's null is therefore carried by the median estimate and by the
+margins, with the mean reported for comparability. (The median standard
+error is the quantile-regression asymptotic one; a CDE-clustered bootstrap
+for the median with roughly six hundred fixed effects is computationally
+disproportionate for this draft and is noted as an outstanding item.)
+
+The margins address a second way a mean could mislead: 27.4\% of projects
+sit exactly at the leverage floor of one, meaning zero private
+mobilization, so a within-CDE penalty could in principle hide in the
+probability of mobilizing at all. It does not. Within CDE, rural deals are
+$1.8$ percentage points less likely to clear the floor (SE $1.8$pp,
+$p = 0.34$), and among deals that mobilize, the rural coefficient is
+$-0.039$ ($p = 0.77$). Both margins are stable when the floor is moved to
+$1.05$. Identification for all within-CDE results comes from the 163 of
+343 CDEs that deploy on both sides of the rural line; these switchers
+originate 94\% of all rural projects, so the comparison is broad, not a
+boutique subsample.
 
 \subsection{Heterogeneity by project type}
 
@@ -327,8 +394,12 @@ winsorization is not producing the headline result. A log outcome puts the
 within-CDE penalty at $-3.2\%$ ($p = 0.18$). Tightening or loosening the
 winsorization cap ($[1,10]$, $[1,50]$), splitting the sample at 2010, and
 restricting to single-CDE projects all leave the within-CDE rural
-coefficient statistically indistinguishable from zero. The null is not an
-artifact of outcome trimming, era, or stacked-allocation deals.
+coefficient statistically indistinguishable from zero. Restricting to the
+fifty largest CDEs, where the fixed effects are estimated most precisely,
+gives $-0.100$ (SE $0.148$); two-way clustering by CDE and census tract
+moves the headline standard error from $0.101$ to $0.105$. The null is not
+an artifact of outcome trimming, era, stacked-allocation deals, subsample,
+or clustering choice.
 
 \begin{table}[t]
 \centering
@@ -374,13 +445,22 @@ $\pm 2.5$pp window at the 20\% statutory line.}
 
 \subsection{What the results do and do not say}
 
-The results say that the within-CDE rural penalty is approximately zero,
-and that the aggregate rural penalty---which is real---is a between-CDE
-selection phenomenon. They do not say that rural credit markets are no
-different from urban ones; they say the NMTC's deployment data do not
-detect such a difference once the intermediary is held fixed. Nor do they
-say that any particular CDE could not mobilize more in rural tracts; the
-estimate is an average over the fixed-effects distribution.
+The results say that the within-CDE rural penalty is precisely zero at
+the median, null at both the extensive and intensive margins, and small but
+imprecisely estimated in the mean; and that the aggregate rural
+penalty---which is real---is located in between-CDE composition. They do
+not say that rural credit markets are no different from urban ones; they
+say the NMTC's deployment data do not detect such a difference once the
+intermediary is held fixed. They also do not fully adjudicate \emph{why}
+composition looks as it does: reading the between-CDE component as
+intermediary selection is the natural interpretation, but rural market
+conditions could in principle drive low-leverage intermediaries to
+specialize in rural deployment, which would put part of the between-CDE
+component back on the market-structure side of the ledger. Distinguishing
+those readings requires variation in CDE--market assignment that the
+public release does not contain. Nor, finally, do the results say that any
+particular CDE could not mobilize more in rural tracts; the estimates are
+averages over the fixed-effects distribution.
 
 \subsection{Policy reading}
 
@@ -407,14 +487,18 @@ companion piece.
 
 \section{Conclusion}\label{sec:conclusion}
 
-Directly observed project-level leverage in the NMTC shows a real aggregate
-rural mobilization penalty that vanishes inside the intermediary: 82.2\% of
-the raw gap is explained by which CDEs deploy rural deals, the remainder is
-statistically zero, and the median within-CDE penalty is nil. The cross-CDE
+Directly observed project-level leverage in the NMTC shows a real
+aggregate rural mobilization penalty that is not visible inside the
+intermediary: the order-invariant decomposition places $-0.185$ of the raw
+$-0.262$ gap on CDE identity, the within-CDE penalty is precisely zero at
+the median and null at both margins, and the mean estimate, while
+imprecise, is an order of magnitude below the raw gap. The cross-CDE
 distribution of non-metro shares shows no bunching at the 20\% statutory
-line. The rural mobilization debate, at least for this program, is
-mis-framed in market-structure terms; it is an intermediary-selection
-problem, and the levers that matter are allocation levers.
+line. Subject to the interpretive caution that intermediary composition
+may itself respond to rural market conditions, the rural mobilization
+debate, at least for this program, is better posed in intermediary
+terms than in market-structure terms, and the operative levers are
+allocation levers.
 
 \begin{thebibliography}{99}
 \setlength{\itemsep}{2pt}
@@ -431,6 +515,10 @@ Evidence from Danish tax records. \emph{Quarterly Journal of Economics},
 
 \bibitem[Convergence(2024)]{convergence2024}
 Convergence Finance. (2024). \emph{State of Blended Finance 2024}.
+
+\bibitem[Gelbach(2016)]{gelbach2016}
+Gelbach, J.~B. (2016). When do covariates matter? And which ones, and how
+much? \emph{Journal of Labor Economics}, 34(2), 509--543.
 
 \bibitem[Freedman(2012)]{freedman2012}
 Freedman, M. (2012). Teaching new markets old tricks: The effects of

@@ -1,0 +1,89 @@
+# Referee fixes — computed outputs
+
+_Every number in this file was computed by `scripts/run_referee_fixes.py`;
+the Gelbach identity, the formula-API cross-check, and the CGM positivity
+check are hard assertions inside the run._
+
+```json
+{
+  "n_analysis": 8024,
+  "F1_gelbach": {
+    "beta_M0": -0.2623,
+    "beta_full": -0.0467,
+    "contrib_year": 0.0103,
+    "contrib_qalicb": -0.0413,
+    "contrib_cde": -0.1845,
+    "share_of_gap_from_cde": 0.856
+  },
+  "F2_bootstrap": {
+    "reps_requested": 499,
+    "reps_used": 499,
+    "reps_failed": 0,
+    "selection_share_hat": 0.822,
+    "selection_share_ci95": [
+      0.2502,
+      2.5538
+    ],
+    "cde_contrib_ci95": [
+      -0.3473,
+      -0.0233
+    ]
+  },
+  "F3_power": {
+    "mean_beta": -0.0467,
+    "mean_se_cde_cluster": 0.1011,
+    "mean_ci95": [
+      -0.245,
+      0.152
+    ],
+    "mean_rejectable_penalty": 0.213,
+    "median_beta": -0.0007,
+    "median_se_iid": 0.0076,
+    "median_rejectable_penalty": 0.013,
+    "caveat": "median SE is the quantreg asymptotic (kernel) SE, not CDE-clustered; a clustered bootstrap for the median with ~600 FE is computationally heavy and left documented"
+  },
+  "F4_floor_1p001": {
+    "share_at_floor": 0.2738,
+    "extensive_beta": -0.0175,
+    "extensive_se": 0.0182,
+    "extensive_p": 0.3359,
+    "intensive_beta": -0.0389,
+    "intensive_se": 0.1357,
+    "intensive_p": 0.7742,
+    "intensive_n": 5827
+  },
+  "F4_floor_1p05": {
+    "share_at_floor": 0.3669,
+    "extensive_beta": -0.0219,
+    "extensive_se": 0.0207,
+    "extensive_p": 0.2898,
+    "intensive_beta": -0.0418,
+    "intensive_se": 0.1642,
+    "intensive_p": 0.799,
+    "intensive_n": 5080
+  },
+  "F5_switchers": {
+    "n_cde_total": 343,
+    "n_cde_switchers": 163,
+    "n_projects_in_switchers": 6005,
+    "rural_projects_total": 1561,
+    "rural_projects_in_switchers": 1465,
+    "rural_share_covered_by_switchers": 0.9385
+  },
+  "F6_top50": {
+    "beta": -0.1003,
+    "se": 0.1477,
+    "p": 0.4971,
+    "n": 4229,
+    "n_cde": 50
+  },
+  "F6_twoway": {
+    "beta": -0.0467,
+    "se_cde": 0.1011,
+    "se_tract": 0.082,
+    "se_intersection": 0.077,
+    "se_twoway_cgm": 0.105,
+    "p_twoway": 0.6564
+  }
+}
+```
