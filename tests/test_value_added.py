@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import importlib.util
+import tempfile
 import unittest
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "scripts" / "run_value_added.py"
@@ -48,7 +48,28 @@ class ValueAddedTests(unittest.TestCase):
         self.assertAlmostEqual(got["A"], -1.0, places=10)
         self.assertAlmostEqual(got["B"], 0.0, places=10)
         self.assertAlmostEqual(got["C"], 1.0, places=10)
-        self.assertLess(float(np.max(np.abs(result.fitted - frame.leverage_win))), 1e-10)
+        self.assertLess(
+            float(np.max(np.abs(result.fitted - frame.leverage_win))), 1e-10
+        )
+
+    def test_fixed_effect_sampling_variance_penalizes_singleton_cdes(self):
+        """Catches HC1's zero-own-residual overconfidence for singleton fixed effects."""
+        va = load_module()
+        frame = pd.DataFrame(
+            {
+                "cde_name": ["A"] + ["B"] * 4 + ["C"] * 4,
+                "year": [2020] * 9,
+                "qalicb_type": ["business"] * 9,
+                "leverage_win": [10.0, 0.0, 1.0, -1.0, 0.0, 2.0, 3.0, 1.0, 2.0],
+            }
+        )
+
+        effects = va.fit_cde_effects(frame).effects.set_index("cde_name")
+
+        self.assertGreater(
+            effects.loc["A", "sampling_variance"],
+            1.9 * effects.loc["B", "sampling_variance"],
+        )
 
     def test_eb_decomposition_subtracts_sampling_variance_and_shrinks(self):
         """Catches adding sampling noise to signal or reversing the shrinkage weight."""
@@ -127,6 +148,60 @@ class ValueAddedTests(unittest.TestCase):
         self.assertAlmostEqual(result["counterfactual_weighted_va"], 1.0)
         self.assertAlmostEqual(result["leverage_gain"], 0.8)
         self.assertAlmostEqual(result["share_gap_closed"], 3.2)
+
+    def test_counterfactual_can_hold_estimated_policy_groups_fixed(self):
+        """Catches posterior re-ranking masquerading as fixed-policy uncertainty."""
+        va = load_module()
+        estimated_effects = pd.Series({"estimated_low": -1.0, "estimated_high": 1.0})
+        latent_draw = pd.Series({"estimated_low": 1.0, "estimated_high": 0.0})
+        dollars = pd.Series({"estimated_low": 40.0, "estimated_high": 60.0})
+
+        result = va.counterfactual_reallocation(
+            latent_draw,
+            dollars,
+            raw_gap=-0.25,
+            classification_effects=estimated_effects,
+        )
+
+        self.assertAlmostEqual(result["leverage_gain"], -0.4)
+        self.assertAlmostEqual(result["share_gap_closed"], -1.6)
+
+    def test_raw_group_gap_matches_ols_with_named_statsmodels_params(self):
+        """Catches label-based integer indexing of statsmodels parameter Series."""
+        va = load_module()
+        outcome = pd.Series([1.0, 2.0, 4.0, 6.0], name="outcome")
+        treated = pd.Series([0, 0, 1, 1], name="treated")
+
+        result = va.raw_group_gap(outcome, treated)
+
+        self.assertAlmostEqual(result["control_mean"], 1.5)
+        self.assertAlmostEqual(result["treated_mean"], 5.0)
+        self.assertAlmostEqual(result["gap"], 3.5)
+        self.assertAlmostEqual(result["ols_gap"], 3.5)
+
+    def test_portability_figure_retains_house_width(self):
+        """Catches equal-aspect/tight-bbox cropping below the 4.9-inch measure."""
+        va = load_module()
+        comparison = pd.DataFrame(
+            {
+                "urban_va": [-1.0, 0.0, 1.0],
+                "rural_va": [-0.5, 0.25, 0.75],
+            }
+        )
+        result = {
+            "raw_correlation": 0.9,
+            "reliability_adjusted_correlation_unbounded": 0.95,
+            "reliability_adjustment_admissible": True,
+            "n_cdes": 3,
+        }
+
+        with tempfile.TemporaryDirectory() as tmp:
+            va.FIGURES = Path(tmp)
+            va._render_portability(comparison, result)
+            image = va.plt.imread(Path(tmp) / "va_portability_scatter.png")
+
+        self.assertGreaterEqual(image.shape[1], 1400)
+        self.assertGreater(image.shape[1], image.shape[0])
 
 
 if __name__ == "__main__":
