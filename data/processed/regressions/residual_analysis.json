@@ -15,6 +15,7 @@
       "beta": -0.8377,
       "se": 0.7608,
       "p": 0.2708,
+      "p_exact": 0.27083,
       "ci95": [
         -2.3288,
         0.6534
@@ -31,6 +32,7 @@
       "beta": -0.1795,
       "se": 0.1979,
       "p": 0.3643,
+      "p_exact": 0.36435,
       "ci95": [
         -0.5675,
         0.2084
@@ -47,6 +49,7 @@
       "beta": 0.3495,
       "se": 0.1771,
       "p": 0.0484,
+      "p_exact": 0.048442,
       "ci95": [
         0.0024,
         0.6966
@@ -63,6 +66,7 @@
       "beta": -0.1304,
       "se": 0.1221,
       "p": 0.2856,
+      "p_exact": 0.28565,
       "ci95": [
         -0.3697,
         0.1089
@@ -79,6 +83,7 @@
       "beta": -0.0438,
       "se": 0.1466,
       "p": 0.7652,
+      "p_exact": 0.76518,
       "ci95": [
         -0.3311,
         0.2435
@@ -95,6 +100,7 @@
       "beta": 0.1016,
       "se": 0.1728,
       "p": 0.5565,
+      "p_exact": 0.55651,
       "ci95": [
         -0.2371,
         0.4403
@@ -111,6 +117,7 @@
       "beta": -0.1914,
       "se": 0.1284,
       "p": 0.136,
+      "p_exact": 0.13599,
       "ci95": [
         -0.4431,
         0.0602
@@ -127,6 +134,7 @@
       "beta": 0.0896,
       "se": 0.2612,
       "p": 0.7315,
+      "p_exact": 0.73147,
       "ci95": [
         -0.4223,
         0.6015
@@ -143,6 +151,7 @@
       "beta": -0.1617,
       "se": 0.1504,
       "p": 0.2825,
+      "p_exact": 0.28246,
       "ci95": [
         -0.4565,
         0.1332
@@ -159,6 +168,7 @@
       "beta": 0.1046,
       "se": 0.141,
       "p": 0.4582,
+      "p_exact": 0.4582,
       "ci95": [
         -0.1718,
         0.3811
@@ -175,6 +185,7 @@
       "beta": -0.3215,
       "se": 0.2143,
       "p": 0.1335,
+      "p_exact": 0.13355,
       "ci95": [
         -0.7415,
         0.0985
@@ -200,6 +211,7 @@
       "beta": 0.0427,
       "se": 0.1531,
       "p": 0.7803,
+      "p_exact": 0.78034,
       "ci95": [
         -0.2573,
         0.3427
@@ -216,6 +228,7 @@
       "beta": -0.395,
       "se": 0.1951,
       "p": 0.0429,
+      "p_exact": 0.042941,
       "ci95": [
         -0.7774,
         -0.0125
@@ -232,6 +245,7 @@
       "beta": -0.0751,
       "se": 0.1419,
       "p": 0.5966,
+      "p_exact": 0.59661,
       "ci95": [
         -0.3533,
         0.203
@@ -248,6 +262,7 @@
       "beta": -0.0657,
       "se": 0.1572,
       "p": 0.6759,
+      "p_exact": 0.6759,
       "ci95": [
         -0.3738,
         0.2424
@@ -264,6 +279,7 @@
       "beta": -0.0226,
       "se": 0.1956,
       "p": 0.908,
+      "p_exact": 0.90802,
       "ci95": [
         -0.406,
         0.3608
@@ -280,17 +296,96 @@
       "beta": -0.1322,
       "se": 0.1185,
       "p": 0.2646,
+      "p_exact": 0.26464,
       "ci95": [
         -0.3645,
         0.1001
       ],
       "bh_reject_at_05": false
+    },
+    {
+      "cell": "purpose business",
+      "n": 3177,
+      "n_rural": 928,
+      "n_cde": 239,
+      "n_switcher_cde": 106,
+      "estimated": true,
+      "beta": 0.0527,
+      "se": 0.1606,
+      "p": 0.7427,
+      "p_exact": 0.7427,
+      "ci95": [
+        -0.262,
+        0.3674
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "purpose housing_sf_new",
+      "n": 163,
+      "n_rural": 11,
+      "n_cde": 32,
+      "n_switcher_cde": 5,
+      "estimated": false,
+      "reason": "cell too small to identify a within-CDE comparison"
+    },
+    {
+      "cell": "purpose other",
+      "n": 125,
+      "n_rural": 37,
+      "n_cde": 47,
+      "n_switcher_cde": 5,
+      "estimated": false,
+      "reason": "cell too small to identify a within-CDE comparison"
+    },
+    {
+      "cell": "purpose other_small",
+      "n": 112,
+      "n_rural": 2,
+      "n_cde": 35,
+      "n_switcher_cde": 0,
+      "estimated": false,
+      "reason": "cell too small to identify a within-CDE comparison"
+    },
+    {
+      "cell": "purpose re_construction",
+      "n": 2432,
+      "n_rural": 384,
+      "n_cde": 285,
+      "n_switcher_cde": 94,
+      "estimated": true,
+      "beta": -0.0675,
+      "se": 0.1397,
+      "p": 0.6288,
+      "p_exact": 0.62877,
+      "ci95": [
+        -0.3413,
+        0.2062
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "purpose re_rehab",
+      "n": 2015,
+      "n_rural": 199,
+      "n_cde": 256,
+      "n_switcher_cde": 80,
+      "estimated": true,
+      "beta": -0.4393,
+      "se": 0.1019,
+      "p": 0.0,
+      "p_exact": 1.6285e-05,
+      "ci95": [
+        -0.639,
+        -0.2395
+      ],
+      "bh_reject_at_05": true
     }
   ],
-  "n_cells_estimated": 17,
-  "n_cells_skipped": 1,
-  "n_significant_uncorrected": 2,
-  "n_significant_after_bh": 0,
-  "min_p": 0.0429,
-  "expected_false_positives_at_05": 0.85
+  "n_cells_estimated": 20,
+  "n_cells_skipped": 4,
+  "n_significant_uncorrected": 3,
+  "n_significant_after_bh": 1,
+  "min_p": 1.6285e-05,
+  "expected_false_positives_at_05": 1.0
 }

@@ -1,0 +1,101 @@
+{
+  "cell": "re_rehab",
+  "n": 2015,
+  "n_rural": 199,
+  "n_cde": 256,
+  "R1": {
+    "beta": -0.43927,
+    "se_cde_cluster": 0.10191,
+    "t": -4.311,
+    "p_exact": 1.629e-05,
+    "ci95": [
+      -0.639,
+      -0.2395
+    ]
+  },
+  "R2_outcome_variants": {
+    "winsor_1_20 (baseline)": {
+      "beta": -0.4393,
+      "se": 0.1019,
+      "p": 2e-05
+    },
+    "unwinsorized": {
+      "beta": -0.4634,
+      "se": 0.1041,
+      "p": 1e-05
+    },
+    "log": {
+      "beta": -0.1548,
+      "se": 0.0417,
+      "p": 0.00021
+    },
+    "winsor_1_10": {
+      "beta": -0.4031,
+      "se": 0.0956,
+      "p": 2e-05
+    },
+    "winsor_1_50": {
+      "beta": -0.4507,
+      "se": 0.1047,
+      "p": 2e-05
+    }
+  },
+  "R3_influence": {
+    "leave_one_cde_min": -0.4813,
+    "leave_one_cde_max": -0.4098,
+    "most_influential_cde_moves_beta_to": -0.4098,
+    "n_cde_dropped_tested": 256,
+    "leave_one_state_min": -0.478,
+    "leave_one_state_max": -0.3795,
+    "most_influential_state": "Ohio",
+    "sign_stable_across_all_drops": true
+  },
+  "R4_randomization": {
+    "draws": 2000,
+    "null_sd": 0.1458,
+    "null_ci95": [
+      -0.2562,
+      0.3077
+    ],
+    "p_two_sided": 0.0055
+  },
+  "R5_wild_cluster": {
+    "draws": 2000,
+    "t_observed": -4.311,
+    "p_two_sided": 0.0005,
+    "null_t_ci95": [
+      -2.036,
+      1.872
+    ]
+  },
+  "R6_other_purposes": {
+    "business": {
+      "estimated": true,
+      "beta": 0.0527,
+      "se": 0.1606,
+      "p": 0.7427,
+      "n": 3177
+    },
+    "housing_sf_new": {
+      "estimated": false,
+      "n": 163
+    },
+    "other": {
+      "estimated": false,
+      "n": 125
+    },
+    "other_small": {
+      "estimated": false,
+      "n": 112
+    },
+    "re_construction": {
+      "estimated": true,
+      "beta": -0.0675,
+      "se": 0.1397,
+      "p": 0.6288,
+      "n": 2432
+    }
+  },
+  "survives_all_checks": true,
+  "provenance_caveat": "The purpose cells were added to the residual scan after the QALICB real-estate cell had been flagged. Benjamini-Hochberg covers the twenty cells in the scan and does not cover the choice to add the purpose dimension. This result is exploratory and is reported as such regardless of how many checks it survives."
+}

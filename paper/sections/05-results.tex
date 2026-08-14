@@ -278,30 +278,77 @@ purpose as a fourth block, whose contributions sum to the total by identity
 \subsection{Where the residual lives}\label{sec:residual}
 
 An average null can conceal a subpopulation, so the workhorse specification
-was re-estimated inside eighteen subgroups: quartiles of intermediary size,
-three origination eras, the four census regions, the four project types,
-and three bands of the intermediary's own rural orientation. One cell, the
-CDE-to-CDE project type, holds too few deals to identify a within-CDE
-comparison and is reported rather than dropped. Table~\ref{tab:residual}
-gives the rest.
+was re-estimated inside twenty-four subgroups: quartiles of intermediary
+size, three origination eras, the four census regions, the four project
+types, three bands of the intermediary's own rural orientation, and six
+categories of purpose of investment. Four cells hold too few deals to
+identify a within-CDE comparison and are reported rather than dropped.
+Table~\ref{tab:residual} gives the other twenty.
 
-Two of the seventeen estimated cells reach conventional significance
-without correction, real-estate projects at $-0.395$ ($p = 0.043$) and the
-third quartile of intermediary size at $+0.349$ ($p = 0.048$), and they
-point in opposite directions. Across seventeen tests at the 5\% level,
-chance alone produces roughly one such rejection. Neither survives a
-Benjamini-Hochberg correction, and the smallest $p$-value in the entire
-scan is $0.043$. The within-CDE null is not an average masking a
-subpopulation: no subgroup the data can resolve shows a rural penalty
-distinguishable from zero once the scanning is accounted for.
+Three of the twenty estimated cells reach conventional significance without
+correction. Two of them behave as a scan of this size should: real-estate
+projects at $-0.395$ ($p = 0.043$) and the third quartile of intermediary
+size at $+0.349$ ($p = 0.048$) point in opposite directions, and across
+twenty tests at the 5\% level chance alone produces roughly one such
+rejection. Neither survives a Benjamini-Hochberg correction.
 
-The real-estate estimate is the one worth keeping in view. It is the
-largest negative coefficient in the scan, it matches the descriptive
-pattern in the QALICB-type interaction, and real estate is where private
-debt-stacking is most natural, so a genuine within-intermediary rural
-penalty is most plausible there. The data cannot separate that reading from
-chance, and a design with more power in that cell would be the natural next
-test.
+The third does not behave that way. Within intermediary, rural commercial
+real-estate rehabilitation projects carry a rural coefficient of $-0.4393$
+with a CDE-clustered standard error of $0.1019$, a $t$ statistic of
+$-4.31$, and a $p$-value of $1.6 \times 10^{-5}$. It is the only cell in
+the scan to survive the Benjamini-Hochberg correction, and it is separated
+from the rest of the scan by more than three orders of magnitude in
+$p$. The estimate is large as well as precise: relative to the metro
+rehabilitation deals originated by the same intermediary in the same year,
+rural rehabilitation mobilizes roughly forty-four cents less per subsidized
+dollar, or about 15\% in logs.
+
+Because a result of this kind invites the suspicion that it was found by
+looking, we state its provenance plainly. The purpose cells were added to
+this scan after the QALICB real-estate cell had been flagged in an earlier
+draft as the one worth a sharper test, and the Benjamini-Hochberg
+correction covers the twenty cells in the scan without covering the
+decision to add the purpose dimension. No within-scan correction repairs
+that, so the finding is exploratory by construction. What can be done is to
+attack it, and Table~\ref{tab:rehab} reports six attempts.
+
+The estimate does not depend on the outcome transformation: it lies between
+$-0.403$ and $-0.463$ across the unwinsorized outcome and three
+winsorization caps, and the log specification gives $-0.155$
+($p = 0.0002$). It does not depend on any one intermediary or state.
+Dropping each of the 256 intermediaries in turn moves the coefficient only
+within $[-0.481, -0.410]$, and dropping each state in turn keeps it within
+$[-0.478, -0.380]$, with the sign never changing in any of those
+regressions. Randomization inference, permuting the rural label inside each
+intermediary over 2{,}000 draws, returns $p = 0.0055$, and a wild cluster
+bootstrap-$t$ over 2{,}000 draws returns $p = 0.0005$. Running the identical
+pipeline on the adjacent purpose categories finds nothing: business
+financing gives $+0.053$ ($p = 0.74$) and real-estate construction gives
+$-0.068$ ($p = 0.63$).
+
+That last contrast is the most informative of the six. Construction and
+rehabilitation are both commercial real estate and both are classified
+under the same QALICB type, which is why no specification in this paper
+could previously separate them. They diverge sharply here, and the
+divergence runs in the direction the mechanism predicts, since
+rehabilitation carries the historic-credit and layered-debt structures in
+which additional private capital is most readily stacked and rural markets
+are least able to supply it. We therefore read the paper's headline as
+holding on average and as admitting one specific, robust, and economically
+interpretable exception. Confirming it on an independent sample is the
+natural next step, and until that exists the result should be treated as a
+well-tested hypothesis instead of an established fact.
+
+\begin{table}[t]
+\centering
+\caption{Attempts to break the commercial real-estate rehabilitation cell.
+The baseline is the workhorse specification estimated inside that cell,
+with year, QALICB-type and CDE fixed effects and CDE-clustered standard
+errors. Randomization inference permutes rural within intermediary; the
+wild cluster bootstrap-$t$ imposes the null and uses Rademacher weights.}
+\label{tab:rehab}
+\input{tables/rehab}
+\end{table}
 
 \begin{table}[t]
 \centering
@@ -309,7 +356,7 @@ test.
 repeats the workhorse specification with year, QALICB-type and CDE fixed
 effects and CDE-clustered standard errors. The final column reports whether
 the cell survives a Benjamini-Hochberg correction at the 5\% level across
-all seventeen estimated cells.}
+all twenty estimated cells.}
 \label{tab:residual}
 \input{tables/residual}
 \end{table}

@@ -14,9 +14,17 @@ within-CDE rural penalty distinguishable from zero.
   S3  by census region
   S4  by QALICB type
   S5  by the CDE's own rural orientation (its non-metro share)
-  S6  multiple-comparison discipline: Benjamini-Hochberg across every cell
+  S6  by purpose of investment. Section 5.5 names the real-estate cell as
+      the one worth a sharper test, and purpose separates construction from
+      rehabilitation within real estate, a distinction QALICB type cannot
+      make. The two differ substantially in metro weighting, so this is the
+      finer cut the paper asks for.
+
+  S7  multiple-comparison discipline: Benjamini-Hochberg across every cell
       tested above, since scanning twenty cells at the 5% level is expected
-      to produce one rejection by chance alone
+      to produce one rejection by chance alone. The correction covers the
+      purpose cells too; adding tests without widening the correction would
+      be the exact error this step exists to prevent.
 
 Every cell is estimated with the same fixed effects as the workhorse
 specification, year and QALICB type and CDE, and CDE-clustered standard
@@ -79,6 +87,17 @@ pr = pr.dropna(subset=["leverage_win", "rural", "year", "qalicb_type",
                        "state", "cde_name"]).reset_index(drop=True)
 pr["year"] = pr["year"].astype(int)
 pr["region"] = pr["state"].map(region_of)
+
+# Purpose of investment, derived in run_purpose_channel.py. Optional so this
+# script still runs if that step has not been executed.
+_purpose_path = IN / "nmtc_project_purpose.csv"
+if _purpose_path.exists():
+    _pp = pd.read_csv(_purpose_path).set_index("project_id")["purpose_grp"]
+    pr["purpose_grp"] = pr["project_id"].map(_pp)
+    print(f"purpose merged for {100*pr['purpose_grp'].notna().mean():.1f}% of projects")
+else:
+    pr["purpose_grp"] = None
+    print("note: nmtc_project_purpose.csv absent; purpose cells will be skipped")
 _unmapped = pr.loc[pr["region"] == "Other", "state"].value_counts()
 if len(_unmapped):
     print(f"note: {int(_unmapped.sum())} projects in {len(_unmapped)} unmapped "
@@ -115,6 +134,9 @@ def fit_cell(df: pd.DataFrame, label: str) -> dict:
     b, se = float(res.params["rural"]), float(res.bse["rural"])
     return {**base, "estimated": True, "beta": round(b, 4), "se": round(se, 4),
             "p": round(float(res.pvalues["rural"]), 4),
+            # keep full precision too: a cell can round to 0.0000 and the
+            # scan's reported minimum p must not become a literal zero
+            "p_exact": float(f'{float(res.pvalues["rural"]):.4e}'),
             "ci95": [round(b - 1.96 * se, 4), round(b + 1.96 * se, 4)]}
 
 
@@ -154,7 +176,13 @@ for lo, hi, lab in [(0.0, 0.2, "rural share <=20%"),
     r = fit_cell(sub, f"CDE {lab}")
     cells.append(r); print("  ", r["cell"], r.get("beta", r.get("reason")))
 
-# ── S6 multiple comparisons ────────────────────────────────────────────
+print("S6: by purpose of investment")
+if pr["purpose_grp"].notna().any():
+    for pu in sorted(pr["purpose_grp"].dropna().unique()):
+        r = fit_cell(pr[pr["purpose_grp"] == pu], f"purpose {pu}")
+        cells.append(r); print("  ", r["cell"], r.get("beta", r.get("reason")))
+
+# ── S7 multiple comparisons ────────────────────────────────────────────
 est = [c for c in cells if c["estimated"]]
 pvals = np.array([c["p"] for c in est])
 order = np.argsort(pvals)
@@ -174,10 +202,10 @@ results["n_cells_estimated"] = m
 results["n_cells_skipped"] = len(cells) - m
 results["n_significant_uncorrected"] = int((pvals < 0.05).sum()) if m else 0
 results["n_significant_after_bh"] = int(bh_reject.sum())
-results["min_p"] = float(pvals.min()) if m else None
+results["min_p"] = float(min(c["p_exact"] for c in est)) if m else None
 results["expected_false_positives_at_05"] = round(0.05 * m, 2) if m else 0
 
-print(f"\nS6: {m} cells estimated, {results['n_cells_skipped']} too small.")
+print(f"\nS7: {m} cells estimated, {results['n_cells_skipped']} too small.")
 print(f"  uncorrected p<0.05: {results['n_significant_uncorrected']} "
       f"(chance alone would give about {results['expected_false_positives_at_05']})")
 print(f"  surviving Benjamini-Hochberg at 5%: {results['n_significant_after_bh']}")

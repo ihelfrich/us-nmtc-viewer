@@ -25,5 +25,11 @@ comparison are reported rather than dropped._
 | CDE rural share <=20% | -0.066 | (0.157) | 0.676 | 3,481 | 327 | 76 | no |
 | CDE rural share 20-50% | -0.023 | (0.196) | 0.908 | 1,651 | 522 | 57 | no |
 | CDE rural share >50% | -0.132 | (0.118) | 0.265 | 969 | 712 | 30 | no |
+| purpose business | +0.053 | (0.161) | 0.743 | 3,177 | 928 | 106 | no |
+| purpose housing_sf_new | not estimated | | | 163 | 11 | 5 | |
+| purpose other | not estimated | | | 125 | 37 | 5 | |
+| purpose other_small | not estimated | | | 112 | 2 | 0 | |
+| purpose re_construction | -0.068 | (0.140) | 0.629 | 2,432 | 384 | 94 | no |
+| purpose re_rehab | -0.439 | (0.102) | 0.000 | 2,015 | 199 | 80 | yes |
 
-17 cells estimated. 2 reach p < 0.05 uncorrected, against roughly 0.85 expected by chance at that threshold across this many tests. 0 survive a Benjamini-Hochberg correction at the 5% level.
+20 cells estimated. 3 reach p < 0.05 uncorrected, against roughly 1.0 expected by chance at that threshold across this many tests. 1 survive a Benjamini-Hochberg correction at the 5% level.

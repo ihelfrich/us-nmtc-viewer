@@ -626,3 +626,56 @@ the largest share of a project's QLICI dollars; coverage is 100%, 7.4% of
 projects mix purposes, and the median dominant share is 100%. Four
 categories with fewer than 60 projects are folded into one group, recorded
 in the output rather than dropped silently.
+
+## D24. The rehabilitation cell: the paper's first surviving subgroup (2026-08-14)
+
+Adding purpose-of-investment cells to the residual scan produced the first
+subgroup in this paper to survive a multiple-comparison correction. Within
+intermediary, rural commercial real-estate rehabilitation carries a rural
+coefficient of -0.4393, CDE-clustered SE 0.1019, t = -4.31, p = 1.6e-05.
+It is the only one of twenty estimated cells to survive Benjamini-Hochberg,
+and it is separated from the rest of the scan by three orders of magnitude
+in p.
+
+**Provenance, stated first because it is the weakness.** The purpose cells
+were added after D20's scan had flagged the QALICB real-estate cell as the
+one worth a sharper test. The BH correction covers the twenty cells in the
+scan; it does not cover the decision to add the purpose dimension. That is
+a garden-of-forking-paths problem no within-scan correction repairs. The
+result is exploratory by construction and the paper says so in the text,
+the abstract and the conclusion.
+
+**Six attempts to break it, all failed** (`verify_rehab_cell.py`):
+
+- Outcome transformations: -0.403 to -0.463 across unwinsorized and three
+  caps; log gives -0.155 (p = 0.0002).
+- Leave one CDE out, 256 drops: beta stays in [-0.481, -0.410].
+- Leave one state out: [-0.478, -0.380], most influential state Ohio.
+  Sign never flips in any drop.
+- Randomization inference, 2,000 within-CDE permutations: p = 0.0055.
+- Wild cluster bootstrap-t, Rademacher, null imposed, 2,000 draws:
+  p = 0.0005.
+- Placebo purposes: business financing +0.053 (p = 0.74), real-estate
+  construction -0.068 (p = 0.63).
+
+The placebo contrast is the most informative. Construction and
+rehabilitation are both commercial real estate under the same QALICB type,
+which is why no earlier specification here could separate them. They
+diverge sharply, in the direction the mechanism predicts: rehabilitation
+carries the historic-credit and layered-debt structures where extra private
+capital is most readily stacked and rural markets least able to supply it.
+
+**A bug found and fixed on the way.** The scan reported its smallest
+p-value as 0.0 because cells stored p rounded to four places. `fit_cell`
+now also keeps `p_exact` and the reported minimum reads from it. A printed
+literal zero would have been indefensible.
+
+**Also fixed.** `paper/tables/residual.tex` had been maintained by hand and
+was stale the moment the scan grew; `scripts/make_residual_table.py` now
+generates it. The log robustness check initially returned +inf because ten
+projects in the release have a leverage ratio of exactly zero; it now logs
+the winsorized outcome, matching the paper's own robustness table.
+
+Counts updated throughout: eighteen subgroups became twenty-four, seventeen
+estimated cells became twenty, and the claim that no cell survives
+correction is retired from the abstract, Section 5.6 and the conclusion.

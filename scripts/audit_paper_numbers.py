@@ -103,11 +103,11 @@ CLAIMS: list[tuple] = [
      "R2_log_M4.beta", lambda v: v * 100),
 
     # ── the residual scan, Section 5.5 ─────────────────────────────────
-    ("05-results", "real-estate projects at $-0.395$", "residual_analysis.json",
+    ("05-results", "projects at $-0.395$", "residual_analysis.json",
      "cells", lambda v: next(c["beta"] for c in v
                              if c.get("estimated") and c["cell"] == "QALICB type RE")),
-    ("05-results", "smallest $p$-value in the entire\nscan is $0.043$",
-     "residual_analysis.json", "min_p", lambda v: v),
+    ("05-results", "a $p$-value of $1.6 \\times 10^{-5}$", "residual_analysis.json",
+     "min_p", lambda v: v * 1e5),
 
     # ── the mandate test, Section 5.6 ──────────────────────────────────
     ("05-results", "$\\hat B = -0.0006$", "bunching_stats.json",
@@ -190,6 +190,35 @@ CLAIMS: list[tuple] = [
 
     ("00-abstract", "leaves 88.1\\% of the explained movement", "purpose_channel.json",
      "gelbach_with_purpose.share_from_cde", lambda v: v * 100),
+
+    # ── the rehabilitation cell, Section 5.6 ──────────────────────────
+    ("05-results", "coefficient of $-0.4393$", "rehab_cell_verification.json",
+     "R1.beta", lambda v: v),
+    ("05-results", "standard error of $0.1019$", "rehab_cell_verification.json",
+     "R1.se_cde_cluster", lambda v: v),
+    ("05-results", "statistic of\n$-4.31$", "rehab_cell_verification.json",
+     "R1.t", lambda v: v),
+    ("05-results", "the log specification gives $-0.155$",
+     "rehab_cell_verification.json", "R2_outcome_variants.log.beta", lambda v: v),
+    ("05-results", "each of the 256 intermediaries", "rehab_cell_verification.json",
+     "R3_influence.n_cde_dropped_tested", lambda v: v),
+    ("05-results", "within $[-0.481, -0.410]$", "rehab_cell_verification.json",
+     "R3_influence.leave_one_cde_min", lambda v: v),
+    ("05-results", "returns $p = 0.0055$", "rehab_cell_verification.json",
+     "R4_randomization.p_two_sided", lambda v: v),
+    ("05-results", "returns $p = 0.0005$", "rehab_cell_verification.json",
+     "R5_wild_cluster.p_two_sided", lambda v: v),
+    ("05-results", "financing gives $+0.053$", "rehab_cell_verification.json",
+     "R6_other_purposes.business.beta", lambda v: v),
+    ("05-results", "construction gives\n$-0.068$", "rehab_cell_verification.json",
+     "R6_other_purposes.re_construction.beta", lambda v: v),
+    ("00-abstract", "coefficient of $-0.439$", "rehab_cell_verification.json",
+     "R1.beta", lambda v: v),
+    ("00-abstract", "SE $0.102$", "rehab_cell_verification.json",
+     "R1.se_cde_cluster", lambda v: v),
+
+    ("07-conclusion", "rehabilitation, at $-0.439$", "rehab_cell_verification.json",
+     "R1.beta", lambda v: v),
 ]
 
 
