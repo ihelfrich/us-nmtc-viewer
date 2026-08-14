@@ -15,6 +15,13 @@ ROOT = Path(__file__).resolve().parent.parent
 REG = ROOT / "data" / "processed" / "regressions"
 TAB = ROOT / "paper" / "tables"
 
+def sci(x: float) -> str:
+    """LaTeX scientific notation. f"{x:.1e}" renders as 1.6e-05 in math
+    mode, which is not how a p-value is set."""
+    mant, exp = f"{x:.1e}".split("e")
+    return f"{mant} \\times 10^{{{int(exp)}}}"
+
+
 R = json.loads((REG / "rehab_cell_verification.json").read_text())
 r1, r2, r3 = R["R1"], R["R2_outcome_variants"], R["R3_influence"]
 r4, r5, r6 = R["R4_randomization"], R["R5_wild_cluster"], R["R6_other_purposes"]
@@ -40,7 +47,7 @@ lines = [
     f"Baseline & $\\hat\\beta_{{\\text{{rural}}}}$ (CDE-clustered SE) & "
     f"${r1['beta']:+.4f}$ $({r1['se_cde_cluster']:.4f})$ \\\\",
     f" & $t$ statistic & ${r1['t']:+.2f}$ \\\\",
-    f" & $p$-value & ${r1['p_exact']:.1e}$ \\\\",
+    f" & $p$-value & ${sci(r1['p_exact'])}$ \\\\",
     "\\midrule",
 ]
 first = True

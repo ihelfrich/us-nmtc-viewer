@@ -8,11 +8,11 @@ the bootstrap draws) to a separate machine-readable JSON file.
 
 Full audit defaults are intentionally recorded here:
 
-* relabelled pairs bootstrap: 500 draws at seed 20260814;
-* seed sensitivity: 250 draws at seeds 20260815 and 20260816;
-* matched pooled-label comparison: 100 draws from the main seed stream;
-* exponential cluster multiplier bootstrap: 500 draws at seed 20261814;
-* deliberately invalid iid-row bootstrap baseline: 200 draws at seed 20262814.
+* relabelled pairs reference bootstrap: 250 draws at seed 20260814;
+* seed sensitivity: 100 draws at seeds 20260815, 20260816, and 20260817;
+* matched pooled-label comparison: all 250 reference draws;
+* exponential cluster multiplier bootstrap: 250 draws at seed 20261814;
+* deliberately invalid iid-row bootstrap baseline: 100 draws at seed 20262814.
 
 At most four worker processes are used.  Each long map emits a heartbeat.
 
@@ -56,6 +56,7 @@ SEEDS = {
     "pairs_main": 20260814,
     "pairs_sensitivity_1": 20260815,
     "pairs_sensitivity_2": 20260816,
+    "pairs_sensitivity_3": 20260817,
     "multiplier": 20261814,
     "iid_broken_baseline": 20262814,
     "mc_uncertainty": 20263814,
@@ -66,11 +67,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workers", type=int,
                         default=int(os.environ.get("CODEX_AUDIT_WORKERS", "4")))
-    parser.add_argument("--pairs-main", type=int, default=500)
-    parser.add_argument("--pairs-seed", type=int, default=250)
-    parser.add_argument("--pooled", type=int, default=100)
-    parser.add_argument("--multiplier", type=int, default=500)
-    parser.add_argument("--iid-broken", type=int, default=200)
+    parser.add_argument("--pairs-main", type=int, default=250)
+    parser.add_argument("--pairs-seed", type=int, default=100)
+    parser.add_argument("--pooled", type=int, default=250)
+    parser.add_argument("--multiplier", type=int, default=250)
+    parser.add_argument("--iid-broken", type=int, default=100)
     parser.add_argument("--output", type=Path, default=OUTPUT)
     args = parser.parse_args()
     if not 1 <= args.workers <= 4:
@@ -347,6 +348,8 @@ def main() -> None:
              for i in range(args.pairs_seed)]
     seed2 = [SEEDS["pairs_sensitivity_2"] + 1000 + i
              for i in range(args.pairs_seed)]
+    seed3 = [SEEDS["pairs_sensitivity_3"] + 1000 + i
+             for i in range(args.pairs_seed)]
     multiplier_seeds = [SEEDS["multiplier"] + 1000 + i
                         for i in range(args.multiplier)]
     iid_seeds = [SEEDS["iid_broken_baseline"] + 1000 + i
@@ -365,6 +368,8 @@ def main() -> None:
                                          "pairs-relabelled-seed-2")
         seed2_draws = map_with_heartbeat(pool, pairs_relabelled, seed2,
                                          "pairs-relabelled-seed-3")
+        seed3_draws = map_with_heartbeat(pool, pairs_relabelled, seed3,
+                                         "pairs-relabelled-seed-4")
         pooled_draws = map_with_heartbeat(pool, pairs_pooled,
                                           main_seeds[:args.pooled],
                                           "pairs-pooled-matched")
@@ -378,9 +383,10 @@ def main() -> None:
     pairs_main["prefix_stability"] = prefix_stability(main_draws)
     pairs_seed1 = summarize(seed1_draws, SEEDS["pairs_sensitivity_1"], 1)
     pairs_seed2 = summarize(seed2_draws, SEEDS["pairs_sensitivity_2"], 2)
-    pooled = summarize(pooled_draws, SEEDS["pairs_main"], 3)
-    multiplier = summarize(multiplier_draws, SEEDS["multiplier"], 4)
-    iid_broken = summarize(iid_draws, SEEDS["iid_broken_baseline"], 5)
+    pairs_seed3 = summarize(seed3_draws, SEEDS["pairs_sensitivity_3"], 3)
+    pooled = summarize(pooled_draws, SEEDS["pairs_main"], 4)
+    multiplier = summarize(multiplier_draws, SEEDS["multiplier"], 5)
+    iid_broken = summarize(iid_draws, SEEDS["iid_broken_baseline"], 6)
 
     matched_relabelled = np.asarray(main_draws[:args.pooled])
     matched_pooled = np.asarray(pooled_draws)
@@ -435,7 +441,7 @@ def main() -> None:
         },
         "pairs_relabelled": {
             "main": pairs_main,
-            "seed_sensitivity": [pairs_seed1, pairs_seed2],
+            "seed_sensitivity": [pairs_seed1, pairs_seed2, pairs_seed3],
         },
         "pairs_pooled_matched": pooled,
         "pooled_vs_relabelled": pooled_comparison,
