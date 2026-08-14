@@ -332,3 +332,37 @@ spacing lengths as evidence, so a design pass looked like a change to the
 numbers. Layout arguments are now stripped before comparison. Against the
 pre-design revision the section files carry 241 numeric tokens, 21
 citations, and 41 references, all identical.
+
+## D14. Second author added (2026-08-14)
+
+Katia Antunes joins the byline at the author's instruction. Both ORCIDs
+were verified against the ORCID public API rather than trusted as
+transcribed: 0000-0002-4105-1635 resolves to Ian Helfrich and
+0009-0003-1901-0137 resolves to Katia Antunes, both public records. Hers
+arrived by text on 12 May 2026, typed out because a screenshot failed to
+send; she wrote "orchid," which is why keyword searches of email never
+surfaced it.
+
+**Consequential edits.** A two-author paper cannot narrate in the first
+person singular, so fifteen instances of "I" were conjugated to the plural
+by hand, one at a time, since the verbs do not all take the same form.
+
+**An affiliation I got wrong and corrected.** I first listed Katia at
+Universidade de Trás-os-Montes e Alto Douro, inferring it from a funding
+email that discusses CETRAD at UTAD. Reading the message properly shows the
+opposite: it recommends she *contact* that group. The same email places her
+at American University as a graduating senior, which is what the title
+block now says, and the checklist asks her to confirm it.
+
+**Author contributions.** The appendix opens with a contributions
+statement, drafted from the project record and marked in the source for
+both authors to confirm. It exists because the work grew out of an advising
+relationship, and the honest remedy for that is to say plainly who did
+what. The larger question of whether the division stated there is the right
+one remains with the authors; the statement is a placeholder until they
+confirm it.
+
+**SSRN.** Her SSRN author ID is not on record. Messages contain only
+abstract links from her literature sweep. SSRN requires each co-author to
+hold an account before a paper posts under both names, so the kit records
+that she must register, or that the paper posts and adds her afterwards.

@@ -20,6 +20,11 @@
 \RequirePackage{newpxmath}          % matching math
 \RequirePackage{microtype}
 \RequirePackage{soul}
+
+% ORCID mark: a small typographic id beside an author name, linked to the
+% public record so a reader can verify the person in one click.
+\newcommand{\orcid}[1]{%
+  \href{https://orcid.org/#1}{\color{pencil}\footnotesize\textsc{orcid}\,#1}}
 \newcommand{\display}{\fontfamily{\displayfam}\selectfont}
 \linespread{1.15}
 
@@ -112,7 +117,7 @@
     {\color{inkblue!30}\rule{1.1in}{0.4pt}}\\[1.5em]
     {\display\fontsize{25}{29}\selectfont #1\par}\vspace{0.75em}
     {\display\large\itshape\color{inkblue} #2\par}\vspace{1.5em}
-    {\display\large\scshape #3\par}\vspace{0.35em}
+    {\display\large #3\par}\vspace{0.45em}
     {\footnotesize\color{pencil} #4\par}
     \vspace{1.1em}
     {\color{inkblue!30}\rule{2.4in}{0.4pt}}
