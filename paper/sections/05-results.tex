@@ -84,12 +84,75 @@ specification, a one-sided 5\% test can reject within-CDE rural penalties
 larger than $0.213$, nearly the size of the raw gap. The mean regression
 alone therefore gives weak evidence for a zero; the outcome's long right
 tail, which inflates mean-regression variance, is the proximate reason.
-The median specification can reject penalties larger than $0.013$. The
+The median specification can reject penalties larger than $0.016$. The
 median estimate and the margins carry the null; we report the mean for
-comparability. (The median standard
-error is the quantile-regression asymptotic one; a CDE-clustered bootstrap
-for the median across 343 intermediary effects is computationally
-disproportionate for this draft, and it remains an outstanding item.)
+comparability.
+
+Because the median estimate carries so much of the argument, we subject its
+precision to three further tests, reported in
+Table~\ref{tab:medinf}. A CDE-cluster pairs bootstrap over 500
+replications, refitting the full median regression on each draw and
+treating an intermediary drawn twice as two intermediaries with their own
+fixed effects, returns a standard error of $0.0093$ against the asymptotic
+$0.0076$. Clustering therefore inflates the median standard error by about
+a quarter, which moves the rejectable penalty from $0.013$ to $0.016$ and
+leaves the substantive claim intact. Randomization inference, permuting the
+rural label inside each intermediary so that every book composition is held
+fixed, returns a two-sided $p$ of $0.085$ against the sharp null of no
+within-CDE rural effect.
+
+One caution belongs with these numbers. The outcome carries a $26.9\%$
+point mass at exactly $1.0$, the value recorded when a project mobilizes
+nothing beyond the subsidized investment, and the unconditional median of
+$1.159$ sits on the shoulder of that mass. Quantile-regression asymptotic
+standard errors are sparsity estimates that presume a positive continuous
+conditional density at the estimated quantile, and this configuration
+violates that presumption. The symptom is visible in the randomization
+distribution, where $91\%$ of permutations return a rural coefficient
+pinned to within $10^{-7}$ of zero instead of varying smoothly, which is
+the signature of a degenerate vertex solution. We therefore report the
+bootstrap standard error, which makes no density assumption, and we note
+that it and the asymptotic one happen to agree closely here. Readers should
+treat the median specification as well identified in its location and
+poorly identified in its curvature.
+
+Figure~\ref{fig:qproc} carries this further by estimating the same
+specification across the quantile process. The coefficient sits at zero
+through the lower half of the distribution, then drifts negative above the
+median, reaching $-0.129$ at the $0.90$ quantile and $-0.200$ at $0.95$.
+Read alone, that gradient suggests a rural penalty concentrated among the
+deals that mobilize the most private capital. The bootstrap does not
+sustain the reading. Intervals widen at least as fast as the point
+estimates fall, giving cluster-bootstrap standard errors of $0.125$ and
+$0.215$ at those two quantiles, so no point in the upper tail is
+distinguishable from zero. We report the gradient because its monotonicity
+is suggestive and because a design with more power in the upper tail is a
+natural next test, and we decline to interpret it as a result.
+
+\begin{table}[t]
+\centering
+\caption{Inference for the median specification. The bootstrap is a
+CDE-cluster pairs bootstrap over 500 replications; randomization inference
+permutes the rural label within each intermediary over 400 draws. The
+paired test uses no regression, comparing each dual-market intermediary's
+rural median with its own urban median.}
+\label{tab:medinf}
+\input{tables/median_inference}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{10_quantile_process.pdf}
+\caption{The within-CDE rural coefficient across the quantile process, with
+CDE-cluster bootstrap 95\% intervals. Open markers and the shaded region
+mark quantiles where the estimator is pinned inside the $26.9\%$ point mass
+at $1.0$ and its standard error is not interpretable; the boundary is read
+from the share of bootstrap draws stuck at the point estimate rather than
+assumed. The point estimates drift negative above the median, and the
+intervals widen at least as quickly, so the upper tail is not distinguishable
+from zero.}
+\label{fig:qproc}
+\end{figure}
 
 Figure~\ref{fig:switch} shows the identifying variation. Among the 104
 dual-market intermediaries with at least three projects on each side of

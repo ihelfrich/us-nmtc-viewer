@@ -68,6 +68,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import warnings
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import get_context
@@ -78,18 +79,21 @@ import pandas as pd
 import statsmodels.formula.api as smf
 from scipy import stats
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from qreg_lp import fit_quantile          # noqa: E402
+
 warnings.filterwarnings("ignore")
 
 ROOT = Path(__file__).resolve().parent.parent
 IN = ROOT / "data" / "processed"
 OUT = IN / "regressions"
 
-B_BOOT = int(os.environ.get("NMTC_B_BOOT", 400))
-B_PERM = int(os.environ.get("NMTC_B_PERM", 300))
-B_SWEEP = int(os.environ.get("NMTC_B_SWEEP", 200))
-QUANTILE_SWEEP = (0.25, 0.35, 0.60, 0.70, 0.75, 0.80, 0.90, 0.95)
+B_BOOT = int(os.environ.get("NMTC_B_BOOT", 250))
+B_PERM = int(os.environ.get("NMTC_B_PERM", 200))
+B_SWEEP = int(os.environ.get("NMTC_B_SWEEP", 120))
+QUANTILE_SWEEP = (0.25, 0.35, 0.60, 0.75, 0.90, 0.95)
 SEED = 20260814
-N_WORKERS = max(1, min(14, (os.cpu_count() or 4) - 2))
+N_WORKERS = int(os.environ.get("NMTC_WORKERS", 4))
 FORMULA = "leverage_win ~ rural + C(year) + C(qalicb_type) + C(cde_name)"
 MIN_SIDE = 3          # deals per side for the design-free paired test
 Z_ONE_SIDED = 1.645   # the paper's convention
@@ -105,16 +109,17 @@ def load() -> pd.DataFrame:
 
 
 def fit_median(df: pd.DataFrame, q: float = 0.5) -> float | None:
-    """Quantile regression; returns the rural coefficient or None if the
-    fit fails or the coefficient is absorbed."""
+    """Exact quantile-regression rural coefficient via sparse LP.
+
+    This replaced a statsmodels IRLS call. The LP attains a strictly lower
+    check-loss objective at every quantile tested and costs about a fifth
+    the time on a small fraction of the memory, which is what made the
+    bootstrap feasible on this machine at all. See scripts/qreg_lp.py.
+    """
     try:
-        res = smf.quantreg(FORMULA, df).fit(q=q)
+        return fit_quantile(df, "leverage_win", q)
     except Exception:                                          # noqa: BLE001
         return None
-    if "rural" not in res.params:
-        return None
-    b = float(res.params["rural"])
-    return b if np.isfinite(b) else None
 
 
 # ── worker payloads (module level so they pickle) ──────────────────────
@@ -167,6 +172,19 @@ def _perm_rep(seed: int) -> float | None:
 POOL: ProcessPoolExecutor | None = None
 
 
+def _mapped(fn, jobs, label: str) -> list:
+    """POOL.map with a heartbeat. A run that stalls should say so rather
+    than look identical to a run that is merely slow, which cost two
+    wedged attempts to work out."""
+    out, done = [], 0
+    for val in POOL.map(fn, jobs, chunksize=1):
+        out.append(val)
+        done += 1
+        if done % 25 == 0 or done == len(jobs):
+            print(f"   [{label}] {done}/{len(jobs)}", flush=True)
+    return out
+
+
 def main() -> None:
     global POOL
     pr = load()
@@ -175,10 +193,16 @@ def main() -> None:
                "seed": SEED}
 
     # ── M1 point estimate and asymptotic SE ────────────────────────────
+    # statsmodels here specifically, because reproducing the paper's
+    # asymptotic SE is the point of M1 and the LP does not produce one.
     res = smf.quantreg(FORMULA, pr).fit(q=0.5)
-    b_hat = float(res.params["rural"])
+    b_irls = float(res.params["rural"])
     se_asy = float(res.bse["rural"])
+    # Everything downstream uses the exact LP solution, so the point
+    # estimate the bootstrap is centred on is the one it resamples.
+    b_hat = fit_quantile(pr, "leverage_win", 0.5)
     R["point_estimate"] = round(b_hat, 5)
+    R["point_estimate_irls"] = round(b_irls, 5)
     R["se_asymptotic"] = round(se_asy, 5)
     R["equivalence_bound_asymptotic"] = round(Z_ONE_SIDED * se_asy - b_hat, 4)
     print(f"M1 median rural coefficient {b_hat:+.5f}, asymptotic SE {se_asy:.5f}")
@@ -188,7 +212,7 @@ def main() -> None:
     # ── M2 pairs cluster bootstrap ─────────────────────────────────────
     print(f"M2 cluster bootstrap, {B_BOOT} replications on {N_WORKERS} workers")
     jobs = [(SEED + 1000 + i, 0.5) for i in range(B_BOOT)]
-    boot = list(POOL.map(_boot_rep, jobs, chunksize=2))
+    boot = _mapped(_boot_rep, jobs, "M2")
     boot_arr = np.array([b for b in boot if b is not None], dtype=float)
     se_boot = float(boot_arr.std(ddof=1))
     R["b_bootstrap_used"] = int(len(boot_arr))
@@ -209,7 +233,7 @@ def main() -> None:
     # ── M3 randomization inference ─────────────────────────────────────
     print(f"M3 randomization inference, {B_PERM} within-CDE permutations")
     seeds = [SEED + 5000 + i for i in range(B_PERM)]
-    perm = list(POOL.map(_perm_rep, seeds, chunksize=2))
+    perm = _mapped(_perm_rep, seeds, "M3")
     perm_arr = np.array([b for b in perm if b is not None], dtype=float)
     p_ri = float((np.abs(perm_arr) >= abs(b_hat)).sum() + 1) / (len(perm_arr) + 1)
     R["b_permutation_used"] = int(len(perm_arr))
@@ -247,7 +271,7 @@ def main() -> None:
             sweep.append({"q": q, "estimated": False})
             continue
         jobs = [(SEED + 9000 + int(q * 1000) * 997 + i, q) for i in range(B_SWEEP)]
-        bq = list(POOL.map(_boot_rep, jobs, chunksize=2))
+        bq = _mapped(_boot_rep, jobs, f"q={q:.2f}")
         arr = np.array([v for v in bq if v is not None], dtype=float)
         se_q = float(arr.std(ddof=1))
         pinned = float((np.abs(arr - b_q) < 1e-6).mean())

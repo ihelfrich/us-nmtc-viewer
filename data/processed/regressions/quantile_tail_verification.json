@@ -1,0 +1,113 @@
+{
+  "taus": [
+    0.5,
+    0.75,
+    0.9
+  ],
+  "big_cde_min_deals": 30,
+  "big_n_projects": 5490,
+  "big_n_cdes": 87,
+  "full_n_projects": 8024,
+  "full_n_cdes": 343,
+  "paired_min_per_side": 5,
+  "T1_large_cdes": [
+    {
+      "tau": 0.5,
+      "beta": -0.0,
+      "se_cluster_bootstrap": 0.01153,
+      "reps": 250,
+      "ci95": [
+        -0.038,
+        0.0049
+      ],
+      "t": -0.0
+    },
+    {
+      "tau": 0.75,
+      "beta": -0.04421,
+      "se_cluster_bootstrap": 0.05457,
+      "reps": 250,
+      "ci95": [
+        -0.1679,
+        0.0077
+      ],
+      "t": -0.81
+    },
+    {
+      "tau": 0.9,
+      "beta": -0.12277,
+      "se_cluster_bootstrap": 0.15562,
+      "reps": 250,
+      "ci95": [
+        -0.4839,
+        0.051
+      ],
+      "t": -0.79
+    }
+  ],
+  "T2_paired_design_free": [
+    {
+      "tau": 0.5,
+      "n_pairs": 69,
+      "median_gap": -0.0337,
+      "mean_gap": -0.0574,
+      "share_negative": 0.5942,
+      "wilcoxon_p": 0.0265,
+      "sign_p": 0.0151
+    },
+    {
+      "tau": 0.75,
+      "n_pairs": 69,
+      "median_gap": -0.189,
+      "mean_gap": -0.1861,
+      "share_negative": 0.6667,
+      "wilcoxon_p": 0.003,
+      "sign_p": 0.0049
+    },
+    {
+      "tau": 0.9,
+      "n_pairs": 69,
+      "median_gap": -0.3945,
+      "mean_gap": -0.1537,
+      "share_negative": 0.6232,
+      "wilcoxon_p": 0.1237,
+      "sign_p": 0.0533
+    }
+  ],
+  "T3_placebo": [
+    {
+      "tau": 0.5,
+      "observed_median_gap": -0.0337,
+      "placebo_draws": 500,
+      "placebo_sd": 0.0075,
+      "placebo_ci95": [
+        -0.0166,
+        0.0167
+      ],
+      "p_two_sided": 0.014
+    },
+    {
+      "tau": 0.75,
+      "observed_median_gap": -0.189,
+      "placebo_draws": 500,
+      "placebo_sd": 0.052,
+      "placebo_ci95": [
+        -0.1222,
+        0.0972
+      ],
+      "p_two_sided": 0.004
+    },
+    {
+      "tau": 0.9,
+      "observed_median_gap": -0.3945,
+      "placebo_draws": 500,
+      "placebo_sd": 0.1399,
+      "placebo_ci95": [
+        -0.387,
+        0.16
+      ],
+      "p_two_sided": 0.0279
+    }
+  ],
+  "tail_survives_large_cde_restriction": false
+}

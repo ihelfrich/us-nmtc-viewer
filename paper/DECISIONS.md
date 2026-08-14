@@ -534,3 +534,55 @@ Excluded by design, because no pipeline output backs them: statutory facts
 
 Building the manifest was itself a check on the paper, and the paper came
 through clean. Every claim traced to a real field with the expected value.
+
+## D22. The median's clustered bootstrap, and what it turned up (2026-08-14)
+
+Section 5.2 previously conceded that the median standard error was the
+quantile-regression asymptotic one and that a CDE-clustered bootstrap
+across 343 intermediary effects was computationally disproportionate. That
+was the softest point in the paper. The mean specification cannot reject
+penalties below 0.213, so the median carries the null, and the median's
+precision had never been checked under clustering.
+
+**The result.** A CDE-cluster pairs bootstrap over 500 replications gives
+SE 0.0093 against the asymptotic 0.0076, an inflation of 1.23. The
+rejectable penalty moves from 0.013 to 0.016. Randomization inference,
+permuting rural within each intermediary over 400 draws, gives two-sided
+p = 0.085. The claim survives.
+
+**What the bootstrap turned up on the way.** The outcome carries a 26.9%
+point mass at exactly 1.0 and the median is 1.159, so the median sits on
+the shoulder of that mass. Quantile-regression asymptotic standard errors
+are sparsity estimates presuming a positive continuous conditional density
+at the estimated quantile, and that presumption fails here. The symptom
+appeared first as a randomization null with a standard deviation of exactly
+zero, which looked like a broken permutation and was not: 91% of
+permutations return a coefficient pinned to within 1e-7 of zero. The
+asymptotic SE was never entitled to be believed. It happens to be close to
+the bootstrap one, so nothing in the paper changes, but the paper now says
+why the bootstrap is the one to report.
+
+**A result I nearly published and withdrew.** The quantile sweep showed the
+coefficient drifting from zero at the median to -0.20 at the 0.95 quantile.
+On a two-replication bootstrap that looked significant, and it is an
+attractive story: the rural penalty concentrated among the deals that
+mobilize the most capital. With 250 replications the standard errors are
+0.125 at the 0.90 quantile and 0.215 at 0.95, and nothing in the tail is
+distinguishable from zero. The gradient is reported as suggestive and
+explicitly not interpreted. `verify_quantile_tail.py` also checks it three
+ways; the design-free paired tests do reject, but they condition on neither
+year nor project type and so cannot separate a rural effect from within-CDE
+composition, which the paper already shows explains a quarter of the raw
+gap. That is not corroboration and is not presented as any.
+
+**An engineering change with a statistical consequence.** statsmodels
+solves quantile regression by dense IRLS; with 366 of 368 columns being
+indicators, fourteen concurrent fits exhausted a 24 GB machine already in
+swap and wedged the run twice. `scripts/qreg_lp.py` reformulates it as a
+sparse linear program for HiGHS: about five times faster on a fraction of
+the memory, and exact. It attains a strictly lower check-loss objective
+than IRLS at every quantile tested. The gap is instructive rather than
+merely technical. At tau = 0.90 the objective improves by 5e-5 out of 3210,
+one part in 60 million, while the rural coefficient moves from -0.1249 to
+-0.1287. An objective that flat in the direction of interest is itself
+evidence that single-quantile point estimates should not be over-read.

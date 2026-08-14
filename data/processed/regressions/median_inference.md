@@ -7,12 +7,12 @@ item conceded in Section 5.2._
 |---|---:|
 | median rural coefficient | -0.00065 |
 | asymptotic SE (quantile regression) | 0.00763 |
-| CDE-cluster bootstrap SE (4 reps) | 0.01716 |
-| inflation factor | 2.25x |
-| bootstrap percentile 95% CI | [-0.0316, -0.0000] |
+| CDE-cluster bootstrap SE (500 reps) | 0.00934 |
+| inflation factor | 1.225x |
+| bootstrap percentile 95% CI | [-0.0321, -0.0000] |
 | equivalence bound, asymptotic | 0.0132 |
-| equivalence bound, clustered | 0.0289 |
-| randomization-inference p (two-sided, 4 draws) | 0.2000 |
+| equivalence bound, clustered | 0.0160 |
+| randomization-inference p (two-sided, 400 draws) | 0.0848 |
 | paired switchers (3+ per side) | 104 |
 | median paired difference (rural minus urban) | -0.0181 |
 | Wilcoxon signed-rank p | 0.1399 |
@@ -24,7 +24,7 @@ The outcome carries a **26.9% point mass at exactly 1.0**, the
 value recorded when a project mobilizes nothing beyond the subsidized
 investment, and the median is 1.159. Only 9.1% of the
 sample lies within 0.05 of the median. Under within-CDE permutation the
-rural coefficient is pinned to within 1e-7 of zero in 75% of draws, which is the
+rural coefficient is pinned to within 1e-7 of zero in 91% of draws, which is the
 signature of a degenerate vertex solution rather than a smoothly varying
 estimator. The sparsity-based asymptotic standard error assumes a positive
 continuous conditional density at the estimated quantile; that assumption
@@ -32,14 +32,12 @@ does not hold here.
 
 | quantile | beta | clustered SE | 95% CI | bound | pinned |
 |---:|---:|---:|:--:|---:|---:|
-| 0.50 | -0.0007 | 0.0172 | [-0.032, -0.000] | 0.029 | 75% |
-| 0.25 | -0.0000 | 0.0028 | [-0.004, -0.000] | 0.005 | 50% |
-| 0.35 | -0.0000 | 0.0053 | [-0.007, -0.000] | 0.009 | 50% |
-| 0.60 | -0.0088 | 0.0073 | [-0.015, -0.005] | 0.021 | 0% |
-| 0.70 | -0.0076 | 0.0154 | [-0.047, -0.026] | 0.033 | 0% |
-| 0.75 | -0.0397 | 0.0520 | [-0.098, -0.028] | 0.125 | 0% |
-| 0.80 | -0.0796 | 0.0749 | [-0.203, -0.103] | 0.203 | 0% |
-| 0.90 | -0.1249 | 0.0237 | [-0.093, -0.061] | 0.164 | 0% |
-| 0.95 | -0.1985 | 0.0000 | [-0.000, -0.000] | 0.199 | 0% |
+| 0.50 | -0.0007 | 0.0093 | [-0.032, -0.000] | 0.016 | 91% |
+| 0.25 | -0.0000 | 0.0022 | [-0.008, -0.000] | 0.004 | 73% |
+| 0.35 | -0.0000 | 0.0037 | [-0.013, -0.000] | 0.006 | 64% |
+| 0.60 | -0.0087 | 0.0138 | [-0.045, -0.000] | 0.031 | 0% |
+| 0.75 | -0.0376 | 0.0387 | [-0.129, -0.000] | 0.101 | 0% |
+| 0.90 | -0.1287 | 0.1254 | [-0.421, +0.009] | 0.335 | 0% |
+| 0.95 | -0.1997 | 0.2146 | [-0.695, +0.178] | 0.553 | 0% |
 
-clustering inflates the median standard error by a factor of 2.25, moving the equivalence bound from 0.0132 to 0.0289. Separately, the outcome carries a 27% point mass at exactly 1.0 and the median sits on its shoulder, so the quantile-regression asymptotic standard error rests on a continuous-density assumption the data violate; the clustered bootstrap does not rely on it and is the one to report.
+clustering inflates the median standard error by a factor of 1.225, moving the equivalence bound from 0.0132 to 0.016. Separately, the outcome carries a 27% point mass at exactly 1.0 and the median sits on its shoulder, so the quantile-regression asymptotic standard error rests on a continuous-density assumption the data violate; the clustered bootstrap does not rely on it and is the one to report.

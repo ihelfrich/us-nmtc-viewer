@@ -1,0 +1,69 @@
+{
+  "figure": "10_quantile_process",
+  "source": "data/processed/regressions/median_inference.json",
+  "interval": "CDE-cluster pairs bootstrap, percentile method",
+  "pinned_threshold": 0.05,
+  "degenerate_quantiles": [
+    0.25,
+    0.35,
+    0.5
+  ],
+  "points": [
+    {
+      "q": 0.25,
+      "beta": -0.0,
+      "se": 0.00219,
+      "lo": -0.0079,
+      "hi": -0.0,
+      "pinned": 0.728
+    },
+    {
+      "q": 0.35,
+      "beta": -0.0,
+      "se": 0.00373,
+      "lo": -0.0134,
+      "hi": -0.0,
+      "pinned": 0.636
+    },
+    {
+      "q": 0.5,
+      "beta": -0.00065,
+      "se": 0.00934,
+      "lo": -0.03209,
+      "hi": -0.0,
+      "pinned": 0.9075
+    },
+    {
+      "q": 0.6,
+      "beta": -0.00874,
+      "se": 0.0138,
+      "lo": -0.045,
+      "hi": -0.0,
+      "pinned": 0.0
+    },
+    {
+      "q": 0.75,
+      "beta": -0.03758,
+      "se": 0.0387,
+      "lo": -0.1289,
+      "hi": -0.0,
+      "pinned": 0.0
+    },
+    {
+      "q": 0.9,
+      "beta": -0.12867,
+      "se": 0.12544,
+      "lo": -0.4211,
+      "hi": 0.0093,
+      "pinned": 0.0
+    },
+    {
+      "q": 0.95,
+      "beta": -0.19972,
+      "se": 0.21457,
+      "lo": -0.6947,
+      "hi": 0.1783,
+      "pinned": 0.0
+    }
+  ]
+}

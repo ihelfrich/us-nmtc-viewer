@@ -18,9 +18,13 @@ penalty in mean leverage. Year, project-type, and state fixed effects shrink
 it to $-0.172$. Substituting CDE effects for state effects moves the
 coefficient to $-0.047$; a fully nested model with both gives $-0.060$. The
 mean regression is imprecise in either form (cluster-robust 95\% CI $[-0.245, +0.152]$).
-The median-regression analog is a precise $-0.001$ (SE
-$0.008$), and both the extensive margin (any private mobilization) and the
-intensive margin are null within intermediary. An order-invariant Gelbach
+The median-regression analog is a precise $-0.001$ (CDE-cluster
+bootstrap SE $0.009$ over 500 replications), and both the extensive margin
+(any private mobilization) and the intensive margin are null within
+intermediary. Estimating the same specification across the quantile process
+leaves point estimates drifting negative above the median, though the
+intervals widen at least as fast and no upper-tail quantile is
+distinguishable from zero. An order-invariant Gelbach
 decomposition attributes $-0.185$ of the raw gap to CDE identity
 (CDE-cluster bootstrap 95\% CI $[-0.347, -0.023]$; 86\% of the explained
 movement), compared with $-0.041$ for project type. The rural leverage gap lies largely between CDEs. Re-estimating the
