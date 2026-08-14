@@ -159,6 +159,45 @@ $^{*}p<0.10$.}
 \input{tables/robustness}
 \end{table}
 
+\subsection{Where the residual lives}\label{sec:residual}
+
+An average null can conceal a subpopulation, so the workhorse specification
+was re-estimated inside eighteen subgroups: quartiles of intermediary size,
+three origination eras, the four census regions, the four project types,
+and three bands of the intermediary's own rural orientation. One cell, the
+CDE-to-CDE project type, holds too few deals to identify a within-CDE
+comparison and is reported rather than dropped. Table~\ref{tab:residual}
+gives the rest.
+
+Two of the seventeen estimated cells reach conventional significance
+without correction, real-estate projects at $-0.395$ ($p = 0.043$) and the
+third quartile of intermediary size at $+0.349$ ($p = 0.048$), and they
+point in opposite directions. Across seventeen tests at the 5\% level,
+chance alone produces roughly one such rejection. Neither survives a
+Benjamini-Hochberg correction, and the smallest $p$-value in the entire
+scan is $0.043$. The within-CDE null is not an average masking a
+subpopulation: no subgroup the data can resolve shows a rural penalty
+distinguishable from zero once the scanning is accounted for.
+
+The real-estate estimate is the one worth keeping in view. It is the
+largest negative coefficient in the scan, it matches the descriptive
+pattern in the QALICB-type interaction, and real estate is where private
+debt-stacking is most natural, so a genuine within-intermediary rural
+penalty is most plausible there. The data cannot separate that reading from
+chance, and a design with more power in that cell would be the natural next
+test.
+
+\begin{table}[t]
+\centering
+\caption{The within-CDE rural coefficient inside subgroups. Each cell
+repeats the workhorse specification with year, QALICB-type and CDE fixed
+effects and CDE-clustered standard errors. The final column reports whether
+the cell survives a Benjamini-Hochberg correction at the 5\% level across
+all seventeen estimated cells.}
+\label{tab:residual}
+\input{tables/residual}
+\end{table}
+
 \subsection{No excess mass at the 20\% target}\label{sec:bunching}
 
 Figure~\ref{fig:bunch} plots the cross-CDE distribution of cumulative

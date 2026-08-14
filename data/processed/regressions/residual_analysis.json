@@ -1,0 +1,296 @@
+{
+  "min_cell_rules": {
+    "min_projects": 150,
+    "min_rural_projects": 25,
+    "min_switcher_cdes": 10
+  },
+  "cells": [
+    {
+      "cell": "CDE size quartile 1 (0<n<=4)",
+      "n": 203,
+      "n_rural": 33,
+      "n_cde": 93,
+      "n_switcher_cde": 10,
+      "estimated": true,
+      "beta": -0.8377,
+      "se": 0.7608,
+      "p": 0.2708,
+      "ci95": [
+        -2.3288,
+        0.6534
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "CDE size quartile 2 (4<n<=13)",
+      "n": 670,
+      "n_rural": 148,
+      "n_cde": 81,
+      "n_switcher_cde": 32,
+      "estimated": true,
+      "beta": -0.1795,
+      "se": 0.1979,
+      "p": 0.3643,
+      "ci95": [
+        -0.5675,
+        0.2084
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "CDE size quartile 3 (13<n<=30)",
+      "n": 1721,
+      "n_rural": 358,
+      "n_cde": 84,
+      "n_switcher_cde": 53,
+      "estimated": true,
+      "beta": 0.3495,
+      "se": 0.1771,
+      "p": 0.0484,
+      "ci95": [
+        0.0024,
+        0.6966
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "CDE size quartile 4 (30<n<=inf)",
+      "n": 5430,
+      "n_rural": 1022,
+      "n_cde": 85,
+      "n_switcher_cde": 68,
+      "estimated": true,
+      "beta": -0.1304,
+      "se": 0.1221,
+      "p": 0.2856,
+      "ci95": [
+        -0.3697,
+        0.1089
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "origination 2001-2009",
+      "n": 2488,
+      "n_rural": 384,
+      "n_cde": 201,
+      "n_switcher_cde": 57,
+      "estimated": true,
+      "beta": -0.0438,
+      "se": 0.1466,
+      "p": 0.7652,
+      "ci95": [
+        -0.3311,
+        0.2435
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "origination 2010-2015",
+      "n": 2506,
+      "n_rural": 486,
+      "n_cde": 243,
+      "n_switcher_cde": 103,
+      "estimated": true,
+      "beta": 0.1016,
+      "se": 0.1728,
+      "p": 0.5565,
+      "ci95": [
+        -0.2371,
+        0.4403
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "origination 2016-2022",
+      "n": 3030,
+      "n_rural": 691,
+      "n_cde": 203,
+      "n_switcher_cde": 107,
+      "estimated": true,
+      "beta": -0.1914,
+      "se": 0.1284,
+      "p": 0.136,
+      "ci95": [
+        -0.4431,
+        0.0602
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "region Northeast",
+      "n": 1189,
+      "n_rural": 85,
+      "n_cde": 120,
+      "n_switcher_cde": 26,
+      "estimated": true,
+      "beta": 0.0896,
+      "se": 0.2612,
+      "p": 0.7315,
+      "ci95": [
+        -0.4223,
+        0.6015
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "region Midwest",
+      "n": 2827,
+      "n_rural": 582,
+      "n_cde": 163,
+      "n_switcher_cde": 60,
+      "estimated": true,
+      "beta": -0.1617,
+      "se": 0.1504,
+      "p": 0.2825,
+      "ci95": [
+        -0.4565,
+        0.1332
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "region South",
+      "n": 2432,
+      "n_rural": 676,
+      "n_cde": 189,
+      "n_switcher_cde": 103,
+      "estimated": true,
+      "beta": 0.1046,
+      "se": 0.141,
+      "p": 0.4582,
+      "ci95": [
+        -0.1718,
+        0.3811
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "region West",
+      "n": 1538,
+      "n_rural": 209,
+      "n_cde": 135,
+      "n_switcher_cde": 48,
+      "estimated": true,
+      "beta": -0.3215,
+      "se": 0.2143,
+      "p": 0.1335,
+      "ci95": [
+        -0.7415,
+        0.0985
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "QALICB type CDE",
+      "n": 91,
+      "n_rural": 10,
+      "n_cde": 31,
+      "n_switcher_cde": 4,
+      "estimated": false,
+      "reason": "cell too small to identify a within-CDE comparison"
+    },
+    {
+      "cell": "QALICB type NRE",
+      "n": 3775,
+      "n_rural": 1032,
+      "n_cde": 264,
+      "n_switcher_cde": 123,
+      "estimated": true,
+      "beta": 0.0427,
+      "se": 0.1531,
+      "p": 0.7803,
+      "ci95": [
+        -0.2573,
+        0.3427
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "QALICB type RE",
+      "n": 2862,
+      "n_rural": 268,
+      "n_cde": 287,
+      "n_switcher_cde": 87,
+      "estimated": true,
+      "beta": -0.395,
+      "se": 0.1951,
+      "p": 0.0429,
+      "ci95": [
+        -0.7774,
+        -0.0125
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "QALICB type SPE",
+      "n": 1296,
+      "n_rural": 251,
+      "n_cde": 172,
+      "n_switcher_cde": 66,
+      "estimated": true,
+      "beta": -0.0751,
+      "se": 0.1419,
+      "p": 0.5966,
+      "ci95": [
+        -0.3533,
+        0.203
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "CDE rural share <=20%",
+      "n": 3481,
+      "n_rural": 327,
+      "n_cde": 76,
+      "n_switcher_cde": 76,
+      "estimated": true,
+      "beta": -0.0657,
+      "se": 0.1572,
+      "p": 0.6759,
+      "ci95": [
+        -0.3738,
+        0.2424
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "CDE rural share 20-50%",
+      "n": 1651,
+      "n_rural": 522,
+      "n_cde": 57,
+      "n_switcher_cde": 57,
+      "estimated": true,
+      "beta": -0.0226,
+      "se": 0.1956,
+      "p": 0.908,
+      "ci95": [
+        -0.406,
+        0.3608
+      ],
+      "bh_reject_at_05": false
+    },
+    {
+      "cell": "CDE rural share >50%",
+      "n": 969,
+      "n_rural": 712,
+      "n_cde": 45,
+      "n_switcher_cde": 30,
+      "estimated": true,
+      "beta": -0.1322,
+      "se": 0.1185,
+      "p": 0.2646,
+      "ci95": [
+        -0.3645,
+        0.1001
+      ],
+      "bh_reject_at_05": false
+    }
+  ],
+  "n_cells_estimated": 17,
+  "n_cells_skipped": 1,
+  "n_significant_uncorrected": 2,
+  "n_significant_after_bh": 0,
+  "min_p": 0.0429,
+  "expected_false_positives_at_05": 0.85
+}

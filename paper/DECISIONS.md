@@ -472,3 +472,36 @@ read from review_round2.json rather than recomputed for the figure, so the
 figure cannot drift from the text. The single-panel exhibit remains in
 figures/ for the viewer site; the bundle no longer ships it, since the
 bundle derives its figure list from the manuscript.
+
+## D20. Section 5.5, where the residual lives (2026-08-14)
+
+The paper outline listed a residual analysis that had never been built, and
+it answers the natural referee question: is the within-CDE null uniform, or
+does an average conceal a subpopulation where rural deployment really does
+mobilize less. scripts/run_residual_analysis.py re-estimates the workhorse
+specification inside eighteen subgroups (quartiles of intermediary size,
+three origination eras, four census regions, four project types, three
+bands of the intermediary's own rural orientation), keeping the same fixed
+effects and CDE-clustered errors, and reports rather than drops cells too
+small to identify the comparison.
+
+Seventeen cells estimate. Two reach p < 0.05 uncorrected, real estate at
+-0.395 and the third size quartile at +0.349, pointing in opposite
+directions, against roughly one rejection expected by chance across
+seventeen tests. Neither survives Benjamini-Hochberg, and the smallest
+p-value in the whole scan is 0.043. The scan is reported with that
+correction rather than as a list of suggestive cells, because scanning
+without it is how spurious subgroup findings enter papers.
+
+The real-estate cell is flagged in the text rather than buried: it is the
+largest negative estimate, it matches the descriptive pattern in the
+type interaction, and it is where private debt-stacking makes a genuine
+penalty most plausible. The honest statement is that the data cannot
+separate that reading from chance.
+
+**A bug caught by reading the output.** The first run returned four empty
+region cells. The state column carries full names, not postal
+abbreviations, which the region map assumed, so every project fell through
+to "Other". The map now uses full names and the script asserts that at
+least 95 percent of projects map to a census region, so the same silent
+failure cannot recur.
