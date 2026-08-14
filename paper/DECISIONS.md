@@ -411,3 +411,21 @@ author's public CV renders the Barcelona degree as "Economics & Public
 Policy", which may be a deliberate simplification of its official name. Her
 ORCID record renders hers as "MSc in Economics" rather than Economics and
 Finance.
+
+## D17. Author lines settled (2026-08-14)
+
+Gonchar's line now reads "Applied economist", taken verbatim from how she
+introduces herself on her own site ("Applied Economist | PhD in Economics +
+MS in GIS-T"), at the first author's instruction to follow her record as
+she puts it. This replaces "independent researcher", which was my
+inference from the absence of a current employer rather than anything she
+had written. Her ORCID record lists no employment, and her people page
+withholds affiliation at her preference, so her own words are the only
+faithful source available.
+
+Separately, the first author's public CV rendered his Barcelona degree as
+"Economics & Public Policy". The programme is Specialized Economic
+Analysis with a public policy track, which is what a transcript shows, and
+the shorthand would not survive verification. The site now leads with the
+official name and carries the track in parentheses, in the CV list, the CV
+trajectory label, the about-page ladder, and the people record.
