@@ -393,3 +393,21 @@ researcher" because her own site places the Carnegie Mellon Block Center
 role in the past tense and names no current institution; the checklist asks
 her to confirm the wording. Her contribution line remains a placeholder
 written without a record to draw on, and still needs her own words.
+
+## D16. The education overlap, explained by the authors (2026-08-14)
+
+The first author confirms directly that the overlap D15 investigated is a
+shared path rather than a records error. The two authors have attended
+Barcelona School of Economics, Indiana University Bloomington, and Georgia
+Tech together, and every graduate degree is the same except Barcelona,
+where Gonchar earned an MSc in Economics and Finance and Helfrich an MSc in
+Specialized Economic Analysis: Public Policy. D15's inference from her
+website was correct, and the question is now closed on the authors' own
+statement rather than on inference.
+
+Two small inaccuracies surfaced in the process and are recorded here rather
+than changed unilaterally, since both belong to their owners. The first
+author's public CV renders the Barcelona degree as "Economics & Public
+Policy", which may be a deliberate simplification of its official name. Her
+ORCID record renders hers as "MSc in Economics" rather than Economics and
+Finance.
