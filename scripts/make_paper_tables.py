@@ -87,20 +87,34 @@ t2 = [
     "\\bottomrule",
     "\\end{tabular}}",
 ]
-# append the genuinely nested column (year + type + state + CDE)
+# Append the genuinely nested column (year + type + state + CDE).
+# Rows are located by their content rather than by index: an earlier
+# version addressed them positionally and silently scattered the column
+# into the wrong rows when a wrapper line was added above the table.
 G = json.load(open(IN / "regressions" / "review_round2.json"))["G1_specs"]["M4S_nested"]
+
+def _append(row: str, val: str) -> str:
+    return row.rstrip().removesuffix("\\\\").rstrip() + f" & {val} \\\\"
+
+_add = [
+    (lambda r: r.strip().startswith("& (1)"), "(7)"),
+    (lambda r: r.strip().startswith("& OLS"), "OLS"),
+    (lambda r: "Non-metro" in r, f"{G['beta']:.3f}{stars(G['p'])}"),
+    (lambda r: r.strip().startswith("& (0."), f"({G['se']:.3f})"),
+    (lambda r: r.startswith("Year FE"), "\\checkmark"),
+    (lambda r: r.startswith("QALICB-type FE"), "\\checkmark"),
+    (lambda r: r.startswith("State FE"), "\\checkmark"),
+    (lambda r: r.startswith("CDE FE"), "\\checkmark"),
+    (lambda r: r.startswith("$R^2$"), f"{G['rsq']:.3f}"),
+    (lambda r: r.startswith("$N$"), f"{G['n']:,}"),
+]
+for _match, _val in _add:
+    _hits = [i for i, r in enumerate(t2) if _match(r)]
+    assert len(_hits) == 1, f"expected one row for {_val!r}, found {len(_hits)}"
+    t2[_hits[0]] = _append(t2[_hits[0]], _val)
+
 t2 = [r.replace("\\begin{tabular}{l" + "c" * len(order) + "}",
                 "\\begin{tabular}{l" + "c" * (len(order) + 1) + "}") for r in t2]
-def addcol(row, val):
-    return row.rstrip().removesuffix("\\\\").rstrip() + f" & {val} \\\\"
-t2[2] = addcol(t2[2], "(7)")
-t2[3] = addcol(t2[3], "OLS")
-t2[5] = addcol(t2[5], f"{G['beta']:.3f}{stars(G['p'])}")
-t2[6] = addcol(t2[6], f"({G['se']:.3f})")
-for i in range(8, 12):
-    t2[i] = addcol(t2[i], "\\checkmark")
-t2[12] = addcol(t2[12], f"{G['rsq']:.3f}")
-t2[13] = addcol(t2[13], f"{G['n']:,}")
 (OUT / "main.tex").write_text("\n".join(t2) + "\n")
 
 # ── Table 3: robustness ─────────────────────────────────────────────────────

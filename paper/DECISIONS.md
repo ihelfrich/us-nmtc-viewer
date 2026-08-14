@@ -429,3 +429,29 @@ Analysis with a public policy track, which is what a transcript shows, and
 the shorthand would not survive verification. The site now leads with the
 official name and carries the track in parentheses, in the CV list, the CV
 trajectory label, the about-page ladder, and the people record.
+
+## D18. The ladder, and a broken table caught by reading the proof (2026-08-14)
+
+**A new exhibit.** The paper's central movement, a coefficient collapsing
+as fixed effects enter, existed only as a seven-column table, which asks a
+reader to hold seven numbers in mind to see one thing. Figure 4 draws each
+specification's estimate with its 95 percent interval on one axis: the
+interval crosses zero exactly when intermediary identity enters and stays
+there in the strictly nested model. A second panel carries the
+order-invariant decomposition, so the reader sees where the gap went rather
+than only that it went. Every value is read from the same pipeline outputs
+that build Tables 2 and 3; nothing is typed in.
+
+**Table 2 was silently broken and is now fixed.** Adding a size wrapper
+above the table in D13 shifted every row by one, while the code that
+appends the nested column addressed rows by position. Column 7 was
+scattered into the wrong rows: its header landed on the top rule, its
+coefficient on a midrule, its sample size in the R-squared row. The
+compiled table looked wrong in the proof and nowhere else, since LaTeX
+raised no error. The append now locates rows by content and asserts that
+each pattern matches exactly one row, so the same class of drift fails
+loudly instead of rendering.
+
+**Two sentences began with a lowercase "we"**, an artifact of the D14
+conversion from singular to plural where a mid-sentence replacement landed
+at a sentence start. Both corrected.

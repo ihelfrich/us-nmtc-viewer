@@ -135,3 +135,84 @@ fig.savefig(FIG / "7_switcher_spines.png")
     "share_abs_gap_below_0p25": round(share_small, 4),
 }, indent=2))
 print("Wrote figures/7_switcher_spines.{pdf,png,json}")
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# The ladder: the paper's central argument as one exhibit.
+#
+# Reading a seven-column table to watch a coefficient collapse asks the
+# reader to hold seven numbers in mind. Drawn as intervals against zero,
+# the collapse is a single glance: precise and far from zero on the left,
+# straddling zero the moment intermediary identity enters. The marginal
+# panel decomposes the movement (Gelbach) so the reader sees where the gap
+# went, not merely that it went.
+#
+# Every value is read from the pipeline outputs; nothing is typed in.
+# ══════════════════════════════════════════════════════════════════════════
+import json as _json
+
+_MAIN = pd.read_csv(ROOT / "data" / "processed" / "regressions" / "main_table.csv").set_index("spec")
+_R2 = _json.load(open(ROOT / "data" / "processed" / "regressions" / "review_round2.json"))
+_RF = _json.load(open(ROOT / "data" / "processed" / "regressions" / "referee_fixes.json"))
+
+_specs = [
+    ("raw difference", "M0"),
+    ("+ origination year", "M1"),
+    ("+ project type", "M2"),
+    ("+ state", "M3"),
+    ("+ intermediary", "M4"),
+]
+_rows = [(lab, float(_MAIN.loc[k, "rural_beta"]), float(_MAIN.loc[k, "rural_se"])) for lab, k in _specs]
+_nested = _R2["G1_specs"]["M4S_nested"]
+_rows.append(("all four, nested", _nested["beta"], _nested["se"]))
+
+fig, (axL, axR) = plt.subplots(
+    1, 2, figsize=(4.9, 2.7), width_ratios=[3.0, 1.35],
+    gridspec_kw={"wspace": 0.62})
+
+ys = np.arange(len(_rows))[::-1]
+for y, (lab, b, se) in zip(ys, _rows):
+    live = "intermediary" in lab or "nested" in lab
+    c = PENBLUE if live else INK
+    axL.plot([b - 1.96 * se, b + 1.96 * se], [y, y], color=c, lw=1.1,
+             solid_capstyle="butt", zorder=2)
+    axL.plot([b], [y], "o", ms=4.2, color=c, zorder=3)
+axL.axvline(0, color=INK, lw=0.9, zorder=1)
+axL.set_yticks(ys)
+axL.set_yticklabels([r[0] for r in _rows], fontsize=7)
+axL.set_xlabel("non-metro coefficient, with 95% interval", fontsize=7.5)
+axL.tick_params(axis="x", labelsize=7)
+axL.set_xlim(-0.42, 0.26)
+axL.text(0.012, ys[0] + 0.42, "no gap", fontsize=6.6, color=PENCIL, style="italic")
+
+# Gelbach: where the movement went
+_g = _RF["F1_gelbach"]
+_parts = [("intermediary", _g["contrib_cde"]), ("project type", _g["contrib_qalicb"]),
+          ("origination year", _g["contrib_year"])]
+yy = np.arange(len(_parts))[::-1]
+for y, (lab, v) in zip(yy, _parts):
+    axR.barh(y, v, height=0.5, color=PENBLUE if "intermediary" in lab else INK,
+             alpha=0.9 if "intermediary" in lab else 0.55)
+axR.axvline(0, color=INK, lw=0.9)
+axR.set_yticks(yy); axR.set_yticklabels([p[0] for p in _parts], fontsize=7)
+axR.set_xlabel("share of the closed gap", fontsize=7.5)
+axR.tick_params(axis="x", labelsize=7)
+_denom = _g["beta_M0"] - _g["beta_full"]
+for y, (lab, v) in zip(yy, _parts):
+    axR.text(0.014, y, f"{100*v/_denom:.0f}%", va="center", ha="left",
+             fontsize=6.8, color=PENCIL)
+axR.set_xlim(-0.215, 0.105)
+
+for ax in (axL, axR):
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    ax.grid(axis="x", color=PENCIL, alpha=0.12, lw=0.5)
+    ax.set_axisbelow(True)
+
+fig.tight_layout(pad=0.35)
+fig.subplots_adjust(left=0.235, bottom=0.20, right=0.985, top=0.90)
+fig.savefig(FIG / "8_ladder.pdf")
+fig.savefig(FIG / "8_ladder.png")
+print(f"ladder: M0 {_rows[0][1]:+.3f} -> M4 {_rows[4][1]:+.3f}; "
+      f"nested {_nested['beta']:+.3f}; CDE share "
+      f"{100*_g['contrib_cde']/(_g['beta_M0']-_g['beta_full']):.1f}%")
