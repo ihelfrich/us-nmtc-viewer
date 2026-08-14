@@ -586,3 +586,43 @@ merely technical. At tau = 0.90 the objective improves by 5e-5 out of 3210,
 one part in 60 million, while the rural coefficient moves from -0.1249 to
 -0.1287. An objective that flat in the direction of interest is itself
 evidence that single-quantile point estimates should not be over-read.
+
+## D23. Purpose of investment, a field the paper had never used (2026-08-14)
+
+The public release carries `Purpose of Investment` on the transaction
+sheet. The project-level analysis file was built from the project sheet,
+which does not carry it, so the field had never entered a specification.
+That is precisely the kind of omission a referee finds: purpose is a
+composition channel, and the paper's central claim is a decomposition
+separating composition from intermediary identity.
+
+The raw association points the wrong way for the paper. Business financing
+is 59.5% of rural projects against 34.8% of metro, and it carries the
+lowest median leverage of any category at 1.044, while commercial real
+estate rehabilitation is at 1.271 and is twice as metro-weighted. Rural
+deployment concentrates in the purpose that mobilizes least.
+
+It does not survive measurement. Purpose with year effects alone moves the
+coefficient to -0.2279, less than QALICB type moves it on its own. Added to
+a model already carrying type, purpose moves the coefficient the *other*
+way, to -0.1946. In the order-invariant decomposition with purpose as a
+fourth block its contribution is +0.0153, offsetting rather than
+explaining, and the CDE contribution rises to -0.1824, or 88.1% of the
+explained movement against the 86% previously reported. The within-CDE
+coefficient moves from -0.0467 to -0.0551 and stays null (p = 0.578).
+
+The honest caveat, stated in the paper: purpose and QALICB type are
+strongly related, so the two blocks compete for the same variation and the
+split between them should not be over-read. The claim made is the narrow
+one that survives, which is that the headline is not an artifact of the
+missing field.
+
+**Validation.** The Gelbach code here is independent of
+`run_referee_fixes.py`. Run on the paper's original three blocks it
+reproduces the published decomposition exactly: year +0.0103, type -0.0413,
+CDE -0.1845, total -0.2156, identity residual 8e-15. That cross-check
+validates both implementations. Project-level purpose is the category with
+the largest share of a project's QLICI dollars; coverage is 100%, 7.4% of
+projects mix purposes, and the median dominant share is 100%. Four
+categories with fewer than 60 projects are folded into one group, recorded
+in the output rather than dropped silently.

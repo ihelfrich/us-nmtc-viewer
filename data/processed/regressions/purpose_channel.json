@@ -1,0 +1,142 @@
+{
+  "purpose_construction": {
+    "tx_rows": 19907,
+    "projects_with_purpose": 8025,
+    "share_projects_mixed_purpose": 0.0736,
+    "median_dominant_share": 1.0,
+    "label_map": {
+      "Business Financing": "business",
+      "Real Estate \u2013 Construction/Permanent/Acquisition w/o Rehab \u2013 Commercial": "re_construction",
+      "Real Estate\u2013Rehabilitation\u2013Commercial": "re_rehab",
+      "Real Estate \u2013 Construction\u2013Housing-Single Family": "housing_sf_new",
+      "Real Estate \u2013 Rehabilitation \u2013 Housing -Single Family": "housing_sf_rehab",
+      "Real Estate \u2013 Construction\u2013Housing-Multi Family": "housing_mf_new",
+      "Real Estate \u2013 Rehabilitation\u2013Housing - Multi Family": "housing_mf_rehab",
+      "Other Financing Purpose": "other",
+      "Microenterprise": "microenterprise"
+    }
+  },
+  "coverage": 1.0,
+  "rare_categories_folded": [
+    "microenterprise",
+    "housing_sf_rehab",
+    "housing_mf_new",
+    "housing_mf_rehab"
+  ],
+  "rare_min_projects": 60,
+  "n_purpose_groups": 6,
+  "composition_by_rural_pct": {
+    "business": {
+      "metro": 34.8,
+      "rural": 59.45
+    },
+    "housing_sf_new": {
+      "metro": 2.35,
+      "rural": 0.7
+    },
+    "other": {
+      "metro": 1.36,
+      "rural": 2.37
+    },
+    "other_small": {
+      "metro": 1.7,
+      "rural": 0.13
+    },
+    "re_construction": {
+      "metro": 31.69,
+      "rural": 24.6
+    },
+    "re_rehab": {
+      "metro": 28.1,
+      "rural": 12.75
+    }
+  },
+  "leverage_by_purpose": {
+    "business": {
+      "n": 3177,
+      "median": 1.0444,
+      "mean": 1.9044
+    },
+    "housing_sf_new": {
+      "n": 163,
+      "median": 1.6014,
+      "mean": 2.5027
+    },
+    "other": {
+      "n": 125,
+      "median": 1.0,
+      "mean": 1.6524
+    },
+    "other_small": {
+      "n": 112,
+      "median": 1.0366,
+      "mean": 2.0644
+    },
+    "re_construction": {
+      "n": 2432,
+      "median": 1.2084,
+      "mean": 1.926
+    },
+    "re_rehab": {
+      "n": 2015,
+      "median": 1.2707,
+      "mean": 1.9691
+    }
+  },
+  "ladder": {
+    "M0_raw": {
+      "beta": -0.2623,
+      "se": 0.0597,
+      "p": 0.0
+    },
+    "M1_year": {
+      "beta": -0.2492,
+      "se": 0.0606,
+      "p": 0.0
+    },
+    "M2_year_type": {
+      "beta": -0.1856,
+      "se": 0.0609,
+      "p": 0.0023
+    },
+    "M2b_year_purpose": {
+      "beta": -0.2279,
+      "se": 0.062,
+      "p": 0.0002
+    },
+    "M3_year_type_purpose": {
+      "beta": -0.1946,
+      "se": 0.0617,
+      "p": 0.0016
+    },
+    "M4_year_type_purpose_state": {
+      "beta": -0.1765,
+      "se": 0.0679,
+      "p": 0.0093
+    },
+    "M5_within_cde_no_purpose": {
+      "beta": -0.0467,
+      "se": 0.1011,
+      "p": 0.6443
+    },
+    "M6_within_cde_with_purpose": {
+      "beta": -0.0551,
+      "se": 0.099,
+      "p": 0.5777
+    }
+  },
+  "gelbach_with_purpose": {
+    "beta_M0": -0.2623,
+    "beta_full": -0.0551,
+    "total_explained": -0.2071,
+    "contrib_year": 0.011,
+    "contrib_qalicb": -0.051,
+    "contrib_purpose": 0.0153,
+    "contrib_cde": -0.1824,
+    "sum_check": -0.2071,
+    "identity_residual": 0.0,
+    "share_from_cde": 0.8807,
+    "share_from_purpose": -0.0738
+  },
+  "verdict": "Adding purpose moves the within-CDE coefficient from -0.0467 to -0.0551. The CDE share of the explained movement is 88.1% with purpose competing for it."
+}

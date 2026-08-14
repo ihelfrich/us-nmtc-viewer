@@ -222,6 +222,59 @@ $^{*}p<0.10$.}
 \input{tables/robustness}
 \end{table}
 
+\subsection{Purpose of investment}\label{sec:purpose}
+
+The public release records a purpose of investment on every transaction,
+and the project-level file this analysis is built from does not carry that
+field, so none of the specifications above use it. The omission deserves
+attention because purpose is a composition channel of exactly the kind the
+decomposition exists to separate from intermediary identity. We construct a
+project-level purpose by taking the category accounting for the largest
+share of a project's QLICI dollars, which covers every project in the
+estimation sample; 7.4\% of projects combine more than one purpose, and the
+median dominant share is 100\%.
+
+The raw association runs in the direction that would concern a referee.
+Business financing accounts for 59.5\% of rural projects against 34.8\% of
+metro projects, and it carries the lowest median leverage of any category
+at $1.044$. Commercial real estate rehabilitation, with a median of
+$1.271$, accounts for 28.1\% of metro projects and 12.8\% of rural ones.
+Rural deployment is weighted toward the purpose that mobilizes least, which
+raises the possibility that some of the raw gap reflects what the money
+does instead of who deploys it.
+
+Table~\ref{tab:purpose} shows that the possibility does not survive
+measurement. Purpose entered alongside year effects alone moves the rural
+coefficient to $-0.2279$, a smaller movement than QALICB type produces on
+its own. Added to a specification already carrying type, purpose moves the
+coefficient the other way, to $-0.1946$. In the order-invariant
+decomposition with purpose as a fourth block, its contribution is
+$+0.0153$, which offsets rather than explains, and the CDE contribution
+rises to $-0.1824$, or 88.1\% of the explained movement against the 86\%
+of Table~\ref{tab:gelbach}. The within-CDE coefficient moves from $-0.0467$
+to $-0.0551$ and remains indistinguishable from zero ($p = 0.578$).
+
+Two readings are available and we prefer the conservative one. Purpose and
+QALICB type are strongly related, since a real estate borrower largely does
+real estate, so the two blocks compete for the same variation and the split
+between them should not be over-interpreted. What the exercise establishes
+is narrower and sufficient: the headline is not an artifact of the missing
+field. Allowing purpose to compete for the explained movement leaves
+intermediary identity carrying more of it, not less.
+
+\begin{table}[t]
+\centering
+\caption{Purpose of investment, a channel recorded in the public release
+and not used elsewhere in this paper. Panel A gives composition and
+leverage by purpose. Panel B inserts purpose into the ladder; columns
+through the sixth row report HC1 standard errors and the last two cluster
+at the CDE level. Panel C reports the order-invariant decomposition with
+purpose as a fourth block, whose contributions sum to the total by identity
+(residual below $10^{-15}$).}
+\label{tab:purpose}
+\input{tables/purpose}
+\end{table}
+
 \subsection{Where the residual lives}\label{sec:residual}
 
 An average null can conceal a subpopulation, so the workhorse specification

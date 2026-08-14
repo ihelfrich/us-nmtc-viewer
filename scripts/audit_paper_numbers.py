@@ -161,6 +161,35 @@ CLAIMS: list[tuple] = [
      lambda v: next(r["se_cluster_bootstrap"] for r in v if r["q"] == 0.95)),
     ("00-abstract", "bootstrap SE $0.009$", "median_inference.json",
      "se_cluster_bootstrap", lambda v: v),
+
+    # ── purpose of investment, Section 5.6 ─────────────────────────────
+    ("05-results", "coefficient to $-0.2279$", "purpose_channel.json",
+     "ladder.M2b_year_purpose.beta", lambda v: v),
+    ("05-results", "the other way, to $-0.1946$", "purpose_channel.json",
+     "ladder.M3_year_type_purpose.beta", lambda v: v),
+    ("05-results", "its contribution is\n$+0.0153$", "purpose_channel.json",
+     "gelbach_with_purpose.contrib_purpose", lambda v: v),
+    ("05-results", "rises to $-0.1824$", "purpose_channel.json",
+     "gelbach_with_purpose.contrib_cde", lambda v: v),
+    ("05-results", "or 88.1\\% of the explained movement", "purpose_channel.json",
+     "gelbach_with_purpose.share_from_cde", lambda v: v * 100),
+    ("05-results", "coefficient moves from $-0.0467$", "purpose_channel.json",
+     "ladder.M5_within_cde_no_purpose.beta", lambda v: v),
+    ("05-results", "to $-0.0551$ and remains", "purpose_channel.json",
+     "ladder.M6_within_cde_with_purpose.beta", lambda v: v),
+    ("05-results", "zero ($p = 0.578$)", "purpose_channel.json",
+     "ladder.M6_within_cde_with_purpose.p", lambda v: v),
+    ("05-results", "at $1.044$", "purpose_channel.json",
+     "leverage_by_purpose.business.median", lambda v: v),
+    ("05-results", "median of\n$1.271$", "purpose_channel.json",
+     "leverage_by_purpose.re_rehab.median", lambda v: v),
+    ("05-results", "59.5\\% of rural projects", "purpose_channel.json",
+     "composition_by_rural_pct.business.rural", lambda v: v),
+    ("05-results", "against 34.8\\% of\nmetro projects", "purpose_channel.json",
+     "composition_by_rural_pct.business.metro", lambda v: v),
+
+    ("00-abstract", "leaves 88.1\\% of the explained movement", "purpose_channel.json",
+     "gelbach_with_purpose.share_from_cde", lambda v: v * 100),
 ]
 
 
