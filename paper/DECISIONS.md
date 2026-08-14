@@ -455,3 +455,20 @@ loudly instead of rendering.
 **Two sentences began with a lowercase "we"**, an artifact of the D14
 conversion from singular to plural where a mid-sentence replacement landed
 at a sentence start. Both corrected.
+
+## D19. The mandate figure now shows what the text claims (2026-08-14)
+
+Section 5.5 reports the excess-mass test three ways: deal counts over the
+full period, QLICI dollars, and dollars from 2007 onward once the
+proportionality instruction was in the code. The figure showed only the
+first, which left the other two asserted and unillustrated, and the second
+pair is the more institutionally faithful test, since the requirement is
+written in investment terms and did not govern the early years.
+
+Figure 6 is now two panels: deal counts across the full period, and QLICI
+dollars from 2007 onward, each carrying its own excess mass with a
+CDE-cluster bootstrap interval, both containing zero. Panel statistics are
+read from review_round2.json rather than recomputed for the figure, so the
+figure cannot drift from the text. The single-panel exhibit remains in
+figures/ for the viewer site; the bundle no longer ships it, since the
+bundle derives its figure list from the manuscript.

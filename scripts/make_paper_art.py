@@ -216,3 +216,76 @@ fig.savefig(FIG / "8_ladder.png")
 print(f"ladder: M0 {_rows[0][1]:+.3f} -> M4 {_rows[4][1]:+.3f}; "
       f"nested {_nested['beta']:+.3f}; CDE share "
       f"{100*_g['contrib_cde']/(_g['beta_M0']-_g['beta_full']):.1f}%")
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# The mandate panels. The manuscript reports the excess-mass test three
+# ways: deal counts over the full period, QLICI dollars, and dollars from
+# 2007 onward, once the proportionality instruction was in the code. A
+# single-panel figure showing only the first left the other two asserted
+# but not shown. Each panel carries its own estimate and interval, read
+# from review_round2.json rather than recomputed here.
+# ══════════════════════════════════════════════════════════════════════════
+_R2B = _json.load(open(ROOT / "data" / "processed" / "regressions" / "review_round2.json"))
+_tx = pd.read_csv(ROOT / "data" / "processed" / "nmtc_transactions.csv")
+_tx["is_nm"] = (_tx["metro"] == "non_metro").astype(float)
+
+_BINS = np.linspace(0, 1, 41)
+_MID = 0.5 * (_BINS[:-1] + _BINS[1:])
+_WIN = (_MID >= 0.175) & (_MID <= 0.225)
+_FIT = (~_WIN) & (_MID <= 0.95)
+
+
+def _cde_shares(frame):
+    g = frame.groupby("cde_name").apply(lambda d: pd.Series({
+        "n": len(d),
+        "count_share": d["is_nm"].mean(),
+        "dollar_share": (d["qlici_amount"] * d["is_nm"]).sum()
+                        / max(d["qlici_amount"].sum(), 1e-9),
+    }), include_groups=False)
+    return g[g["n"] >= 5]
+
+
+def _density_and_cf(shares):
+    counts, _ = np.histogram(shares, bins=_BINS)
+    dens = counts / (counts.sum() * (_BINS[1] - _BINS[0]))
+    cf = np.polyval(np.polyfit(_MID[_FIT], dens[_FIT], 3), _MID).clip(min=0)
+    return dens, cf
+
+
+_full = _cde_shares(_tx)
+_post = _cde_shares(_tx[_tx["year"] >= 2007])
+_panels = [
+    ("deal counts, 2001–2022", _full["count_share"].to_numpy(), _R2B["G2_full_count"]),
+    ("QLICI dollars, 2007–2022", _post["dollar_share"].to_numpy(), _R2B["G3_post2007_dollar"]),
+]
+
+fig, axes = plt.subplots(1, 2, figsize=(4.9, 2.15), sharey=True,
+                         gridspec_kw={"wspace": 0.12})
+for ax, (lab, sh, stat) in zip(axes, _panels):
+    dens, cf = _density_and_cf(sh)
+    ax.axvspan(0.175, 0.225, color=WASH, zorder=0)
+    ax.bar(_MID, dens, width=(_BINS[1] - _BINS[0]) * 0.92, color=INK, alpha=0.55,
+           edgecolor="white", linewidth=0.3, zorder=2)
+    ax.plot(_MID, cf, color=INK, lw=1.0, ls=(0, (4, 2)), zorder=3)
+    ax.axvline(0.20, color=PENBLUE, lw=1.0, zorder=4)
+    ax.set_title(lab, fontsize=7.2, color=INK, pad=4, loc="left")
+    ax.text(0.97, 0.93,
+            f"$\\hat B$ = {stat['B']:+.4f}\n[{stat['ci95'][0]:+.3f}, {stat['ci95'][1]:+.3f}]",
+            transform=ax.transAxes, ha="right", va="top", fontsize=6.4, color=PENCIL)
+    ax.set_xlim(0, 1)
+    ax.set_xticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+    ax.set_xticklabels(["0", "20%", "40%", "60%", "80%", "100%"], fontsize=6.6)
+    ax.tick_params(axis="y", labelsize=6.6)
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    ax.set_axisbelow(True)
+axes[0].set_ylabel("density", fontsize=7.2)
+fig.supxlabel("CDE cumulative non-metro share", fontsize=7.2, y=0.02)
+fig.tight_layout(pad=0.3)
+fig.subplots_adjust(bottom=0.24)
+fig.savefig(FIG / "9_mandate_panels.pdf")
+fig.savefig(FIG / "9_mandate_panels.png")
+print(f"mandate panels: counts B={_panels[0][2]['B']:+.5f}, "
+      f"dollars 2007+ B={_panels[1][2]['B']:+.5f} "
+      f"({len(_full)} and {len(_post)} CDEs)")
