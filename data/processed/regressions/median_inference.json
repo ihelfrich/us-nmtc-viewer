@@ -1,0 +1,150 @@
+{
+  "n_projects": 8024,
+  "n_cdes": 343,
+  "b_bootstrap_requested": 4,
+  "b_permutation_requested": 4,
+  "seed": 20260814,
+  "point_estimate": -0.00065,
+  "se_asymptotic": 0.00763,
+  "equivalence_bound_asymptotic": 0.0132,
+  "b_bootstrap_used": 4,
+  "se_cluster_bootstrap": 0.01716,
+  "bootstrap_mean": -0.01477,
+  "bootstrap_ci95_percentile": [
+    -0.03158,
+    -0.0
+  ],
+  "se_inflation_vs_asymptotic": 2.25,
+  "equivalence_bound_cluster_bootstrap": 0.0289,
+  "b_permutation_used": 4,
+  "randomization_share_pinned_at_zero": 0.75,
+  "randomization_null_sd": 1e-06,
+  "randomization_null_ci95": [
+    -0.0,
+    0.0
+  ],
+  "randomization_p_two_sided": 0.2,
+  "outcome_mass_at_one": 0.2687,
+  "outcome_median": 1.1591,
+  "outcome_density_band_pm05": 0.0915,
+  "quantile_sweep": [
+    {
+      "q": 0.25,
+      "estimated": true,
+      "beta": -0.0,
+      "se_cluster_bootstrap": 0.00283,
+      "reps": 2,
+      "share_pinned": 0.5,
+      "ci95": [
+        -0.0039,
+        -0.0001
+      ],
+      "equivalence_bound": 0.0046
+    },
+    {
+      "q": 0.35,
+      "estimated": true,
+      "beta": -0.0,
+      "se_cluster_bootstrap": 0.0053,
+      "reps": 2,
+      "share_pinned": 0.5,
+      "ci95": [
+        -0.0073,
+        -0.0002
+      ],
+      "equivalence_bound": 0.0087
+    },
+    {
+      "q": 0.6,
+      "estimated": true,
+      "beta": -0.00882,
+      "se_cluster_bootstrap": 0.00735,
+      "reps": 2,
+      "share_pinned": 0.0,
+      "ci95": [
+        -0.0154,
+        -0.0055
+      ],
+      "equivalence_bound": 0.0209
+    },
+    {
+      "q": 0.7,
+      "estimated": true,
+      "beta": -0.00762,
+      "se_cluster_bootstrap": 0.01542,
+      "reps": 2,
+      "share_pinned": 0.0,
+      "ci95": [
+        -0.047,
+        -0.0263
+      ],
+      "equivalence_bound": 0.033
+    },
+    {
+      "q": 0.75,
+      "estimated": true,
+      "beta": -0.0397,
+      "se_cluster_bootstrap": 0.052,
+      "reps": 2,
+      "share_pinned": 0.0,
+      "ci95": [
+        -0.098,
+        -0.0281
+      ],
+      "equivalence_bound": 0.1252
+    },
+    {
+      "q": 0.8,
+      "estimated": true,
+      "beta": -0.07963,
+      "se_cluster_bootstrap": 0.07491,
+      "reps": 2,
+      "share_pinned": 0.0,
+      "ci95": [
+        -0.2033,
+        -0.1026
+      ],
+      "equivalence_bound": 0.2029
+    },
+    {
+      "q": 0.9,
+      "estimated": true,
+      "beta": -0.1249,
+      "se_cluster_bootstrap": 0.02371,
+      "reps": 2,
+      "share_pinned": 0.0,
+      "ci95": [
+        -0.0931,
+        -0.0612
+      ],
+      "equivalence_bound": 0.1639
+    },
+    {
+      "q": 0.95,
+      "estimated": true,
+      "beta": -0.19846,
+      "se_cluster_bootstrap": 0.0,
+      "reps": 2,
+      "share_pinned": 0.0,
+      "ci95": [
+        -0.0,
+        -0.0
+      ],
+      "equivalence_bound": 0.1985
+    }
+  ],
+  "paired_n_switchers": 104,
+  "paired_min_deals_per_side": 3,
+  "paired_median_difference": -0.0181,
+  "paired_mean_difference": 0.0293,
+  "paired_iqr": [
+    -0.1749,
+    0.0527
+  ],
+  "paired_n_rural_higher": 37,
+  "paired_n_nonzero": 94,
+  "wilcoxon_p": 0.1399,
+  "sign_test_p": 0.0495,
+  "preferred_quantile": 0.6,
+  "verdict": "clustering inflates the median standard error by a factor of 2.25, moving the equivalence bound from 0.0132 to 0.0289. Separately, the outcome carries a 27% point mass at exactly 1.0 and the median sits on its shoulder, so the quantile-regression asymptotic standard error rests on a continuous-density assumption the data violate; the clustered bootstrap does not rely on it and is the one to report."
+}

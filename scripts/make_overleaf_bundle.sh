@@ -4,6 +4,15 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+
+# Gate the bundle on the numbers audit. A manuscript number that has drifted
+# from the pipeline output that produced it must not reach Overleaf, where
+# it becomes something a referee finds rather than something we do.
+echo "auditing manuscript numbers against pipeline outputs..."
+if ! python3 scripts/audit_paper_numbers.py; then
+  echo "ABORT: the manuscript disagrees with the pipeline. Fix before bundling." >&2
+  exit 1
+fi
 # Figures actually referenced by the manuscript. Derived from the sections
 # so this list cannot silently drift out of sync again.
 FIGS=$(grep -rho 'includegraphics\[[^]]*\]{[^}]*}' paper/sections/ \

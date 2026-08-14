@@ -1,0 +1,198 @@
+"""
+Tie every load-bearing number in the manuscript back to the pipeline output
+that produced it.
+
+The standing rule on this project is that nothing is taken as given and
+every displayed number originates in the repository pipeline. That rule was
+enforced by care rather than by machinery, which is the same as not being
+enforced: a number can be correct when written and become stale the moment
+an upstream script is re-run, and nothing in the build notices.
+
+This script closes that hole. Each entry in CLAIMS names a string exactly
+as it appears in a .tex source and the JSON field it must equal. A claim
+passes when the source value, rounded half-up to the precision the
+manuscript prints, equals the printed number exactly. The audit fails if the string is missing from the file, if it
+appears more than once where a unique anchor was intended, or if the value
+disagrees with its source. A failure is either a stale manuscript or a
+changed result, and both are things the author must see.
+
+Numbers deliberately excluded, because no pipeline output backs them:
+statutory facts (the 39% credit rate, the 20% target), dates, citation
+years, and round counts stated in words.
+
+Exit status is 0 when every claim passes and 1 otherwise, so this can gate
+a build.
+
+Run:  uv run --no-project --with numpy python scripts/audit_paper_numbers.py
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from decimal import Decimal, ROUND_HALF_UP
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+SEC = ROOT / "paper" / "sections"
+REG = ROOT / "data" / "processed" / "regressions"
+
+_cache: dict[str, dict] = {}
+
+
+def src(name: str) -> dict:
+    if name not in _cache:
+        _cache[name] = json.loads((REG / name).read_text())
+    return _cache[name]
+
+
+def dig(obj, path: str):
+    """Follow a dotted path with [i] indexing."""
+    cur = obj
+    for part in path.split("."):
+        m = re.match(r"^([^\[]+)(?:\[(\d+)\])?$", part)
+        assert m, f"bad path part {part!r}"
+        key, idx = m.group(1), m.group(2)
+        cur = cur[key]
+        if idx is not None:
+            cur = cur[int(idx)]
+    return cur
+
+
+# (file, literal as typeset, json file, path, transform)
+# transform: how the pipeline value is turned into the displayed number.
+# A claim passes when the source value, rounded half-up to the precision
+# the manuscript prints, equals the printed number exactly.
+CLAIMS: list[tuple] = [
+    # ── the decomposition, Section 5.1 ─────────────────────────────────
+    ("05-results", "$-0.262$", "referee_fixes.json", "F1_gelbach.beta_M0",
+     lambda v: v),
+    ("05-results", "collapses the rural coefficient\nto $-0.047$", "referee_fixes.json",
+     "F1_gelbach.beta_full", lambda v: v),
+    ("05-results", "the $-0.216$ movement", "referee_fixes.json",
+     "F1_gelbach.beta_M0", lambda v: v - src("referee_fixes.json")["F1_gelbach"]["beta_full"]),
+    ("05-results", "CDE identity\ncontributes $-0.185$", "referee_fixes.json",
+     "F1_gelbach.contrib_cde", lambda v: v),
+    ("05-results", "(86\\% of the movement", "referee_fixes.json",
+     "F1_gelbach.share_of_gap_from_cde", lambda v: v * 100),
+    ("05-results", "QALICB type $-0.041$", "referee_fixes.json",
+     "F1_gelbach.contrib_qalicb", lambda v: v),
+    ("05-results", "origination year a small\noffsetting $+0.010$", "referee_fixes.json",
+     "F1_gelbach.contrib_year", lambda v: v),
+    ("05-results", "82\\% of the raw\ngap", "referee_fixes.json",
+     "F2_bootstrap.selection_share_hat", lambda v: v * 100),
+
+    # ── precision and margins, Section 5.2 ─────────────────────────────
+    ("05-results", "larger than $0.213$", "referee_fixes.json",
+     "F3_power.mean_rejectable_penalty", lambda v: v),
+    ("05-results", "CDE-clustered standard error of $0.101$", "referee_fixes.json",
+     "F3_power.mean_se_cde_cluster", lambda v: v),
+    ("05-results", "27.4\\% of projects record no capital", "referee_fixes.json",
+     "F4_floor_1p001.share_at_floor", lambda v: v * 100),
+    ("05-results", "$1.8$ percentage points less likely", "referee_fixes.json",
+     "F4_floor_1p001.extensive_beta", lambda v: abs(v) * 100),
+    ("05-results", "the rural coefficient is\n$-0.039$", "referee_fixes.json",
+     "F4_floor_1p001.intensive_beta", lambda v: v),
+
+    # ── robustness, Section 5.4 ────────────────────────────────────────
+    ("05-results", "\\emph{larger} ($-0.338$", "robustness.json",
+     "R1_raw_M0.beta", lambda v: v),
+    ("05-results", "remains null ($-0.216$", "robustness.json",
+     "R1_raw_M4.beta", lambda v: v),
+    ("05-results", "within-CDE penalty at $-3.2\\%$", "robustness.json",
+     "R2_log_M4.beta", lambda v: v * 100),
+
+    # ── the residual scan, Section 5.5 ─────────────────────────────────
+    ("05-results", "real-estate projects at $-0.395$", "residual_analysis.json",
+     "cells", lambda v: next(c["beta"] for c in v
+                             if c.get("estimated") and c["cell"] == "QALICB type RE")),
+    ("05-results", "smallest $p$-value in the entire\nscan is $0.043$",
+     "residual_analysis.json", "min_p", lambda v: v),
+
+    # ── the mandate test, Section 5.6 ──────────────────────────────────
+    ("05-results", "$\\hat B = -0.0006$", "bunching_stats.json",
+     "excess_mass_B", lambda v: v),
+    ("05-results", "$-2.2\\%$ of the counterfactual mass", "bunching_stats.json",
+     "excess_mass_pct", lambda v: v),
+    ("05-results", "gives excess mass of $+0.005$", "review_round2.json",
+     "G2_full_dollar.B", lambda v: v),
+    ("05-results", "across 291 intermediaries", "review_round2.json",
+     "G3_post2007_count.n_cde", lambda v: v),
+
+    # ── the abstract, which is what most readers will check ────────────
+    ("00-abstract", "\\$66.6 billion", "review_round2.json",
+     "G4_denominators.qlici_total_musd", lambda v: v / 1000),
+    ("00-abstract", "\\$120.9 billion", "review_round2.json",
+     "G4_denominators.project_cost_total_musd", lambda v: v / 1000),
+    ("00-abstract", "\\$0.82 of other capital", "review_round2.json",
+     "G4_denominators.other_capital_per_qlici_dollar", lambda v: v),
+    ("00-abstract", "roughly\n\\$2.09", "review_round2.json",
+     "G4_denominators.other_capital_per_credit_dollar", lambda v: v),
+    ("00-abstract", "8{,}024 projects", "referee_fixes.json",
+     "n_analysis", lambda v: v),
+    ("00-abstract", "$\\hat B = 0.0009$ after 2007", "review_round2.json",
+     "G3_post2007_dollar.B", lambda v: v),
+]
+
+
+def load_tex(stem: str) -> str:
+    return (SEC / f"{stem}.tex").read_text()
+
+
+def main() -> int:
+    texts = {s: load_tex(s) for s in {c[0] for c in CLAIMS}}
+    fails: list[str] = []
+    passes = 0
+
+    for stem, literal, jf, path, xform in CLAIMS:
+        body = texts[stem]
+        n_hits = body.count(literal)
+        if n_hits == 0:
+            fails.append(f"MISSING  {stem}.tex does not contain {literal!r}")
+            continue
+        if n_hits > 1:
+            fails.append(f"AMBIGUOUS {stem}.tex contains {literal!r} {n_hits} times")
+            continue
+
+        # the number the manuscript actually prints, taken from the literal
+        m = re.findall(r"[-+]?\d+(?:\.\d+)?(?:\{,\})?\d*", literal.replace("{,}", ""))
+        if not m:
+            fails.append(f"NO NUMBER in literal {literal!r}")
+            continue
+        shown_txt = max(m, key=len)
+        shown = float(shown_txt)
+        ndp = len(shown_txt.split(".")[1]) if "." in shown_txt else 0
+
+        try:
+            expected = xform(dig(src(jf), path))
+        except StopIteration:
+            fails.append(f"SOURCE   {literal!r} -> {jf}:{path} matched no record")
+            continue
+        except Exception as exc:                                # noqa: BLE001
+            fails.append(f"SOURCE   {literal!r} -> {jf}:{path} raised {exc!r}")
+            continue
+
+        # A printed number is a rounded number. Compare on those terms:
+        # round the source half-up to the precision the manuscript shows.
+        quant = Decimal(1).scaleb(-ndp)
+        rounded = float(Decimal(repr(float(expected))).quantize(
+            quant, rounding=ROUND_HALF_UP))
+
+        if rounded == shown:
+            passes += 1
+        else:
+            fails.append(f"MISMATCH {stem}.tex shows {shown} for {literal!r}; "
+                         f"{jf}:{path} gives {expected:.6g} -> rounds to {rounded}")
+
+    print(f"{passes}/{len(CLAIMS)} claims tied to a pipeline output")
+    for f in fails:
+        print("  " + f)
+    if fails:
+        print(f"\n{len(fails)} claim(s) failed the audit.")
+        return 1
+    print("every audited claim matches its source.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

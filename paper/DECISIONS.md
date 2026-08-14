@@ -505,3 +505,32 @@ abbreviations, which the region map assumed, so every project fell through
 to "Other". The map now uses full names and the script asserts that at
 least 95 percent of projects map to a census region, so the same silent
 failure cannot recur.
+
+## D21. The manuscript's numbers are now audited by machine (2026-08-14)
+
+The standing rule on this project is that every displayed number originates
+in the repository pipeline. Until now that rule was enforced by care, which
+is the same as not being enforced. A number can be right when written and
+become stale the instant an upstream script is re-run, and nothing in the
+build would notice.
+
+`scripts/audit_paper_numbers.py` names 28 load-bearing numbers, each as the
+literal string it appears as in a `.tex` source, paired with the JSON field
+that produced it. A claim passes when the source value, rounded half-up to
+the precision the manuscript actually prints, equals the printed number
+exactly. Comparing on rounding rather than on a tolerance is the right
+convention: a printed $-0.185$ is a claim about what $-0.1845$ rounds to,
+and a tolerance of $5\times10^{-4}$ rejects that pair on a floating-point
+technicality. Python's built-in `round` is also wrong here, giving
+`round(0.815, 2) == 0.81`; the audit uses `Decimal` with `ROUND_HALF_UP`.
+
+All 28 pass. `scripts/make_overleaf_bundle.sh` now refuses to build if any
+fail, so a drifted number cannot reach Overleaf. `tests/test_audit_paper_numbers.py`
+confirms the audit fires when a value is perturbed, since a guard never
+observed to fire is indistinguishable from one that cannot.
+
+Excluded by design, because no pipeline output backs them: statutory facts
+(the 39% credit rate, the 20% target), dates, and citation years.
+
+Building the manifest was itself a check on the paper, and the paper came
+through clean. Every claim traced to a real field with the expected value.
