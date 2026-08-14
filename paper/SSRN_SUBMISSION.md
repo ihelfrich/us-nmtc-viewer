@@ -15,21 +15,21 @@ Intermediary Selection versus Market Structure in the New Markets Tax Credit
    ORCID 0000-0002-4105-1635 (verified against the ORCID public API)
 2. Katia Antunes — American University — katantunes.d@gmail.com —
    ORCID 0009-0003-1901-0137 (verified against the ORCID public API)
-3. Elizaveta Gonchar — affiliation to confirm (Third Space Labs used as a
-   placeholder) — elizaveta.gonchar@gmail.com — ORCID NOT YET CONFIRMED,
-   see the note below
+3. Elizaveta Gonchar — independent researcher — elizaveta.gonchar@gmail.com
+   — ORCID 0000-0002-5372-9669 (confirmed, see the note below)
 
-**Elizaveta Gonchar's ORCID is unresolved.** A public record exists under
-that exact name, 0000-0002-5372-9669, created November 2022, with no works
-and no employment. Its education section lists Barcelona School of
-Economics 2015, Indiana University 2018, Georgia Tech MS Economics 2019,
-Georgia Tech MS GIS&T 2022, and a Georgia Tech Economics PhD begun 2017.
-Five of those six entries match Ian Helfrich's own degrees and end dates
-exactly, including the unusual GIS&T degree housed in City & Regional
-Planning; only the bachelor's differs. That is either a genuinely shared
-academic path or a record populated from the wrong CV, and the difference
-matters, because an incorrect ORCID on a submission attributes the work to
-a stranger. Confirm with her directly before entering it.
+**On Elizaveta Gonchar's ORCID.** The record 0000-0002-5372-9669 lists an
+education history that reproduces five of Ian Helfrich's six degrees with
+identical end dates, which looked at first like a record populated from the
+wrong CV. It is not. The record's researcher URL points to
+elizaveta-gonchar.com, which carries the same address that appears in her
+correspondence, and that site states her Georgia Tech PhD in Economics
+(2024) and her MS in Geographic Information Science and Technology (2022).
+The GIS&T degree was the entry that raised the question, and her own site
+confirms she holds it. The overlap is real: the two moved through the same
+programs. Her affiliation reads "independent researcher" because her site
+describes the Carnegie Mellon Block Center role in the past tense and names
+no current institution; confirm the wording with her.
 
 SSRN requires each co-author to have an SSRN account before the paper can
 be posted under both names. Katia's SSRN author ID is not on record here;
@@ -59,9 +59,9 @@ github.com/ihelfrich/us-nmtc-viewer.
       the project record; it is the first section of the appendix and is
       marked for review in the source)
 - [ ] Confirm Katia's affiliation line reads as she wants it
-- [ ] Confirm Elizaveta's ORCID (see the note above) and her affiliation;
-      her public people page withholds affiliation at her preference, so
-      the title block currently reads Third Space Labs as a placeholder
+- [ ] Confirm with Elizaveta how she wants her affiliation to read; the
+      title block says "independent researcher" because her site names no
+      current institution
 - [ ] Confirm Elizaveta's contribution line, which is a placeholder written
       without a record to draw on
 - [ ] Get Katia's SSRN author ID, or post and add her afterwards

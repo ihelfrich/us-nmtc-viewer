@@ -366,3 +366,30 @@ confirm it.
 abstract links from her literature sweep. SSRN requires each co-author to
 hold an account before a paper posts under both names, so the kit records
 that she must register, or that the paper posts and adds her afterwards.
+
+## D15. Elizaveta Gonchar's ORCID, confirmed (2026-08-14)
+
+The record 0000-0002-5372-9669 was held back in D14 because its education
+section reproduced five of Ian Helfrich's six degrees with identical end
+dates, including the MS in Geographic Information Science and Technology
+housed in City and Regional Planning. That pattern is what a record
+populated from the wrong CV looks like, and an incorrect ORCID on a
+submission attributes the work to a stranger.
+
+It resolves in her favour. The ORCID record carries a researcher URL to
+elizaveta-gonchar.com. That site is hers: it gives elizaveta.gonchar@gmail.com,
+the address that appears in her correspondence with the first author, and it
+states a Georgia Tech PhD in Economics completed 2024 together with an MS in
+Geographic Information Science and Technology completed 2022. The GIS&T
+degree is the entry that raised the doubt, and her own site confirms she
+holds it. The record's keywords, GIS, economics, and international trade,
+match her stated fields. Independent corroboration sits in the first
+author's July 2024 correspondence describing her as his coauthor on Trade in
+the Spotlight and as defending in the same period. The overlap is a shared
+path through the same programs, not a copied record.
+
+The ORCID is now on the title block. Her affiliation reads "independent
+researcher" because her own site places the Carnegie Mellon Block Center
+role in the past tense and names no current institution; the checklist asks
+her to confirm the wording. Her contribution line remains a placeholder
+written without a record to draw on, and still needs her own words.
