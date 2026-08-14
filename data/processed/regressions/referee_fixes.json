@@ -33,7 +33,7 @@
     "median_beta": -0.0007,
     "median_se_iid": 0.0076,
     "median_rejectable_penalty": 0.013,
-    "caveat": "median SE is the quantreg asymptotic (kernel) SE, not CDE-clustered; a clustered bootstrap for the median with ~600 FE is computationally heavy and left documented"
+    "caveat": "median SE here is the quantreg asymptotic (kernel) SE. The CDE-clustered bootstrap is no longer outstanding: see regressions/median_inference.json, which reports SE 0.0093 over 500 pairs-bootstrap replications against this 0.0076, and documents the 26.9% point mass at 1.0 that makes the asymptotic SE's continuous-density assumption invalid."
   },
   "F4_floor_1p001": {
     "share_at_floor": 0.2738,
