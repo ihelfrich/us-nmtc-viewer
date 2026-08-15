@@ -2,8 +2,9 @@
   "script": "scripts/codex_check_tail_conditioning.py",
   "input": "data/processed/nmtc_projects.csv",
   "generated_at_local": "2026-08-15T14:16:52",
+  "metadata_revision": "Final-review provenance wording and OLS-only Holm sensitivity added without rerunning the numerical grid; numerical draws and estimates are unchanged.",
   "provenance": {
-    "script_sha256": "8b707dc74c67c684aaa75e782fc5e5d0be498184fee34acb673fdbb4fc60f7bc",
+    "script_sha256": "62da671db12b1e4a0738f154890ebf3e9083822240cce9f867e937721ce58b47",
     "input_sha256": "904aed5e743ee94ad6af4a3534961191df2a28294e8b133c1783cecfee29e33b",
     "platform": "macOS-26.3-arm64-arm-64bit-Mach-O",
     "python": "3.14.6 (main, Jul 23 2026, 14:51:00) [Clang 22.1.3 ]",
@@ -16,7 +17,7 @@
     }
   },
   "experimental_design": {
-    "fixed_before_run": true,
+    "design_timing": "initial fixed-seed full-run grid, specified before that full run",
     "max_workers": 4,
     "c7_taus": [
       0.9,
@@ -525,7 +526,8 @@
         },
         "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
         "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
-        "randomization_p_holm_across_conditioned_methods_and_taus": 0.16499999999999998
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.16499999999999998,
+        "randomization_p_holm_across_ols_taus": 0.045
       },
       {
         "tau": 0.5,
@@ -676,7 +678,8 @@
         },
         "wilcoxon_p_holm_across_conditioned_methods_and_taus": 0.2706040671947904,
         "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
-        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3,
+        "randomization_p_holm_across_ols_taus": 0.06
       },
       {
         "tau": 0.75,
@@ -827,7 +830,8 @@
         },
         "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
         "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
-        "randomization_p_holm_across_conditioned_methods_and_taus": 0.06
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.06,
+        "randomization_p_holm_across_ols_taus": 0.02
       },
       {
         "tau": 0.9,
@@ -978,7 +982,8 @@
         },
         "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
         "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
-        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3,
+        "randomization_p_holm_across_ols_taus": 0.06
       },
       {
         "tau": 0.95,
@@ -1060,7 +1065,7 @@
       }
     ],
     "post_hoc_tau_090_ols_randomization_seed_sensitivity": {
-      "selection_note": "Post hoc follow-up selected because the pre-registered 199-draw conditional randomization p-value was 0.005.",
+      "selection_note": "Post hoc follow-up selected because the initial fixed-seed full-run grid's 199-draw conditional randomization p-value was 0.005.",
       "observed_median_gap": -0.3980489193431419,
       "draws_per_seed": 499,
       "seed_streams": [
@@ -1275,7 +1280,7 @@
         "estimable": true
       }
     ],
-    "multiplicity": "Holm adjustments jointly cover 12 conditioned method\u00d7tau tests, separately for Wilcoxon, sign, and randomization p-values."
+    "multiplicity": "The conservative Holm family jointly covers 12 conditioned method\u00d7tau tests, separately for Wilcoxon, sign, and randomization p-values. Randomization p-values also report a four-test Holm sensitivity for the requested primary OLS residualization alone."
   },
   "elapsed_seconds": 238.56014680862427
 }

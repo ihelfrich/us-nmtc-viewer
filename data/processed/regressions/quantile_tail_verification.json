@@ -14,35 +14,35 @@
     {
       "tau": 0.5,
       "beta": -0.0,
-      "se_cluster_bootstrap": 0.01153,
-      "reps": 250,
+      "se_cluster_bootstrap": 0.01178,
+      "reps": 200,
       "ci95": [
-        -0.038,
-        0.0049
+        -0.0386,
+        0.0056
       ],
       "t": -0.0
     },
     {
       "tau": 0.75,
       "beta": -0.04421,
-      "se_cluster_bootstrap": 0.05457,
-      "reps": 250,
+      "se_cluster_bootstrap": 0.05517,
+      "reps": 200,
       "ci95": [
-        -0.1679,
-        0.0077
+        -0.1653,
+        0.0081
       ],
-      "t": -0.81
+      "t": -0.8
     },
     {
       "tau": 0.9,
       "beta": -0.12277,
-      "se_cluster_bootstrap": 0.15562,
-      "reps": 250,
+      "se_cluster_bootstrap": 0.16028,
+      "reps": 200,
       "ci95": [
-        -0.4839,
-        0.051
+        -0.4852,
+        0.0625
       ],
-      "t": -0.79
+      "t": -0.77
     }
   ],
   "T2_paired_design_free": [

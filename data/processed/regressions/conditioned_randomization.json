@@ -1,0 +1,32 @@
+{
+  "observed_beta": -0.000652,
+  "n_projects": 8024,
+  "seed": 20260815,
+  "n_exact_strata": 3255,
+  "n_exact_strata_mixed": 460,
+  "n_projects_in_mixed_strata": 2688,
+  "share_projects_in_mixed_strata": 0.335,
+  "balance_max_abs_z_year": 3.104,
+  "balance_max_abs_z_qalicb_type": 9.22,
+  "N1_within_cde": {
+    "draws_used": 400,
+    "n_extreme": 39,
+    "p_two_sided": 0.0998,
+    "null_sd": 0.001473,
+    "null_ci95": [
+      -0.00103,
+      0.00285
+    ]
+  },
+  "N2_exact_strata": {
+    "draws_used": 400,
+    "n_extreme": 67,
+    "p_two_sided": 0.1696,
+    "null_sd": 0.001442,
+    "null_ci95": [
+      -0.0,
+      0.00489
+    ]
+  },
+  "verdict": "Permuting within intermediary alone does not preserve the rural association with year or project type, so its p-value is a sensitivity under an assumption of exchangeability conditional on intermediary. Restricting permutations to exact intermediary-by-year-by-type strata preserves every conditioned margin and is the stricter test, at the cost of resting on the 34% of projects that sit in mixed strata. Neither test rejects the null."
+}

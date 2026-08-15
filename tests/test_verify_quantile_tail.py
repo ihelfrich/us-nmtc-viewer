@@ -13,7 +13,7 @@ import verify_quantile_tail as tail  # noqa: E402
 
 
 def test_conditioned_paired_gaps_remove_year_and_type_composition() -> None:
-    """Catches returning raw gaps or omitting either year/type adjustment."""
+    """Protects production T4 from raw gaps or omitted year/type adjustment."""
     rows = []
     # Outcome is exactly a year effect (10) plus a type effect (2). Rural
     # projects occur in the high-year cell, while type differs across CDEs.

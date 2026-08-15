@@ -19,8 +19,9 @@ changed result, and both are things the author must see.
 Numbers deliberately excluded, because no pipeline output backs them or they
 describe the procedure rather than a result: statutory facts (the 39% credit
 rate, the 20% target), dates, citation years, specification labels,
-conventional significance thresholds, procedural replication counts, and
-round counts stated in words.
+conventional significance thresholds, and procedural replication counts.
+Result counts printed as number words remain auditable through the explicit
+`NUMBER_WORD_VALUES` map below.
 
 Exit status is 0 when every claim passes and 1 otherwise, so this can gate
 a build.
@@ -42,6 +43,19 @@ REG = ROOT / "data" / "processed" / "regressions"
 PROCESSED = ROOT / "data" / "processed"
 
 _cache: dict[str, dict] = {}
+
+# Human-curated result counts whose anchors spell out the displayed value.
+# Keeping these explicit avoids pretending that generic prose parsing can infer
+# which number word is the load-bearing one (for example, "Three of twenty").
+NUMBER_WORD_VALUES: dict[tuple[str, str], float] = {
+    ("00-abstract", "Across twenty-four subgroups"): 24,
+    ("05-results", "inside twenty-four subgroups:"): 24,
+    ("05-results", "Four cells hold too few deals"): 4,
+    ("05-results", "gives the other twenty."): 20,
+    ("05-results", "Three of the twenty estimated cells"): 3,
+    ("05-results", "produces roughly one such\nrejection."): 1,
+    ("07-conclusion", "Scanning twenty-four subgroups"): 24,
+}
 
 
 def _csv_value(value: str):
@@ -292,6 +306,9 @@ CLAIMS: list[tuple] = [
      "F1_gelbach.contrib_cde", lambda v: v),
     ("00-abstract", "86\\% of the explained", "referee_fixes.json",
      "F1_gelbach.share_of_gap_from_cde", lambda v: 100 * v),
+    ("00-abstract", "Across twenty-four subgroups", "residual_analysis.json",
+     "n_cells_estimated",
+     lambda v: v + src("residual_analysis.json")["n_cells_skipped"]),
 
     ("01-intro", "roughly 8{,}000 projects", "headline.json",
      "n_projects_total", lambda v: 1000 * round(v / 1000)),
@@ -324,6 +341,9 @@ CLAIMS: list[tuple] = [
      "F1_gelbach.beta_M0", lambda v: v),
     ("07-conclusion", "returns $-0.060$", "review_round2.json",
      "G1_specs.M4S_nested.beta", lambda v: v),
+    ("07-conclusion", "Scanning twenty-four subgroups", "residual_analysis.json",
+     "n_cells_estimated",
+     lambda v: v + src("residual_analysis.json")["n_cells_skipped"]),
 
     # ── institutional and data descriptives ───────────────────────────
     ("02-background", "received 19.6\\% of QLICI dollars", "headline.json",
@@ -468,8 +488,23 @@ CLAIMS: list[tuple] = [
      "composition_by_rural_pct.re_rehab.metro", lambda v: v),
     ("05-results", "and 12.8\\% of rural ones", "purpose_channel.json",
      "composition_by_rural_pct.re_rehab.rural", lambda v: v),
+    ("05-results", "movement against the 86\\%", "referee_fixes.json",
+     "F1_gelbach.share_of_gap_from_cde", lambda v: 100 * v),
+    ("05-results", "the $26.9\\%$ point mass", "median_inference.json",
+     "outcome_mass_at_one", lambda v: 100 * v),
 
     # ── subgroup scan and the rehabilitation cell ─────────────────────
+    ("05-results", "inside twenty-four subgroups:", "residual_analysis.json",
+     "n_cells_estimated",
+     lambda v: v + src("residual_analysis.json")["n_cells_skipped"]),
+    ("05-results", "Four cells hold too few deals", "residual_analysis.json",
+     "n_cells_skipped", lambda v: v),
+    ("05-results", "gives the other twenty.", "residual_analysis.json",
+     "n_cells_estimated", lambda v: v),
+    ("05-results", "Three of the twenty estimated cells", "residual_analysis.json",
+     "n_significant_uncorrected", lambda v: v),
+    ("05-results", "produces roughly one such\nrejection.", "residual_analysis.json",
+     "expected_false_positives_at_05", lambda v: v),
     ("05-results", "($p = 0.043$)", "residual_analysis.json", "cells",
      lambda v: next(r["p"] for r in v if r["cell"] == "QALICB type RE")),
     ("05-results", "at $+0.349$", "residual_analysis.json", "cells",
@@ -486,6 +521,8 @@ CLAIMS: list[tuple] = [
     ("05-results", "and $-0.463$", "rehab_cell_verification.json",
      "R2_outcome_variants", lambda v: min(r["beta"] for r in v.values()
                                            if r != v["log"])),
+    ("05-results", ", -0.410]$", "rehab_cell_verification.json",
+     "R3_influence.leave_one_cde_max", lambda v: v),
     ("05-results", "($p = 0.0002$)", "rehab_cell_verification.json",
      "R2_outcome_variants.log.p", lambda v: v),
     ("05-results", "within\n$[-0.478,", "rehab_cell_verification.json",
@@ -528,6 +565,20 @@ CLAIMS: list[tuple] = [
     # ── bootstrap-scheme sensitivity, surfaced by cross-model audit ────
     ("05-results", "returns $0.0075$", "codex_check_bootstrap_equivalence.json",
      "cluster_exponential_multiplier.se", lambda v: v),
+
+    # ── covariate-conditioned randomization, after the C6 refutation ───
+    ("05-results", "sits\n$9.2$ standard deviations", "conditioned_randomization.json",
+     "balance_max_abs_z_qalicb_type", lambda v: v),
+    ("05-results", "returns $0.170$", "conditioned_randomization.json",
+     "N2_exact_strata.p_two_sided", lambda v: v),
+    ("05-results", "the $460$ of", "conditioned_randomization.json",
+     "n_exact_strata_mixed", lambda v: v),
+    ("05-results", "$3{,}255$ exact strata", "conditioned_randomization.json",
+     "n_exact_strata", lambda v: v),
+    ("05-results", "cover $2{,}688$ projects", "conditioned_randomization.json",
+     "n_projects_in_mixed_strata", lambda v: v),
+    ("05-results", "and $0.100$ across", "conditioned_randomization.json",
+     "N1_within_cde.p_two_sided", lambda v: v),
 ]
 
 
@@ -552,12 +603,17 @@ def main() -> int:
 
         # the number the manuscript actually prints, taken from the literal
         m = re.findall(r"[-+]?\d+(?:\.\d+)?(?:\{,\})?\d*", literal.replace("{,}", ""))
-        if not m:
+        word_value = NUMBER_WORD_VALUES.get((stem, literal))
+        if not m and word_value is None:
             fails.append(f"NO NUMBER in literal {literal!r}")
             continue
-        shown_txt = max(m, key=len)
-        shown = float(shown_txt)
-        ndp = len(shown_txt.split(".")[1]) if "." in shown_txt else 0
+        if m:
+            shown_txt = max(m, key=len)
+            shown = float(shown_txt)
+            ndp = len(shown_txt.split(".")[1]) if "." in shown_txt else 0
+        else:
+            shown = float(word_value)
+            ndp = 0
 
         try:
             expected = xform(dig(src(jf), path))

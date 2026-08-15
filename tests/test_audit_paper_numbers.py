@@ -69,6 +69,18 @@ def test_cde_profile_recomputes_background_counts_from_transaction_output():
     }
 
 
+def test_number_word_claim_can_be_checked_against_a_numeric_source():
+    original = audit.CLAIMS
+    audit.CLAIMS = [
+        ("05-results", "Four cells hold too few deals", "residual_analysis.json",
+         "n_cells_skipped", lambda value: value),
+    ]
+    try:
+        assert audit.main() == 0
+    finally:
+        audit.CLAIMS = original
+
+
 def test_manifest_covers_c9_load_bearing_inventory():
     """Removing one of the audited empirical anchors must expose a coverage gap."""
     required = {
@@ -81,10 +93,12 @@ def test_manifest_covers_c9_load_bearing_inventory():
         ("00-abstract", "median-regression analog is $-0.001$"),
         ("00-abstract", "decomposition assigns $-0.185$"),
         ("00-abstract", "86\\% of the explained"),
+        ("00-abstract", "Across twenty-four subgroups"),
         ("01-intro", "roughly 8{,}000 projects"),
         ("01-intro", "leverage is $-0.262$"),
         ("01-intro", "effects move it to $-0.172$"),
         ("01-intro", "the 163 of 343 CDEs"),
+        ("01-intro", "of 343 CDEs that work"),
         ("01-intro", "point estimate falls to $-0.047$"),
         ("01-intro", "effects gives $-0.060$"),
         ("01-intro", "95\\% CI $[-0.245,"),
@@ -103,6 +117,7 @@ def test_manifest_covers_c9_load_bearing_inventory():
         ("02-background", "310 executed five or more transactions"),
         ("02-background", "account for 23.9\\% of QLICI dollars"),
         ("02-background", "from 0\\% to 100\\%"),
+        ("02-background", "span the full range\nfrom 0\\%"),
         ("02-background", "with 39\\% of such CDEs"),
         ("02-background", "6.5\\% deploying there"),
         ("03-data", "reports 19{,}907"),
@@ -148,27 +163,39 @@ def test_manifest_covers_c9_load_bearing_inventory():
         ("05-results", "$p = 0.34$)"),
         ("05-results", "($p = 0.77$)"),
         ("05-results", "the 163 of\n343 CDEs"),
+        ("05-results", "of\n343 CDEs that deploy"),
         ("05-results", "originate 94\\%"),
         ("05-results", "effect is $0.091$"),
         ("05-results", "(SE $0.621$)"),
 
         # Robustness, composition, subgroup scan, and bunching diagnostics.
         ("05-results", "($-0.338$, $p = 0.01$)"),
+        ("05-results", "$p = 0.01$), while"),
         ("05-results", "($-0.216$, $p = 0.48$)"),
+        ("05-results", "$p = 0.48$). Winsorization"),
         ("05-results", "($p = 0.18$)"),
         ("05-results", "gives $-0.100$"),
         ("05-results", "(SE $0.148$)"),
         ("05-results", "from $0.101$ to $0.105$"),
+        ("05-results", "to $0.105$."),
         ("05-results", "sample; 7.4\\% of projects"),
         ("05-results", "median dominant share is 100\\%"),
         ("05-results", "accounts for 28.1\\% of metro"),
         ("05-results", "and 12.8\\% of rural ones"),
+        ("05-results", "movement against the 86\\%"),
+        ("05-results", "the $26.9\\%$ point mass"),
+        ("05-results", "inside twenty-four subgroups:"),
+        ("05-results", "Four cells hold too few deals"),
+        ("05-results", "gives the other twenty."),
+        ("05-results", "Three of the twenty estimated cells"),
+        ("05-results", "produces roughly one such\nrejection."),
         ("05-results", "($p = 0.043$)"),
         ("05-results", "at $+0.349$"),
         ("05-results", "($p = 0.048$)"),
         ("05-results", "or about 15\\% in logs"),
         ("05-results", "lies between\n$-0.403$"),
         ("05-results", "and $-0.463$"),
+        ("05-results", ", -0.410]$"),
         ("05-results", "($p = 0.0002$)"),
         ("05-results", "within\n$[-0.478,"),
         ("05-results", ", -0.380]$"),
@@ -187,6 +214,13 @@ def test_manifest_covers_c9_load_bearing_inventory():
         ("05-results", ", +0.016]$ across"),
         ("05-results", "period ($n = 310$)"),
         ("05-results", "($n = 291$),"),
+        ("05-results", "sits\n$9.2$ standard deviations"),
+        ("05-results", "returns $0.170$"),
+        ("05-results", "the $460$ of"),
+        ("05-results", "$3{,}255$ exact strata"),
+        ("05-results", "cover $2{,}688$ projects"),
+        ("05-results", "and $0.100$ across"),
+        ("07-conclusion", "Scanning twenty-four subgroups"),
     }
     actual = {(stem, literal) for stem, literal, *_ in audit.CLAIMS}
     missing = sorted(required - actual)

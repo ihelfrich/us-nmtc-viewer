@@ -41,7 +41,7 @@ ROOT = Path(__file__).resolve().parent.parent
 INPUT_PATH = ROOT / "data" / "processed" / "nmtc_projects.csv"
 OUTPUT_PATH = ROOT / "data" / "processed" / "regressions" / "codex_check_tail_conditioning.json"
 
-# Experimental design, fixed before the first audit run.
+# Initial fixed-seed full-run grid, specified before that full run.
 C7_TAUS = (0.90, 0.95)
 C8_TAUS = (0.50, 0.75, 0.90, 0.95)
 C7_SEED_BASES = (2026081501, 2026181501, 2026281501, 2026381501)
@@ -479,7 +479,15 @@ def run_c8(pr: pd.DataFrame) -> dict[str, Any]:
     for row, value in zip(inferential, placebo_adjusted):
         row["randomization_p_holm_across_conditioned_methods_and_taus"] = value
 
-    # This was selected only after the pre-registered run exposed a raw p=.005
+    ols_rows = [row for row in results if row.get("method") == "ols_year_type_residual"]
+    ols_placebo_adjusted = holm_adjust(
+        [row.get("randomization", {}).get("p_two_sided") for row in ols_rows]
+    )
+    for row, value in zip(ols_rows, ols_placebo_adjusted):
+        row["randomization_p_holm_across_ols_taus"] = value
+
+    # This was selected only after the initial fixed-seed full-run grid exposed
+    # a raw p=.005
     # at tau=.90. Keep it separate and label it post hoc rather than folding it
     # into the original family as if it had been specified in advance.
     followup_frame = work.copy()
@@ -522,8 +530,8 @@ def run_c8(pr: pd.DataFrame) -> dict[str, Any]:
         "results": results,
         "post_hoc_tau_090_ols_randomization_seed_sensitivity": {
             "selection_note": (
-                "Post hoc follow-up selected because the pre-registered 199-draw "
-                "conditional randomization p-value was 0.005."
+                "Post hoc follow-up selected because the initial fixed-seed "
+                "full-run grid's 199-draw conditional randomization p-value was 0.005."
             ),
             "observed_median_gap": followup_observed,
             "draws_per_seed": C8_FOLLOWUP_REPS,
@@ -534,8 +542,10 @@ def run_c8(pr: pd.DataFrame) -> dict[str, Any]:
         },
         "min_side_sensitivity": sensitivity,
         "multiplicity": (
-            "Holm adjustments jointly cover 12 conditioned method×tau tests, "
-            "separately for Wilcoxon, sign, and randomization p-values."
+            "The conservative Holm family jointly covers 12 conditioned "
+            "method×tau tests, separately for Wilcoxon, sign, and randomization "
+            "p-values. Randomization p-values also report a four-test Holm "
+            "sensitivity for the requested primary OLS residualization alone."
         ),
     }
 
@@ -562,7 +572,9 @@ def main() -> None:
             },
         },
         "experimental_design": {
-            "fixed_before_run": True,
+            "design_timing": (
+                "initial fixed-seed full-run grid, specified before that full run"
+            ),
             "max_workers": MAX_WORKERS,
             "c7_taus": list(C7_TAUS),
             "c7_seed_bases": list(C7_SEED_BASES),

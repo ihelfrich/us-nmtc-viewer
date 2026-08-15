@@ -37,7 +37,8 @@ Three checks, in increasing order of how much they would hurt.
 
   T4  Residualize leverage on additive year and QALICB-type effects, then
       rebuild the within-intermediary paired gaps. This removes those two
-      observed composition margins without changing T2's semantics.
+      observed composition margins while preserving T2's per-CDE paired
+      construction; the adjusted outcome changes the estimand.
 
 Reads:  data/processed/nmtc_projects.csv
 Writes: data/processed/regressions/quantile_tail_verification.json / .md
@@ -237,20 +238,11 @@ def main() -> None:
     R["T3_placebo"] = t3
 
     # ── T4 condition year and QALICB type ─────────────────────────────
-    conditioned = pr.copy()
-    design = pd.get_dummies(
-        conditioned[["year", "qalicb_type"]].astype(str),
-        drop_first=True,
-        dtype=float,
-    )
-    x = np.column_stack([np.ones(len(conditioned)), design.to_numpy(dtype=float)])
-    y = conditioned["leverage_win"].to_numpy(dtype=float)
-    coef, *_ = np.linalg.lstsq(x, y, rcond=None)
-    conditioned["leverage_year_type_resid"] = y - x @ coef
-
     t4 = []
     for tau in TAUS:
-        d = paired_gaps(conditioned, tau, outcome="leverage_year_type_resid")
+        # Keep production T4 on the focused-test path; do not duplicate the
+        # residualization here.
+        d = conditioned_paired_gaps(pr, tau)
         nz = d[d != 0]
         w_p = float(stats.wilcoxon(d, zero_method="wilcox").pvalue) if len(nz) else None
         sign_p = (

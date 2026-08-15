@@ -774,3 +774,57 @@ paper's tail gradient stays uninterpreted.
 
 Nothing in the manuscript changes. The paper never claimed these tests as
 support, and it now has executable grounds for having declined them.
+
+## D27. The audit's highest-severity finding: the randomization test was not design-valid (2026-08-15)
+
+The cross-model audit's top-ranked finding (C6) is a defect in M3 of
+`run_median_inference.py`, and it is the one I would have been least likely
+to catch alone.
+
+M3 permutes the rural label inside each intermediary. Its docstring, and
+Section 5.2 as written yesterday, described this as holding "every book
+composition" fixed. That is false. Permuting within CDE holds each
+intermediary's rural *count* fixed and nothing else, and rural status is
+strongly associated with origination year and QALICB type. The permutation
+destroys structure the specification conditions on, so the resulting
+p-value is valid only under exchangeability conditional on intermediary
+alone, which is an assumption about assignment this observational setting
+does not supply.
+
+Verified independently before acting. Under the within-CDE permutation
+null, observed covariate balance sits 3.1 standard deviations away on
+origination year and **9.2** on QALICB type. My own conditioned run and
+Codex's agreed on the structural facts exactly: 460 of 3,255 exact
+intermediary-by-year-by-type strata are mixed in rural status, covering
+2,688 projects.
+
+`scripts/run_conditioned_randomization.py` now reports both tests as a
+pipeline output. Permuting only inside exact strata, which holds every
+conditioned margin fixed by construction, gives p = 0.170 against the
+within-CDE 0.085. Neither rejects, so no conclusion moves; what changes is
+that the paper no longer calls the within-CDE figure design-valid, states
+the assumption it needs, and reports the stricter test beside it. The
+within-CDE p also moves between 0.085 and 0.100 across independent
+permutation streams, which is disclosed.
+
+**C5, accepted.** Calling the LP solution "exact" overstates it. HiGHS
+returns a tight floating-point optimum, not an exact one, and the QR
+optimum here is frequently nonunique, so the reported coefficient is one
+member of an argmin set. `qreg_lp.py` now claims only what it can: a
+no-worse objective than IRLS at every quantile tested, reproducible run to
+run.
+
+**C4, partially accepted.** The nonregularity diagnosis survives, but the
+unconditional 26.9% atom is not by itself proof of it; the conditional
+diagnostics are what carry the claim. The paper already rests the argument
+on the permutation-pinning evidence rather than on the atom alone.
+
+**C8, noted and not acted on.** One conditioned statistic, the
+OLS-residualized median-gap randomization at tau = 0.90, sits near p =
+0.001 under expanded draws. No other conditioned estimand or the Wilcoxon
+and sign tests corroborate it, and the paper interprets nothing in the
+upper tail, so this changes no claim. It is recorded as the one place a
+future design with more tail power should look first.
+
+**C7, C2, C3 confirmed**; C9 is recorded in the commit that expanded the
+manifest from 66 to 180 claims.

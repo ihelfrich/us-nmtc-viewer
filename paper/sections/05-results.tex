@@ -104,9 +104,23 @@ essentially the asymptotic value and would leave the bound at $0.013$. Two
 defensible cluster bootstraps disagreeing by a quarter is itself a symptom
 of the nonregularity described below, and we take the wider of the two
 throughout. Randomization inference, permuting the
-rural label inside each intermediary so that every book composition is held
-fixed, returns a two-sided $p$ of $0.085$ against the sharp null of no
-within-CDE rural effect.
+rural label inside each intermediary, returns a two-sided $p$ of $0.085$
+against the sharp null of no within-CDE rural effect. That figure carries
+an assumption worth naming. Permuting within intermediary holds each
+intermediary's rural count fixed and nothing else, while rural status is
+strongly associated with both origination year and project type, so the
+permutation destroys structure the specification conditions on. Under the
+within-CDE permutation null, the observed project-type composition sits
+$9.2$ standard deviations from its own reference distribution. We therefore
+treat $0.085$ as a sensitivity that presumes exchangeability conditional on
+intermediary alone, and we report the stricter test beside it. Permuting
+only inside exact intermediary-by-year-by-type strata holds every
+conditioned margin fixed by construction and returns $0.170$, resting on
+the $460$ of $3{,}255$ exact strata that are mixed in rural status and
+cover $2{,}688$ projects. Neither test rejects, and the within-CDE figure
+itself moves between $0.085$ and $0.100$ across independent permutation
+streams, which is a further reason to lean on the interval instead of on
+either $p$-value.
 
 One caution belongs with these numbers. The outcome carries a $26.9\%$
 point mass at exactly $1.0$, the value recorded when a project mobilizes

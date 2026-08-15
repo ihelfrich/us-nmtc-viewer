@@ -1,5 +1,5 @@
 """
-Exact quantile regression by sparse linear programming.
+Quantile regression by sparse linear programming.
 
 Why this exists rather than a call to statsmodels.
 
@@ -17,11 +17,18 @@ Quantile regression is a linear program:
     s.t. X b + u - v = y,   u >= 0,  v >= 0,  b free
 
 Handing that to HiGHS with a sparse constraint matrix takes about 1.4
-seconds and a small fraction of the memory. It is also *more accurate*:
-on the estimation sample the LP attains a strictly lower check-loss
-objective than statsmodels at every quantile tested (0.50, 0.75, 0.90,
-0.95), because IRLS stops at a convergence tolerance rather than at a
-vertex.
+seconds and a small fraction of the memory. It is also more accurate: on the estimation sample the LP attains a
+strictly lower check-loss objective than statsmodels at every quantile
+tested (0.50, 0.75, 0.90, 0.95), because IRLS stops at a convergence
+tolerance instead of at a vertex.
+
+A qualification a cross-model audit asked for, and it is the right one.
+"Exact" overstates what this returns. HiGHS delivers a tight floating-point
+optimum, not an exact rational one, and the quantile-regression optimum
+here is frequently nonunique, so the coefficient reported is one member of
+an argmin set and the solver's tie-breaking is part of the estimator. What
+can be claimed is narrower: this attains a no-worse objective than IRLS at
+every quantile tested, and it is reproducible run to run.
 
 That accuracy gap is worth stating plainly, because it is small in the
 objective and not small in the coefficient. At tau = 0.90 the LP improves
@@ -67,7 +74,7 @@ def build_design(df: pd.DataFrame, target: str = "rural",
 def fit_quantile(df: pd.DataFrame, outcome: str, tau: float,
                    target: str = "rural",
                    fe: tuple[str, ...] = FE_COLUMNS) -> float | None:
-    """Exact quantile-regression coefficient on `target` at quantile `tau`.
+    """Quantile-regression coefficient on `target` at quantile `tau`.
 
     Returns None when the target has no variation or HiGHS does not report
     an optimal solution, so callers can drop the replication rather than
