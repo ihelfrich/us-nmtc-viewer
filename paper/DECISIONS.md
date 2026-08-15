@@ -679,3 +679,60 @@ the winsorized outcome, matching the paper's own robustness table.
 Counts updated throughout: eighteen subgroups became twenty-four, seventeen
 estimated cells became twenty, and the claim that no cell survives
 correction is retired from the abstract, Section 5.6 and the conclusion.
+
+## D25. A cross-model audit refuted one of my stated justifications (2026-08-15)
+
+Codex (gpt-5.6-sol, xhigh) audited the median-inference work against nine
+named claims. Two were confirmed, one was refuted, and the refutation is
+recorded here because it was a real error in reasoning rather than in
+arithmetic.
+
+**C1, REFUTED as stated.** D22 and the M2 docstring justified relabelling a
+twice-drawn CDE as two intermediaries by asserting that pooling the
+duplicates under their original labels "would understate the very
+dependence being measured." That is false. Profiling out the copied fixed
+effects leaves sum_g m_g q_g(beta), with m_g the draw multiplicity and q_g
+the cluster's within-group minimized loss, and pooling with multiplicity
+weights profiles to exactly the same criterion. The two encodings share an
+objective and an argmin set.
+
+I verified this independently before accepting it, per the standing rule on
+cross-model claims. Across three bootstrap draws the relabelled and
+weighted-pooled programs reached objectives agreeing to 1e-11
+(3703.851335, 3219.511517, 3719.915075). Codex's own matched 250-draw
+comparison put the two bootstrap standard errors at 0.009506 and 0.009477,
+a difference of 0.31%.
+
+The relabelled procedure stands; only its stated rationale was wrong, and
+both the docstring and this log now say so.
+
+**What the refutation exposed, which matters more.** On the draw where both
+encodings attained an identical objective of 3719.915075, they returned
+rural coefficients of -0.008737 and -0.007956. The argmin is not unique, so
+the solver's tie-breaking is part of the operational estimator. This is the
+same nonregularity the 26.9% mass point produces, arriving by a different
+route.
+
+**C2, CONFIRMED.** Codex reproduced the median coefficient (-0.000652 by
+LP, -0.000654 by IRLS), the asymptotic SE (0.007628), and the pairs
+bootstrap SE (0.009506 at 250 draws, 0.009230 combined over 550), against
+the reported 0.0093 and 1.23x.
+
+**C3, CONFIRMED with a terminology qualification.** 1.645*0.1011 + 0.0467 =
+0.2130095 exactly. The convention is the correct one-sided 5%
+*noninferiority* boundary for ruling out a penalty of a given magnitude. A
+symmetric equivalence claim would require both TOST inequalities; here the
+negative point estimate makes the penalty-side inequality binding, so the
+number coincides with the minimum symmetric margin. The paper's wording,
+which speaks of rejecting penalties larger than a bound, is the
+noninferiority reading and is correct as written.
+
+**A sensitivity now reported in the paper.** An exchangeably weighted
+cluster-multiplier bootstrap (independent unit-mean weights per CDE)
+returns SE 0.0075, essentially the asymptotic value, against the pairs
+bootstrap's 0.0093. Two defensible cluster bootstraps disagreeing by a
+quarter is further evidence of nonregularity. Section 5.2 now reports both
+and states that we take the wider throughout.
+
+Codex's run was cut off mid-audit by a network failure, not by an error;
+tasks covering C4 through C9 were resumed separately.

@@ -219,6 +219,10 @@ CLAIMS: list[tuple] = [
 
     ("07-conclusion", "rehabilitation, at $-0.439$", "rehab_cell_verification.json",
      "R1.beta", lambda v: v),
+
+    # ── bootstrap-scheme sensitivity, surfaced by cross-model audit ────
+    ("05-results", "returns $0.0075$", "codex_check_bootstrap_equivalence.json",
+     "cluster_exponential_multiplier.se", lambda v: v),
 ]
 
 

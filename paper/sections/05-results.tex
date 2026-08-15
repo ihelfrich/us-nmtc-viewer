@@ -96,7 +96,14 @@ treating an intermediary drawn twice as two intermediaries with their own
 fixed effects, returns a standard error of $0.0093$ against the asymptotic
 $0.0076$. Clustering therefore inflates the median standard error by about
 a quarter, which moves the rejectable penalty from $0.013$ to $0.016$ and
-leaves the substantive claim intact. Randomization inference, permuting the
+leaves the substantive claim intact. That inflation is specific to the
+resampling scheme, and we report the conservative one deliberately. An
+exchangeably weighted cluster-multiplier bootstrap, drawing independent
+unit-mean weights at the intermediary level, returns $0.0075$, which is
+essentially the asymptotic value and would leave the bound at $0.013$. Two
+defensible cluster bootstraps disagreeing by a quarter is itself a symptom
+of the nonregularity described below, and we take the wider of the two
+throughout. Randomization inference, permuting the
 rural label inside each intermediary so that every book composition is held
 fixed, returns a two-sided $p$ of $0.085$ against the sharp null of no
 within-CDE rural effect.

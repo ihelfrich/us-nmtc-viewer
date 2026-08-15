@@ -19,9 +19,26 @@ This script closes the item three ways.
   M2  Pairs cluster bootstrap over intermediaries. Each replication draws
       343 CDEs with replacement and refits the full median regression.
       A CDE drawn twice enters as two distinct intermediaries with their
-      own fixed effects, which is the standard treatment for a pairs
-      cluster bootstrap in a model carrying cluster fixed effects; pooling
-      the duplicates would understate the very dependence being measured.
+      own fixed effects, which is a literal representation of the resampled
+      clusters.
+
+      An earlier version of this docstring justified that choice by
+      claiming pooling the duplicates under their original labels "would
+      understate the very dependence being measured." That claim is false
+      and a cross-model audit caught it. Profiling out the copied fixed
+      effects gives sum_g m_g q_g(beta), where m_g is the number of times
+      cluster g was drawn and q_g is its within-cluster minimized loss;
+      pooling with multiplicity weights profiles to exactly the same
+      criterion. Verified directly: across bootstrap draws the two
+      encodings reach objectives agreeing to 1e-11, and their bootstrap
+      standard errors differ by 0.31%.
+
+      What the check did expose is worth keeping. On a draw where both
+      encodings attained an identical objective of 3719.915075, they
+      returned rural coefficients of -0.008737 and -0.007956. The argmin
+      is not unique, so the solver's tie-breaking is part of the
+      operational estimator, which is the same nonregularity the mass
+      point creates in M5.
 
   M3  Randomization inference on the sharp null of no within-CDE rural
       effect. The rural label is permuted inside each intermediary, which
