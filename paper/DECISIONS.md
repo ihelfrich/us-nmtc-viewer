@@ -736,3 +736,41 @@ and states that we take the wider throughout.
 
 Codex's run was cut off mid-audit by a network failure, not by an error;
 tasks covering C4 through C9 were resumed separately.
+
+## D26. The C8 conditioning test: a judgment call turned into a fact (2026-08-15)
+
+D22 declined to treat the design-free paired tests in
+`verify_quantile_tail.py` as corroboration of the upper-tail gradient,
+because they condition on neither origination year nor QALICB type and
+therefore cannot separate a rural effect from within-CDE composition. That
+was a judgment call, defensible but unproven. The cross-model audit was
+asked to build the conditioned version, and it did
+(`scripts/codex_check_tail_conditioning.py`,
+`codex_check_tail_conditioning.json`).
+
+Conditioning removes the result. Wilcoxon p-values on the paired gaps,
+moving left to right from no conditioning to residualizing on year and
+QALICB type by OLS, to residualizing by quantile regression, to an exact
+CDE-by-year-by-type cell comparison:
+
+| tau | unadjusted | OLS residual | quantile residual | exact cell |
+|---:|---:|---:|---:|---:|
+| 0.50 | 0.027 | 0.347 | 0.428 | 0.717 |
+| 0.75 | 0.003 | 0.023 | 0.073 | 0.679 |
+| 0.90 | 0.124 | 0.240 | 0.378 | 0.679 |
+| 0.95 | 0.118 | 0.219 | 0.580 | 0.623 |
+
+The 0.50 row is the decisive one. An apparently clean within-intermediary
+median gap at p = 0.027 becomes p = 0.72 once year and project type are
+held fixed inside the intermediary, which is precisely the compositional
+explanation D22 asserted without demonstrating. The 0.75 row attenuates the
+same way. Nothing survives once conditioning is exact.
+
+The audit also varied the minimum deals per side. At three per side (104
+pairs) the conditioned tau = 0.95 test reaches p = 0.035; at five per side
+(69 pairs) the same test gives p = 0.219. A result that moves that much on
+a sample-inclusion rule is not a result, which is a second reason the
+paper's tail gradient stays uninterpreted.
+
+Nothing in the manuscript changes. The paper never claimed these tests as
+support, and it now has executable grounds for having declined them.
