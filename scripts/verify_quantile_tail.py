@@ -35,6 +35,10 @@ Three checks, in increasing order of how much they would hurt.
       T2 is measuring the shape of the distribution rather than a rural
       effect.
 
+  T4  Residualize leverage on additive year and QALICB-type effects, then
+      rebuild the within-intermediary paired gaps. This removes those two
+      observed composition margins without changing T2's semantics.
+
 Reads:  data/processed/nmtc_projects.csv
 Writes: data/processed/regressions/quantile_tail_verification.json / .md
 
@@ -47,8 +51,7 @@ import json
 import os
 import sys
 import warnings
-from concurrent.futures import ProcessPoolExecutor
-from multiprocessing import get_context
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -70,7 +73,7 @@ B_BOOT = int(os.environ.get("NMTC_TAIL_BOOT", 200))
 B_PLACEBO = int(os.environ.get("NMTC_TAIL_PLACEBO", 500))
 MIN_SIDE = int(os.environ.get("NMTC_MIN_SIDE", 5))
 SEED = 20260814
-N_WORKERS = max(1, min(14, (os.cpu_count() or 4) - 2))
+N_WORKERS = max(1, min(4, int(os.environ.get("NMTC_WORKERS", 4))))
 FORMULA = "leverage_win ~ rural + C(year) + C(qalicb_type) + C(cde_name)"
 
 
@@ -120,15 +123,32 @@ def _boot(job: tuple[int, float]) -> float | None:
         return None
 
 
-def paired_gaps(pr: pd.DataFrame, tau: float) -> np.ndarray:
+def paired_gaps(
+    pr: pd.DataFrame, tau: float, outcome: str = "leverage_win"
+) -> np.ndarray:
     """Per-intermediary rural-minus-urban gap at quantile tau."""
-    g = pr.groupby(["cde_name", "rural"])["leverage_win"]
+    g = pr.groupby(["cde_name", "rural"])[outcome]
     qq = g.quantile(tau).unstack()
     nn = g.size().unstack()
     ok = (nn[0] >= MIN_SIDE) & (nn[1] >= MIN_SIDE)
     ok = ok.fillna(False)
     d = (qq[1] - qq[0])[ok]
     return d.dropna().to_numpy(dtype=float)
+
+
+def conditioned_paired_gaps(pr: pd.DataFrame, tau: float) -> np.ndarray:
+    """Paired gaps after additive year/type conditional-mean adjustment."""
+    adjusted = pr.copy()
+    design = pd.get_dummies(
+        adjusted[["year", "qalicb_type"]].astype(str),
+        drop_first=True,
+        dtype=float,
+    )
+    x = np.column_stack([np.ones(len(adjusted)), design.to_numpy(dtype=float)])
+    y = adjusted["leverage_win"].to_numpy(dtype=float)
+    coef, *_ = np.linalg.lstsq(x, y, rcond=None)
+    adjusted["leverage_year_type_resid"] = y - x @ coef
+    return paired_gaps(adjusted, tau, outcome="leverage_year_type_resid")
 
 
 def main() -> None:
@@ -216,6 +236,40 @@ def main() -> None:
               f"95% {row['placebo_ci95']}  p = {p:.3f}")
     R["T3_placebo"] = t3
 
+    # ── T4 condition year and QALICB type ─────────────────────────────
+    conditioned = pr.copy()
+    design = pd.get_dummies(
+        conditioned[["year", "qalicb_type"]].astype(str),
+        drop_first=True,
+        dtype=float,
+    )
+    x = np.column_stack([np.ones(len(conditioned)), design.to_numpy(dtype=float)])
+    y = conditioned["leverage_win"].to_numpy(dtype=float)
+    coef, *_ = np.linalg.lstsq(x, y, rcond=None)
+    conditioned["leverage_year_type_resid"] = y - x @ coef
+
+    t4 = []
+    for tau in TAUS:
+        d = paired_gaps(conditioned, tau, outcome="leverage_year_type_resid")
+        nz = d[d != 0]
+        w_p = float(stats.wilcoxon(d, zero_method="wilcox").pvalue) if len(nz) else None
+        sign_p = (
+            float(stats.binomtest(int((nz > 0).sum()), len(nz), 0.5).pvalue)
+            if len(nz) else None
+        )
+        row = {"tau": tau, "n_pairs": int(len(d)),
+               "median_gap": round(float(np.median(d)), 4),
+               "mean_gap": round(float(d.mean()), 4),
+               "share_negative": round(float((d < 0).mean()), 4),
+               "wilcoxon_p": round(w_p, 4) if w_p is not None else None,
+               "sign_p": round(sign_p, 4) if sign_p is not None else None,
+               "estimand": "CDE paired quantile gaps after additive year/type mean adjustment"}
+        t4.append(row)
+        print(f"T4 tau={tau:.2f}  {len(d)} conditioned pairs  "
+              f"median gap {np.median(d):+.4f}  Wilcoxon p {row['wilcoxon_p']}")
+
+    R["T4_year_type_conditioned_paired"] = t4
+
     survives = all(r["ci95"][1] < 0 for r in t1 if r["tau"] >= 0.90)
     R["tail_survives_large_cde_restriction"] = bool(survives)
 
@@ -247,16 +301,21 @@ def main() -> None:
         md.append(f"| {r['tau']:.2f} | {r['observed_median_gap']:+.4f} | "
                   f"[{r['placebo_ci95'][0]:+.3f}, {r['placebo_ci95'][1]:+.3f}] | "
                   f"{r['p_two_sided']:.3f} |")
+    md += ["", "## T4. Paired gaps after additive year/type adjustment", "",
+           "| tau | pairs | median gap | share negative | Wilcoxon p | sign p |",
+           "|---:|---:|---:|---:|---:|---:|"]
+    for r in t4:
+        md.append(f"| {r['tau']:.2f} | {r['n_pairs']} | {r['median_gap']:+.4f} | "
+                  f"{100*r['share_negative']:.0f}% | {r['wilcoxon_p']} | {r['sign_p']} |")
     md.append("")
     (OUT / "quantile_tail_verification.md").write_text("\n".join(md))
     print(f"\nWrote {OUT/'quantile_tail_verification.json'} and .md")
 
 
-POOL: ProcessPoolExecutor | None = None
+POOL: ThreadPoolExecutor | None = None
 
 if __name__ == "__main__":
-    POOL = ProcessPoolExecutor(
-        max_workers=N_WORKERS, mp_context=get_context("spawn"), initializer=_init)
+    POOL = ThreadPoolExecutor(max_workers=N_WORKERS, initializer=_init)
     try:
         main()
     finally:

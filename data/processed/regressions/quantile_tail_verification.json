@@ -109,5 +109,37 @@
       "p_two_sided": 0.0279
     }
   ],
+  "T4_year_type_conditioned_paired": [
+    {
+      "tau": 0.5,
+      "n_pairs": 69,
+      "median_gap": -0.0463,
+      "mean_gap": -0.018,
+      "share_negative": 0.5652,
+      "wilcoxon_p": 0.3467,
+      "sign_p": 0.275,
+      "estimand": "CDE paired quantile gaps after additive year/type mean adjustment"
+    },
+    {
+      "tau": 0.75,
+      "n_pairs": 69,
+      "median_gap": -0.1252,
+      "mean_gap": -0.1499,
+      "share_negative": 0.5942,
+      "wilcoxon_p": 0.0226,
+      "sign_p": 0.148,
+      "estimand": "CDE paired quantile gaps after additive year/type mean adjustment"
+    },
+    {
+      "tau": 0.9,
+      "n_pairs": 69,
+      "median_gap": -0.398,
+      "mean_gap": -0.0315,
+      "share_negative": 0.5942,
+      "wilcoxon_p": 0.24,
+      "sign_p": 0.148,
+      "estimand": "CDE paired quantile gaps after additive year/type mean adjustment"
+    }
+  ],
   "tail_survives_large_cde_restriction": false
 }

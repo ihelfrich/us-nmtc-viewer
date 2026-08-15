@@ -1,0 +1,1281 @@
+{
+  "script": "scripts/codex_check_tail_conditioning.py",
+  "input": "data/processed/nmtc_projects.csv",
+  "generated_at_local": "2026-08-15T14:16:52",
+  "provenance": {
+    "script_sha256": "8b707dc74c67c684aaa75e782fc5e5d0be498184fee34acb673fdbb4fc60f7bc",
+    "input_sha256": "904aed5e743ee94ad6af4a3534961191df2a28294e8b133c1783cecfee29e33b",
+    "platform": "macOS-26.3-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6 (main, Jul 23 2026, 14:51:00) [Clang 22.1.3 ]",
+    "dependencies": {
+      "numpy": "2.5.2",
+      "pandas": "3.0.5",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.11.1"
+    }
+  },
+  "experimental_design": {
+    "fixed_before_run": true,
+    "max_workers": 4,
+    "c7_taus": [
+      0.9,
+      0.95
+    ],
+    "c7_seed_bases": [
+      2026081501,
+      2026181501,
+      2026281501,
+      2026381501
+    ],
+    "c7_reps_per_seed": 80,
+    "c8_taus": [
+      0.5,
+      0.75,
+      0.9,
+      0.95
+    ],
+    "c8_placebo_seed_base": 2026481501,
+    "c8_placebo_reps": 199,
+    "c8_followup_seed_bases": [
+      2026581501,
+      2026681501,
+      2026781501,
+      2026881501
+    ],
+    "c8_followup_reps_per_seed": 499,
+    "diagnostics": [
+      "bootstrap mean/SE/MCSE",
+      "percentile/basic/normal intervals",
+      "seed and replication-count sensitivity",
+      "median/mean/IQR/share-negative paired gaps",
+      "Wilcoxon/sign/randomization tests with Holm sensitivity"
+    ]
+  },
+  "C7": {
+    "prediction": "If the reported upper-tail inference is stable, independent CDE-cluster bootstrap SEs at tau 0.90 and 0.95 should remain near 0.125 and 0.215 across seed streams and neither 95% interval should exclude zero.",
+    "n_projects": 8024,
+    "n_cdes": 343,
+    "workers": 4,
+    "reps_per_seed": 80,
+    "seed_bases": [
+      2026081501,
+      2026181501,
+      2026281501,
+      2026381501
+    ],
+    "tail_results": [
+      {
+        "tau": 0.9,
+        "point_estimate": -0.12867030178865146,
+        "failed_reps": 0,
+        "pooled": {
+          "reps": 320,
+          "mean": -0.13737847132528286,
+          "se": 0.1180134088383814,
+          "mcse_of_se_normal_approx": 0.0046721955975380074,
+          "percentile_ci95": [
+            -0.3912536908996028,
+            0.04535884298699535
+          ],
+          "basic_ci95": [
+            -0.30269944656429826,
+            0.1339130873222999
+          ],
+          "normal_ci95": [
+            -0.359976583111879,
+            0.1026359795345761
+          ],
+          "share_nonnegative": 0.115625
+        },
+        "by_seed_stream": [
+          {
+            "seed_base": 2026081501,
+            "reps": 80,
+            "mean": -0.12701761708976195,
+            "se": 0.11538790780964474,
+            "mcse_of_se_normal_approx": 0.009179769056376047,
+            "percentile_ci95": [
+              -0.33032606667376346,
+              0.014253480854016657
+            ],
+            "basic_ci95": [
+              -0.2715940844313196,
+              0.07298546309646053
+            ],
+            "normal_ci95": [
+              -0.35483060109555514,
+              0.09748999751825221
+            ],
+            "share_nonnegative": 0.15
+          },
+          {
+            "seed_base": 2026181501,
+            "reps": 80,
+            "mean": -0.14518142535561454,
+            "se": 0.12304643785179357,
+            "mcse_of_se_normal_approx": 0.009789048992487065,
+            "percentile_ci95": [
+              -0.39309884593400646,
+              0.04828553852127705
+            ],
+            "basic_ci95": [
+              -0.30562614209857997,
+              0.13575824235670353
+            ],
+            "normal_ci95": [
+              -0.3698413199781668,
+              0.11250071640086393
+            ],
+            "share_nonnegative": 0.1125
+          },
+          {
+            "seed_base": 2026281501,
+            "reps": 80,
+            "mean": -0.1499796554200583,
+            "se": 0.1178091793997764,
+            "mcse_of_se_normal_approx": 0.009372395081425748,
+            "percentile_ci95": [
+              -0.39599891855960667,
+              0.0008311428965607212
+            ],
+            "basic_ci95": [
+              -0.25817174647386365,
+              0.13865831498230374
+            ],
+            "normal_ci95": [
+              -0.3595762934122132,
+              0.1022356898349103
+            ],
+            "share_nonnegative": 0.05
+          },
+          {
+            "seed_base": 2026381501,
+            "reps": 80,
+            "mean": -0.12733518743569663,
+            "se": 0.11606219592491104,
+            "mcse_of_se_normal_approx": 0.009233412538549372,
+            "percentile_ci95": [
+              -0.34160905128364216,
+              0.07849045330762366
+            ],
+            "basic_ci95": [
+              -0.3358310568849266,
+              0.08426844770633923
+            ],
+            "normal_ci95": [
+              -0.3561522058014771,
+              0.09881160222417418
+            ],
+            "share_nonnegative": 0.15
+          }
+        ],
+        "replication_count_sensitivity": [
+          {
+            "reps_per_seed": 20,
+            "reps": 80,
+            "mean": -0.13092590601372084,
+            "se": 0.1034957033311609,
+            "mcse_of_se_normal_approx": 0.008233676066599542,
+            "percentile_ci95": [
+              -0.33287348407231215,
+              0.0
+            ],
+            "basic_ci95": [
+              -0.25734060357730293,
+              0.07553288049500922
+            ],
+            "normal_ci95": [
+              -0.33152188031772684,
+              0.07418127674042391
+            ],
+            "share_nonnegative": 0.0875
+          },
+          {
+            "reps_per_seed": 40,
+            "reps": 160,
+            "mean": -0.13945500256844887,
+            "se": 0.11090213925943766,
+            "mcse_of_se_normal_approx": 0.006219083152593074,
+            "percentile_ci95": [
+              -0.3722193706891302,
+              0.0
+            ],
+            "basic_ci95": [
+              -0.25734060357730293,
+              0.11487876711182726
+            ],
+            "normal_ci95": [
+              -0.3460384947371493,
+              0.08869789115984636
+            ],
+            "share_nonnegative": 0.075
+          },
+          {
+            "reps_per_seed": 80,
+            "reps": 320,
+            "mean": -0.13737847132528286,
+            "se": 0.1180134088383814,
+            "mcse_of_se_normal_approx": 0.0046721955975380074,
+            "percentile_ci95": [
+              -0.3912536908996028,
+              0.04535884298699535
+            ],
+            "basic_ci95": [
+              -0.30269944656429826,
+              0.1339130873222999
+            ],
+            "normal_ci95": [
+              -0.359976583111879,
+              0.1026359795345761
+            ],
+            "share_nonnegative": 0.115625
+          }
+        ],
+        "seed_se_range": [
+          0.11538790780964474,
+          0.12304643785179357
+        ],
+        "seed_se_sd": 0.0034668761831314144,
+        "percentile_excludes_zero": false,
+        "normal_excludes_zero": false
+      },
+      {
+        "tau": 0.95,
+        "point_estimate": -0.19971540982675615,
+        "failed_reps": 0,
+        "pooled": {
+          "reps": 320,
+          "mean": -0.187327718925055,
+          "se": 0.20451816988887198,
+          "mcse_of_se_normal_approx": 0.008096951883492628,
+          "percentile_ci95": [
+            -0.6349633529230648,
+            0.1290455745927793
+          ],
+          "basic_ci95": [
+            -0.5284763942462916,
+            0.23553253326955254
+          ],
+          "normal_ci95": [
+            -0.6005710228089453,
+            0.20114020315543293
+          ],
+          "share_nonnegative": 0.228125
+        },
+        "by_seed_stream": [
+          {
+            "seed_base": 2026081501,
+            "reps": 80,
+            "mean": -0.19379449851107747,
+            "se": 0.2138630546057177,
+            "mcse_of_se_normal_approx": 0.01701403109076506,
+            "percentile_ci95": [
+              -0.6582852763821042,
+              0.17821250570044422
+            ],
+            "basic_ci95": [
+              -0.5776433253539566,
+              0.2588544567285919
+            ],
+            "normal_ci95": [
+              -0.6188869968539629,
+              0.21945617720045055
+            ],
+            "share_nonnegative": 0.2
+          },
+          {
+            "seed_base": 2026181501,
+            "reps": 80,
+            "mean": -0.20419772152222934,
+            "se": 0.20394673742724015,
+            "mcse_of_se_normal_approx": 0.01622513125441159,
+            "percentile_ci95": [
+              -0.6154936706524826,
+              0.12361960522310118
+            ],
+            "basic_ci95": [
+              -0.5230504248766135,
+              0.21606285099897032
+            ],
+            "normal_ci95": [
+              -0.5994510151841468,
+              0.20002019553063452
+            ],
+            "share_nonnegative": 0.2
+          },
+          {
+            "seed_base": 2026281501,
+            "reps": 80,
+            "mean": -0.15209941708750038,
+            "se": 0.2032307449478959,
+            "mcse_of_se_normal_approx": 0.016168169951175853,
+            "percentile_ci95": [
+              -0.6216534613318218,
+              0.17685077009589356
+            ],
+            "basic_ci95": [
+              -0.5762815897494058,
+              0.22222264167830946
+            ],
+            "normal_ci95": [
+              -0.5980476699246321,
+              0.19861685027111978
+            ],
+            "share_nonnegative": 0.2875
+          },
+          {
+            "seed_base": 2026381501,
+            "reps": 80,
+            "mean": -0.19921923857941295,
+            "se": 0.1963013445911154,
+            "mcse_of_se_normal_approx": 0.01561689645829519,
+            "percentile_ci95": [
+              -0.6019039103966529,
+              0.05150424810481889
+            ],
+            "basic_ci95": [
+              -0.4509350677583312,
+              0.20247309074314063
+            ],
+            "normal_ci95": [
+              -0.5844660452253423,
+              0.18503522557183003
+            ],
+            "share_nonnegative": 0.225
+          }
+        ],
+        "replication_count_sensitivity": [
+          {
+            "reps_per_seed": 20,
+            "reps": 80,
+            "mean": -0.1987531505936495,
+            "se": 0.21216834386178796,
+            "mcse_of_se_normal_approx": 0.016879207143074643,
+            "percentile_ci95": [
+              -0.6209509114468525,
+              0.0538614732700608
+            ],
+            "basic_ci95": [
+              -0.4532922929235731,
+              0.22152009179334026
+            ],
+            "normal_ci95": [
+              -0.6155653637958606,
+              0.21613454414234826
+            ],
+            "share_nonnegative": 0.2875
+          },
+          {
+            "reps_per_seed": 40,
+            "reps": 160,
+            "mean": -0.19699435309017752,
+            "se": 0.2062774096634024,
+            "mcse_of_se_normal_approx": 0.011567462735747325,
+            "percentile_ci95": [
+              -0.61428489154068,
+              0.12483563755849607
+            ],
+            "basic_ci95": [
+              -0.5242664572120084,
+              0.2148540718871677
+            ],
+            "normal_ci95": [
+              -0.6040191327670249,
+              0.20458831311351258
+            ],
+            "share_nonnegative": 0.24375
+          },
+          {
+            "reps_per_seed": 80,
+            "reps": 320,
+            "mean": -0.187327718925055,
+            "se": 0.20451816988887198,
+            "mcse_of_se_normal_approx": 0.008096951883492628,
+            "percentile_ci95": [
+              -0.6349633529230648,
+              0.1290455745927793
+            ],
+            "basic_ci95": [
+              -0.5284763942462916,
+              0.23553253326955254
+            ],
+            "normal_ci95": [
+              -0.6005710228089453,
+              0.20114020315543293
+            ],
+            "share_nonnegative": 0.228125
+          }
+        ],
+        "seed_se_range": [
+          0.1963013445911154,
+          0.2138630546057177
+        ],
+        "seed_se_sd": 0.007227114914419269,
+        "percentile_excludes_zero": false,
+        "normal_excludes_zero": false
+      }
+    ],
+    "broken_baseline": {
+      "construction": "add 0.5 to every rural outcome",
+      "expected_coefficient_shift": 0.5,
+      "results": [
+        {
+          "tau": 0.9,
+          "original_beta": -0.12867030178865146,
+          "shifted_beta": 0.37132969821134854,
+          "observed_shift": 0.5
+        },
+        {
+          "tau": 0.95,
+          "original_beta": -0.19971540982675615,
+          "shifted_beta": 0.3002845901732439,
+          "observed_shift": 0.5
+        }
+      ]
+    },
+    "studentized_interval": {
+      "available": false,
+      "reason": "The exact LP estimator has no replication-level analytic SE. A valid bootstrap-t interval would require a nested cluster bootstrap inside each outer draw; it was not substituted with a non-equivalent quantity."
+    }
+  },
+  "C8": {
+    "prediction": "If the unadjusted T2/T3 pattern is compositional, holding year and QALICB type fixed should materially attenuate its paired gaps and tests.",
+    "n_projects": 8024,
+    "n_cdes": 343,
+    "taus": [
+      0.5,
+      0.75,
+      0.9,
+      0.95
+    ],
+    "paired_min_side": 5,
+    "exact_cell_min_side": 3,
+    "placebo_reps": 199,
+    "placebo_seed_base": 2026481501,
+    "results": [
+      {
+        "tau": 0.5,
+        "method": "unadjusted",
+        "estimand": "Median CDE-level difference between rural and urban marginal outcome quantiles; year/type composition may differ.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 62,
+        "median_gap": -0.0336860663709051,
+        "mean_gap": -0.05735787558330628,
+        "iqr": [
+          -0.18455885907662561,
+          0.033340858388315686
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.02648640925654138,
+        "sign_p": 0.015134080997447081,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026481501,
+          "strata": [
+            "cde_name"
+          ],
+          "null_median_mean": -0.001543667264766471,
+          "null_sd": 0.008816112461603985,
+          "null_ci95": [
+            -0.02971369960886766,
+            0.018290069576655903
+          ],
+          "extreme_count": 4,
+          "p_two_sided": 0.025
+        }
+      },
+      {
+        "tau": 0.5,
+        "method": "ols_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban quantile gap after subtracting common additive year/type conditional-mean effects.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 68,
+        "median_gap": -0.04628783196578379,
+        "mean_gap": -0.017983798577234082,
+        "iqr": [
+          -0.1595901118453591,
+          0.13725229506727377
+        ],
+        "share_negative": 0.5652173913043478,
+        "wilcoxon_p": 0.3467077095251495,
+        "sign_p": 0.2749903961710005,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026491501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": 0.0076074810928116994,
+          "null_sd": 0.018763342521180053,
+          "null_ci95": [
+            -0.030942982229516858,
+            0.03831031711480892
+          ],
+          "extreme_count": 2,
+          "p_two_sided": 0.015
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.16499999999999998
+      },
+      {
+        "tau": 0.5,
+        "method": "quantile_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban residual quantile gap after subtracting common additive year/type effects estimated at the same quantile.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 67,
+        "median_gap": -0.009938591534674912,
+        "mean_gap": -0.011179675029658736,
+        "iqr": [
+          -0.11647479097597113,
+          0.085981996285459
+        ],
+        "share_negative": 0.5362318840579711,
+        "wilcoxon_p": 0.4275890700074946,
+        "sign_p": 0.46381761789686937,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026501501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": 0.009170583666187858,
+          "null_sd": 0.010725144832494897,
+          "null_ci95": [
+            -9.872397868093684e-08,
+            0.0379770549554146
+          ],
+          "extreme_count": 79,
+          "p_two_sided": 0.4
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      },
+      {
+        "tau": 0.5,
+        "method": "exact_cde_year_type",
+        "estimand": "Median across CDEs of overlap-weighted rural-minus-urban quantile gaps computed inside supported CDE\u00d7year\u00d7type cells.",
+        "min_side": 3,
+        "n_exact_cells": 41,
+        "n_pairs": 19,
+        "n_nonzero": 16,
+        "median_gap": -0.0006723230116854051,
+        "mean_gap": -0.053490991171606724,
+        "iqr": [
+          -0.23503962475503226,
+          0.16307604805716935
+        ],
+        "share_negative": 0.5263157894736842,
+        "wilcoxon_p": 0.7173808884143212,
+        "sign_p": 0.454498291015625,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026511501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.006225187717412883,
+          "null_sd": 0.03813578757361753,
+          "null_ci95": [
+            -0.07322826641192595,
+            0.05883492386615245
+          ],
+          "extreme_count": 107,
+          "p_two_sided": 0.54
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      },
+      {
+        "tau": 0.75,
+        "method": "unadjusted",
+        "estimand": "Median CDE-level difference between rural and urban marginal outcome quantiles; year/type composition may differ.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 68,
+        "median_gap": -0.18904001431483475,
+        "mean_gap": -0.18607271500029424,
+        "iqr": [
+          -0.5608147495405478,
+          0.08065761295081475
+        ],
+        "share_negative": 0.6666666666666666,
+        "wilcoxon_p": 0.002981568820592908,
+        "sign_p": 0.004903382516355935,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026581501,
+          "strata": [
+            "cde_name"
+          ],
+          "null_median_mean": -0.012718430331501943,
+          "null_sd": 0.05158850496208522,
+          "null_ci95": [
+            -0.12185803534246938,
+            0.0920995189765681
+          ],
+          "extreme_count": 0,
+          "p_two_sided": 0.005
+        }
+      },
+      {
+        "tau": 0.75,
+        "method": "ols_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban quantile gap after subtracting common additive year/type conditional-mean effects.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.1252090500453883,
+        "mean_gap": -0.1499217495585213,
+        "iqr": [
+          -0.621772731849649,
+          0.17826650746441497
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.022550338932899202,
+        "sign_p": 0.1480321806927584,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026591501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.010813793608840074,
+          "null_sd": 0.04373476629205078,
+          "null_ci95": [
+            -0.1217596198788441,
+            0.06496482802185574
+          ],
+          "extreme_count": 5,
+          "p_two_sided": 0.03
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 0.2706040671947904,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3
+      },
+      {
+        "tau": 0.75,
+        "method": "quantile_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban residual quantile gap after subtracting common additive year/type effects estimated at the same quantile.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.04921292674999833,
+        "mean_gap": -0.12995337275036323,
+        "iqr": [
+          -0.5564966585752639,
+          0.24216214989692347
+        ],
+        "share_negative": 0.5797101449275363,
+        "wilcoxon_p": 0.07334234447441296,
+        "sign_p": 0.22840022535329702,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026601501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": 0.032514174565419475,
+          "null_sd": 0.045899913527395475,
+          "null_ci95": [
+            -0.06448036490922227,
+            0.11118199239289173
+          ],
+          "extreme_count": 81,
+          "p_two_sided": 0.41
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 0.8067657892185425,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      },
+      {
+        "tau": 0.75,
+        "method": "exact_cde_year_type",
+        "estimand": "Median across CDEs of overlap-weighted rural-minus-urban quantile gaps computed inside supported CDE\u00d7year\u00d7type cells.",
+        "min_side": 3,
+        "n_exact_cells": 41,
+        "n_pairs": 19,
+        "n_nonzero": 19,
+        "median_gap": -0.04212254451471044,
+        "mean_gap": -0.26079925520619945,
+        "iqr": [
+          -0.6364659602780194,
+          0.41638407193153193
+        ],
+        "share_negative": 0.5789473684210527,
+        "wilcoxon_p": 0.6794281005859375,
+        "sign_p": 0.6476058959960938,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026611501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": 0.01869171592481121,
+          "null_sd": 0.11501559493850173,
+          "null_ci95": [
+            -0.17225261387124852,
+            0.29065957859335634
+          ],
+          "extreme_count": 133,
+          "p_two_sided": 0.67
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      },
+      {
+        "tau": 0.9,
+        "method": "unadjusted",
+        "estimand": "Median CDE-level difference between rural and urban marginal outcome quantiles; year/type composition may differ.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.3945015806322556,
+        "mean_gap": -0.15370474349926824,
+        "iqr": [
+          -1.4089220326065277,
+          0.824799975924835
+        ],
+        "share_negative": 0.6231884057971014,
+        "wilcoxon_p": 0.12366308532855051,
+        "sign_p": 0.05328936381651365,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026681501,
+          "strata": [
+            "cde_name"
+          ],
+          "null_median_mean": -0.09659498353381417,
+          "null_sd": 0.1470949261112472,
+          "null_ci95": [
+            -0.41194134205422034,
+            0.14806293709271598
+          ],
+          "extreme_count": 9,
+          "p_two_sided": 0.05
+        }
+      },
+      {
+        "tau": 0.9,
+        "method": "ols_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban quantile gap after subtracting common additive year/type conditional-mean effects.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.3980489193431419,
+        "mean_gap": -0.03153867144216965,
+        "iqr": [
+          -1.2612744733342134,
+          0.9113527558836813
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.24004954853147675,
+        "sign_p": 0.1480321806927584,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026691501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.07201274848539863,
+          "null_sd": 0.09716366478933793,
+          "null_ci95": [
+            -0.2526352627949015,
+            0.11971237601952144
+          ],
+          "extreme_count": 0,
+          "p_two_sided": 0.005
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.06
+      },
+      {
+        "tau": 0.9,
+        "method": "quantile_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban residual quantile gap after subtracting common additive year/type effects estimated at the same quantile.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.21078064198038993,
+        "mean_gap": 0.11016896356876264,
+        "iqr": [
+          -1.2602401684845028,
+          0.7180754746196927
+        ],
+        "share_negative": 0.6086956521739131,
+        "wilcoxon_p": 0.37783381596069365,
+        "sign_p": 0.09118649056701154,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026701501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.03158570825958896,
+          "null_sd": 0.08873766475019088,
+          "null_ci95": [
+            -0.20270258740010882,
+            0.118257446924912
+          ],
+          "extreme_count": 5,
+          "p_two_sided": 0.03
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3
+      },
+      {
+        "tau": 0.9,
+        "method": "exact_cde_year_type",
+        "estimand": "Median across CDEs of overlap-weighted rural-minus-urban quantile gaps computed inside supported CDE\u00d7year\u00d7type cells.",
+        "min_side": 3,
+        "n_exact_cells": 41,
+        "n_pairs": 19,
+        "n_nonzero": 19,
+        "median_gap": -0.10797911910315532,
+        "mean_gap": -0.4838379640802035,
+        "iqr": [
+          -0.7975362847038685,
+          0.5075926825821917
+        ],
+        "share_negative": 0.5263157894736842,
+        "wilcoxon_p": 0.6794281005859375,
+        "sign_p": 1.0,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026711501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.0771286219691803,
+          "null_sd": 0.2194087885797753,
+          "null_ci95": [
+            -0.5432640704681408,
+            0.3070057479426978
+          ],
+          "extreme_count": 115,
+          "p_two_sided": 0.58
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      },
+      {
+        "tau": 0.95,
+        "method": "unadjusted",
+        "estimand": "Median CDE-level difference between rural and urban marginal outcome quantiles; year/type composition may differ.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.624411157756809,
+        "mean_gap": -0.31010336957163165,
+        "iqr": [
+          -2.097698418908512,
+          1.0337527318006572
+        ],
+        "share_negative": 0.6666666666666666,
+        "wilcoxon_p": 0.11793633619157949,
+        "sign_p": 0.007620521855025698,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026781501,
+          "strata": [
+            "cde_name"
+          ],
+          "null_median_mean": -0.22035658379335304,
+          "null_sd": 0.248447041003773,
+          "null_ci95": [
+            -0.726724140156171,
+            0.2056201940266842
+          ],
+          "extreme_count": 15,
+          "p_two_sided": 0.08
+        }
+      },
+      {
+        "tau": 0.95,
+        "method": "ols_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban quantile gap after subtracting common additive year/type conditional-mean effects.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.5436279286793759,
+        "mean_gap": -0.16630798103418581,
+        "iqr": [
+          -2.0534623991395935,
+          0.9904294915144294
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.21919425629195333,
+        "sign_p": 0.1480321806927584,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026791501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.11181846871303754,
+          "null_sd": 0.21822218025632825,
+          "null_ci95": [
+            -0.5265178934506046,
+            0.2769445617498949
+          ],
+          "extreme_count": 5,
+          "p_two_sided": 0.03
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 0.3
+      },
+      {
+        "tau": 0.95,
+        "method": "quantile_year_type_residual",
+        "estimand": "Median CDE-level rural-minus-urban residual quantile gap after subtracting common additive year/type effects estimated at the same quantile.",
+        "min_side": 5,
+        "n_exact_cells": null,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.10394345222188961,
+        "mean_gap": 0.10433375538564815,
+        "iqr": [
+          -1.3937303678039208,
+          1.3045730261661128
+        ],
+        "share_negative": 0.5652173913043478,
+        "wilcoxon_p": 0.5802274364748055,
+        "sign_p": 0.3355576182340152,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026801501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": 0.05035256988749007,
+          "null_sd": 0.1402942440287335,
+          "null_ci95": [
+            -0.1176383204023268,
+            0.3459527730697247
+          ],
+          "extreme_count": 80,
+          "p_two_sided": 0.405
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      },
+      {
+        "tau": 0.95,
+        "method": "exact_cde_year_type",
+        "estimand": "Median across CDEs of overlap-weighted rural-minus-urban quantile gaps computed inside supported CDE\u00d7year\u00d7type cells.",
+        "min_side": 3,
+        "n_exact_cells": 41,
+        "n_pairs": 19,
+        "n_nonzero": 19,
+        "median_gap": 0.18552631578947376,
+        "mean_gap": -0.5782205979408286,
+        "iqr": [
+          -1.263143688809832,
+          0.5789994432019501
+        ],
+        "share_negative": 0.47368421052631576,
+        "wilcoxon_p": 0.6225624084472656,
+        "sign_p": 1.0,
+        "estimable": true,
+        "randomization": {
+          "draws": 199,
+          "seed": 2026811501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.0883846892529412,
+          "null_sd": 0.3489977162995681,
+          "null_ci95": [
+            -0.782458740654159,
+            0.48977723501676884
+          ],
+          "extreme_count": 138,
+          "p_two_sided": 0.695
+        },
+        "wilcoxon_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "sign_p_holm_across_conditioned_methods_and_taus": 1.0,
+        "randomization_p_holm_across_conditioned_methods_and_taus": 1.0
+      }
+    ],
+    "post_hoc_tau_090_ols_randomization_seed_sensitivity": {
+      "selection_note": "Post hoc follow-up selected because the pre-registered 199-draw conditional randomization p-value was 0.005.",
+      "observed_median_gap": -0.3980489193431419,
+      "draws_per_seed": 499,
+      "seed_streams": [
+        {
+          "draws": 499,
+          "seed": 2026581501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.07913372419748461,
+          "null_sd": 0.09792237647038238,
+          "null_ci95": [
+            -0.2679202380097317,
+            0.1431556397419972
+          ],
+          "extreme_count": 0,
+          "p_two_sided": 0.002
+        },
+        {
+          "draws": 499,
+          "seed": 2026681501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.08278606052308284,
+          "null_sd": 0.10012388872147372,
+          "null_ci95": [
+            -0.2774272642036048,
+            0.12044118225212905
+          ],
+          "extreme_count": 1,
+          "p_two_sided": 0.004
+        },
+        {
+          "draws": 499,
+          "seed": 2026781501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.07740768399053423,
+          "null_sd": 0.09649951375785056,
+          "null_ci95": [
+            -0.2679202380097317,
+            0.12065132718073773
+          ],
+          "extreme_count": 0,
+          "p_two_sided": 0.002
+        },
+        {
+          "draws": 499,
+          "seed": 2026881501,
+          "strata": [
+            "cde_name",
+            "year",
+            "qalicb_type"
+          ],
+          "null_median_mean": -0.08045169307502768,
+          "null_sd": 0.09951200474850888,
+          "null_ci95": [
+            -0.2735780044458659,
+            0.12065132718073773
+          ],
+          "extreme_count": 0,
+          "p_two_sided": 0.002
+        }
+      ],
+      "combined_extreme_count": 1,
+      "combined_draws": 1996,
+      "combined_p_two_sided": 0.00100150225338007
+    },
+    "min_side_sensitivity": [
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 3,
+        "tau": 0.5,
+        "n_pairs": 104,
+        "n_nonzero": 102,
+        "median_gap": -0.032964382081735966,
+        "mean_gap": 0.06487411354671818,
+        "iqr": [
+          -0.17368734127009394,
+          0.1774436797606432
+        ],
+        "share_negative": 0.5384615384615384,
+        "wilcoxon_p": 0.847784930158545,
+        "sign_p": 0.37294366808362983,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 3,
+        "tau": 0.75,
+        "n_pairs": 104,
+        "n_nonzero": 104,
+        "median_gap": -0.038459832939934185,
+        "mean_gap": -0.035294966101357655,
+        "iqr": [
+          -0.5069586549180018,
+          0.25111453089996966
+        ],
+        "share_negative": 0.5288461538461539,
+        "wilcoxon_p": 0.1427166917404932,
+        "sign_p": 0.624143515844679,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 3,
+        "tau": 0.9,
+        "n_pairs": 104,
+        "n_nonzero": 104,
+        "median_gap": -0.342914674251697,
+        "mean_gap": -0.14170013801096715,
+        "iqr": [
+          -1.2918115019150787,
+          0.6136071994358998
+        ],
+        "share_negative": 0.5865384615384616,
+        "wilcoxon_p": 0.0968506169021707,
+        "sign_p": 0.09504367479940816,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 3,
+        "tau": 0.95,
+        "n_pairs": 104,
+        "n_nonzero": 104,
+        "median_gap": -0.5741176853901703,
+        "mean_gap": -0.3784333748068999,
+        "iqr": [
+          -2.069078614141258,
+          0.47020991952707364
+        ],
+        "share_negative": 0.6057692307692307,
+        "wilcoxon_p": 0.03532770825025818,
+        "sign_p": 0.038957933401311866,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 5,
+        "tau": 0.5,
+        "n_pairs": 69,
+        "n_nonzero": 68,
+        "median_gap": -0.04628783196578379,
+        "mean_gap": -0.017983798577234082,
+        "iqr": [
+          -0.1595901118453591,
+          0.13725229506727377
+        ],
+        "share_negative": 0.5652173913043478,
+        "wilcoxon_p": 0.3467077095251495,
+        "sign_p": 0.2749903961710005,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 5,
+        "tau": 0.75,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.1252090500453883,
+        "mean_gap": -0.1499217495585213,
+        "iqr": [
+          -0.621772731849649,
+          0.17826650746441497
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.022550338932899202,
+        "sign_p": 0.1480321806927584,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 5,
+        "tau": 0.9,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.3980489193431419,
+        "mean_gap": -0.03153867144216965,
+        "iqr": [
+          -1.2612744733342134,
+          0.9113527558836813
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.24004954853147675,
+        "sign_p": 0.1480321806927584,
+        "estimable": true
+      },
+      {
+        "method": "ols_year_type_residual",
+        "min_side": 5,
+        "tau": 0.95,
+        "n_pairs": 69,
+        "n_nonzero": 69,
+        "median_gap": -0.5436279286793759,
+        "mean_gap": -0.16630798103418581,
+        "iqr": [
+          -2.0534623991395935,
+          0.9904294915144294
+        ],
+        "share_negative": 0.5942028985507246,
+        "wilcoxon_p": 0.21919425629195333,
+        "sign_p": 0.1480321806927584,
+        "estimable": true
+      }
+    ],
+    "multiplicity": "Holm adjustments jointly cover 12 conditioned method\u00d7tau tests, separately for Wilcoxon, sign, and randomization p-values."
+  },
+  "elapsed_seconds": 238.56014680862427
+}

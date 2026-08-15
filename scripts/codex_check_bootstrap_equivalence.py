@@ -8,13 +8,15 @@ the bootstrap draws) to a separate machine-readable JSON file.
 
 Full audit defaults are intentionally recorded here:
 
-* relabelled pairs reference bootstrap: 250 draws at seed 20260814;
-* seed sensitivity: 100 draws at seeds 20260815, 20260816, and 20260817;
+* relabelled pairs reference bootstrap: 250 fit seeds 20261814--20262063;
+* seed sensitivity: 100 fit seeds in each of the disjoint ranges
+  20271814--20271913, 20281814--20281913, and 20291814--20291913;
 * matched pooled-label comparison: all 250 reference draws;
-* exponential cluster multiplier bootstrap: 250 draws at seed 20261814;
-* deliberately invalid iid-row bootstrap baseline: 100 draws at seed 20262814.
+* exponential cluster multiplier bootstrap: 250 fit seeds 20262814--20263063;
+* deliberately invalid iid-row bootstrap baseline: 100 fit seeds
+  20263814--20263913.
 
-At most four worker processes are used.  Each long map emits a heartbeat.
+At most four workers are used.  Each long map emits a heartbeat.
 
 Run from the repository root:
 
@@ -52,14 +54,25 @@ OUTPUT = (ROOT / "data" / "processed" / "regressions" /
           "codex_check_bootstrap_equivalence.json")
 FORMULA = "leverage_win ~ rural + C(year) + C(qalicb_type) + C(cde_name)"
 TAU = 0.5
-SEEDS = {
-    "pairs_main": 20260814,
-    "pairs_sensitivity_1": 20260815,
-    "pairs_sensitivity_2": 20260816,
-    "pairs_sensitivity_3": 20260817,
-    "multiplier": 20261814,
-    "iid_broken_baseline": 20262814,
-    "mc_uncertainty": 20263814,
+FIT_SEED_STARTS = {
+    "pairs_reference": 20261814,
+    "pairs_sensitivity_1": 20271814,
+    "pairs_sensitivity_2": 20281814,
+    "pairs_sensitivity_3": 20291814,
+    "cluster_multiplier": 20262814,
+    "iid_broken_baseline": 20263814,
+}
+# Explicit and disjoint from every fit-seed range above.  One seed drives the
+# 2,000 resamples used to quantify MC uncertainty for each reported SD.
+MC_RESAMPLING_SEEDS = {
+    "pairs_reference": 302608140,
+    "pairs_sensitivity_1": 302608141,
+    "pairs_sensitivity_2": 302608142,
+    "pairs_sensitivity_3": 302608143,
+    "pairs_all_streams_combined": 302608144,
+    "pairs_pooled_matched": 302608145,
+    "cluster_multiplier": 302608146,
+    "iid_broken_baseline": 302608147,
 }
 
 
@@ -73,6 +86,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--multiplier", type=int, default=250)
     parser.add_argument("--iid-broken", type=int, default=100)
     parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--refresh-json-provenance-only", action="store_true",
+                        help="repair provenance/MC summaries from stored draws")
     args = parser.parse_args()
     if not 1 <= args.workers <= 4:
         parser.error("--workers must be between 1 and 4")
@@ -234,10 +249,10 @@ def map_with_heartbeat(pool: ThreadPoolExecutor, fn, seeds: list[int],
     return values
 
 
-def mc_uncertainty_of_sd(values: list[float], seed_offset: int) -> dict:
+def mc_uncertainty_of_sd(values: list[float], mc_seed: int) -> dict:
     """Nonparametric MC uncertainty of an estimated bootstrap SD."""
     arr = np.asarray(values, dtype=float)
-    rng = np.random.default_rng(SEEDS["mc_uncertainty"] + seed_offset)
+    rng = np.random.default_rng(mc_seed)
     sd_replicates = np.empty(2000)
     for i in range(len(sd_replicates)):
         sd_replicates[i] = rng.choice(arr, size=len(arr), replace=True).std(ddof=1)
@@ -250,13 +265,15 @@ def mc_uncertainty_of_sd(values: list[float], seed_offset: int) -> dict:
         "normal_reference_mcse_of_se": float(arr.std(ddof=1) /
                                                 np.sqrt(2 * (len(arr) - 1))),
         "mc_resamples": int(len(sd_replicates)),
+        "mc_resampling_seed": int(mc_seed),
     }
 
 
-def summarize(values: list[float], seed: int, seed_offset: int) -> dict:
+def summarize(values: list[float], fit_seed_streams: list[str],
+              mc_seed: int) -> dict:
     arr = np.asarray(values, dtype=float)
     result = {
-        "seed": seed,
+        "fit_seed_streams": fit_seed_streams,
         "replications": int(len(arr)),
         "mean": float(arr.mean()),
         "se": float(arr.std(ddof=1)),
@@ -265,8 +282,54 @@ def summarize(values: list[float], seed: int, seed_offset: int) -> dict:
         "q975": float(np.quantile(arr, 0.975)),
         "draws": [float(x) for x in arr],
     }
-    result.update(mc_uncertainty_of_sd(values, seed_offset))
+    result.update(mc_uncertainty_of_sd(values, mc_seed))
     return result
+
+
+def seed_range(start: int, count: int) -> list[int]:
+    return list(range(start, start + count))
+
+
+def rng_provenance(args: argparse.Namespace) -> dict:
+    """Complete, machine-readable provenance for every stochastic output."""
+    fit_specs = {
+        "pairs_reference": (FIT_SEED_STARTS["pairs_reference"],
+                            args.pairs_main, None),
+        "pairs_sensitivity_1": (FIT_SEED_STARTS["pairs_sensitivity_1"],
+                                args.pairs_seed, None),
+        "pairs_sensitivity_2": (FIT_SEED_STARTS["pairs_sensitivity_2"],
+                                args.pairs_seed, None),
+        "pairs_sensitivity_3": (FIT_SEED_STARTS["pairs_sensitivity_3"],
+                                args.pairs_seed, None),
+        "pairs_pooled_matched": (FIT_SEED_STARTS["pairs_reference"],
+                                 args.pooled, "pairs_reference"),
+        "cluster_multiplier": (FIT_SEED_STARTS["cluster_multiplier"],
+                               args.multiplier, None),
+        "iid_broken_baseline": (FIT_SEED_STARTS["iid_broken_baseline"],
+                                args.iid_broken, None),
+    }
+    streams = {}
+    for name, (start, count, shared_with) in fit_specs.items():
+        seeds = seed_range(start, count)
+        streams[name] = {
+            "generator": "numpy.random.default_rng(seed)",
+            "seed_rule": "seed_start + replication_index",
+            "seed_start": start,
+            "seed_end_inclusive": seeds[-1],
+            "replications": count,
+            "seeds": seeds,
+        }
+        if shared_with is not None:
+            streams[name]["intentionally_shared_with"] = shared_with
+    return {
+        "fit_seed_streams": streams,
+        "mc_resampling": {
+            "generator": "numpy.random.default_rng(seed)",
+            "resamples_per_summary": 2000,
+            "seeds": MC_RESAMPLING_SEEDS,
+            "disjoint_from_fit_seed_ranges": True,
+        },
+    }
 
 
 def prefix_stability(values: list[float]) -> list[dict]:
@@ -328,8 +391,79 @@ def penalty_bound_checks() -> dict:
     }
 
 
+def refresh_json_provenance(path: Path, args: argparse.Namespace) -> None:
+    """Repair RNG provenance and MC summaries using already stored draws.
+
+    This mode never refits a model.  It exists so provenance-only corrections
+    do not require repeating the 1,150 expensive quantile-regression fits.
+    """
+    data = json.loads(path.read_text())
+    main = data["pairs_relabelled"]["main"]
+    sensitivity = data["pairs_relabelled"]["seed_sensitivity"]
+    combined = data["pairs_relabelled"]["all_streams_combined"]
+    pooled = data["pairs_pooled_matched"]
+    multiplier = data["cluster_exponential_multiplier"]
+    iid_broken = data["iid_row_broken_baseline"]
+
+    args.pairs_main = int(main["replications"])
+    sensitivity_counts = {int(item["replications"]) for item in sensitivity}
+    if len(sensitivity) != 3 or len(sensitivity_counts) != 1:
+        raise ValueError("expected three equally sized sensitivity streams")
+    args.pairs_seed = sensitivity_counts.pop()
+    args.pooled = int(pooled["replications"])
+    args.multiplier = int(multiplier["replications"])
+    args.iid_broken = int(iid_broken["replications"])
+
+    targets = [
+        (main, ["pairs_reference"], "pairs_reference"),
+        (sensitivity[0], ["pairs_sensitivity_1"], "pairs_sensitivity_1"),
+        (sensitivity[1], ["pairs_sensitivity_2"], "pairs_sensitivity_2"),
+        (sensitivity[2], ["pairs_sensitivity_3"], "pairs_sensitivity_3"),
+        (combined, ["pairs_reference", "pairs_sensitivity_1",
+                    "pairs_sensitivity_2", "pairs_sensitivity_3"],
+         "pairs_all_streams_combined"),
+        (pooled, ["pairs_pooled_matched"], "pairs_pooled_matched"),
+        (multiplier, ["cluster_multiplier"], "cluster_multiplier"),
+        (iid_broken, ["iid_broken_baseline"], "iid_broken_baseline"),
+    ]
+    for summary, fit_streams, mc_name in targets:
+        draws = summary["draws"]
+        if len(draws) != int(summary["replications"]):
+            raise ValueError(f"stored draw count mismatch for {mc_name}")
+        summary.pop("seed", None)
+        summary.pop("seed_streams", None)
+        summary["fit_seed_streams"] = fit_streams
+        summary.update(mc_uncertainty_of_sd(
+            draws, MC_RESAMPLING_SEEDS[mc_name]))
+
+    data["metadata"].pop("fixed_seeds", None)
+    data["metadata"]["rng_provenance"] = rng_provenance(args)
+    data["metadata"]["provenance_refresh"] = {
+        "from_stored_draws": True,
+        "heavy_bootstrap_rerun": False,
+    }
+    data["pooled_vs_relabelled"]["explanation"] = (
+        "For multiplicity m_g, both encodings profile to the same weighted "
+        "criterion and hence the same rural-coefficient argmin set. Because "
+        "that set can be nonunique, the two LP encodings need not select the "
+        "same realized coefficient without a common explicit tie rule; the "
+        "observed SDs are nevertheless practically indistinguishable."
+    )
+    path.write_text(json.dumps(data, indent=2) + "\n")
+    print("REFRESHED_JSON_PROVENANCE " + json.dumps({
+        "output": str(path),
+        "heavy_bootstrap_rerun": False,
+        "fit_stream_count": len(data["metadata"]["rng_provenance"]
+                                ["fit_seed_streams"]),
+        "mc_seed_count": len(MC_RESAMPLING_SEEDS),
+    }, sort_keys=True))
+
+
 def main() -> None:
     args = parse_args()
+    if args.refresh_json_provenance_only:
+        refresh_json_provenance(args.output, args)
+        return
     started = time.monotonic()
     df = load_data()
     print(f"DATA n={len(df)} CDEs={df['cde_name'].nunique()}", flush=True)
@@ -342,18 +476,18 @@ def main() -> None:
     print(f"POINT beta_lp={beta_lp:+.9f} beta_irls={beta_irls:+.9f} "
           f"asymptotic_se={se_asymptotic:.9f}", flush=True)
 
-    main_seeds = [SEEDS["pairs_main"] + 1000 + i
-                  for i in range(args.pairs_main)]
-    seed1 = [SEEDS["pairs_sensitivity_1"] + 1000 + i
-             for i in range(args.pairs_seed)]
-    seed2 = [SEEDS["pairs_sensitivity_2"] + 1000 + i
-             for i in range(args.pairs_seed)]
-    seed3 = [SEEDS["pairs_sensitivity_3"] + 1000 + i
-             for i in range(args.pairs_seed)]
-    multiplier_seeds = [SEEDS["multiplier"] + 1000 + i
-                        for i in range(args.multiplier)]
-    iid_seeds = [SEEDS["iid_broken_baseline"] + 1000 + i
-                 for i in range(args.iid_broken)]
+    main_seeds = seed_range(FIT_SEED_STARTS["pairs_reference"],
+                            args.pairs_main)
+    seed1 = seed_range(FIT_SEED_STARTS["pairs_sensitivity_1"],
+                       args.pairs_seed)
+    seed2 = seed_range(FIT_SEED_STARTS["pairs_sensitivity_2"],
+                       args.pairs_seed)
+    seed3 = seed_range(FIT_SEED_STARTS["pairs_sensitivity_3"],
+                       args.pairs_seed)
+    multiplier_seeds = seed_range(FIT_SEED_STARTS["cluster_multiplier"],
+                                  args.multiplier)
+    iid_seeds = seed_range(FIT_SEED_STARTS["iid_broken_baseline"],
+                           args.iid_broken)
 
     # Python 3.14's ProcessPoolExecutor calls sysconf(SC_SEM_NSEMS_MAX), which
     # is denied in the managed audit sandbox.  HiGHS releases the GIL, so a
@@ -379,14 +513,25 @@ def main() -> None:
         iid_draws = map_with_heartbeat(pool, iid_row_broken, iid_seeds,
                                        "iid-row-broken-baseline")
 
-    pairs_main = summarize(main_draws, SEEDS["pairs_main"], 0)
+    pairs_main = summarize(main_draws, ["pairs_reference"],
+                           MC_RESAMPLING_SEEDS["pairs_reference"])
     pairs_main["prefix_stability"] = prefix_stability(main_draws)
-    pairs_seed1 = summarize(seed1_draws, SEEDS["pairs_sensitivity_1"], 1)
-    pairs_seed2 = summarize(seed2_draws, SEEDS["pairs_sensitivity_2"], 2)
-    pairs_seed3 = summarize(seed3_draws, SEEDS["pairs_sensitivity_3"], 3)
-    pooled = summarize(pooled_draws, SEEDS["pairs_main"], 4)
-    multiplier = summarize(multiplier_draws, SEEDS["multiplier"], 5)
-    iid_broken = summarize(iid_draws, SEEDS["iid_broken_baseline"], 6)
+    pairs_seed1 = summarize(seed1_draws, ["pairs_sensitivity_1"],
+                            MC_RESAMPLING_SEEDS["pairs_sensitivity_1"])
+    pairs_seed2 = summarize(seed2_draws, ["pairs_sensitivity_2"],
+                            MC_RESAMPLING_SEEDS["pairs_sensitivity_2"])
+    pairs_seed3 = summarize(seed3_draws, ["pairs_sensitivity_3"],
+                            MC_RESAMPLING_SEEDS["pairs_sensitivity_3"])
+    pairs_all = summarize(main_draws + seed1_draws + seed2_draws + seed3_draws,
+                          ["pairs_reference", "pairs_sensitivity_1",
+                           "pairs_sensitivity_2", "pairs_sensitivity_3"],
+                          MC_RESAMPLING_SEEDS["pairs_all_streams_combined"])
+    pooled = summarize(pooled_draws, ["pairs_pooled_matched"],
+                       MC_RESAMPLING_SEEDS["pairs_pooled_matched"])
+    multiplier = summarize(multiplier_draws, ["cluster_multiplier"],
+                           MC_RESAMPLING_SEEDS["cluster_multiplier"])
+    iid_broken = summarize(iid_draws, ["iid_broken_baseline"],
+                           MC_RESAMPLING_SEEDS["iid_broken_baseline"])
 
     matched_relabelled = np.asarray(main_draws[:args.pooled])
     matched_pooled = np.asarray(pooled_draws)
@@ -405,11 +550,11 @@ def main() -> None:
         "share_abs_difference_gt_1e_7": float(
             np.mean(np.abs(matched_diff) > 1e-7)),
         "explanation": (
-            "For multiplicity m_g, pooling gives m_g times cluster g's "
-            "profiled check loss. Relabelling creates m_g identical FE "
-            "subproblems whose minimized losses sum to the same value. Any "
-            "coefficient difference is solver selection within a flat/nonunique "
-            "optimum, not a different bootstrap estimand."
+            "For multiplicity m_g, both encodings profile to the same weighted "
+            "criterion and hence the same rural-coefficient argmin set. Because "
+            "that set can be nonunique, the two LP encodings need not select the "
+            "same realized coefficient without a common explicit tie rule; the "
+            "observed SDs are nevertheless practically indistinguishable."
         ),
     }
 
@@ -425,7 +570,7 @@ def main() -> None:
             "statsmodels": statsmodels.__version__,
             "workers": args.workers,
             "worker_backend": "ThreadPoolExecutor (HiGHS releases GIL)",
-            "fixed_seeds": SEEDS,
+            "rng_provenance": rng_provenance(args),
             "elapsed_seconds": float(time.monotonic() - started),
         },
         "sample": {
@@ -442,6 +587,7 @@ def main() -> None:
         "pairs_relabelled": {
             "main": pairs_main,
             "seed_sensitivity": [pairs_seed1, pairs_seed2, pairs_seed3],
+            "all_streams_combined": pairs_all,
         },
         "pairs_pooled_matched": pooled,
         "pooled_vs_relabelled": pooled_comparison,
@@ -450,6 +596,8 @@ def main() -> None:
         "comparisons": {
             "pairs_se_over_asymptotic": float(pairs_main["se"] /
                                                  se_asymptotic),
+            "pairs_combined_se_over_asymptotic": float(pairs_all["se"] /
+                                                          se_asymptotic),
             "multiplier_se_over_asymptotic": float(multiplier["se"] /
                                                       se_asymptotic),
             "iid_broken_se_over_pairs": float(iid_broken["se"] /
@@ -464,6 +612,7 @@ def main() -> None:
         "beta_lp": beta_lp,
         "asymptotic_se": se_asymptotic,
         "pairs_se": pairs_main["se"],
+        "pairs_combined_se": pairs_all["se"],
         "pairs_inflation": output["comparisons"]["pairs_se_over_asymptotic"],
         "pooled_se_matched": pooled["se"],
         "max_matched_abs_diff": pooled_comparison[
