@@ -27,6 +27,7 @@ Run:  uv run --no-project --with numpy python scripts/audit_paper_numbers.py
 """
 from __future__ import annotations
 
+import csv
 import json
 import re
 import sys
@@ -36,14 +37,66 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SEC = ROOT / "paper" / "sections"
 REG = ROOT / "data" / "processed" / "regressions"
+PROCESSED = ROOT / "data" / "processed"
 
 _cache: dict[str, dict] = {}
 
 
+def _csv_value(value: str):
+    """Coerce numeric CSV cells while leaving identifiers and labels alone."""
+    if re.fullmatch(r"[-+]?\d+", value):
+        return int(value)
+    if re.fullmatch(r"[-+]?(?:\d+\.\d*|\d*\.\d+)(?:[Ee][-+]?\d+)?", value):
+        return float(value)
+    return value
+
+
 def src(name: str) -> dict:
     if name not in _cache:
-        _cache[name] = json.loads((REG / name).read_text())
+        candidates = (REG / name, PROCESSED / name, ROOT / name)
+        path = next((p for p in candidates if p.is_file()), None)
+        if path is None:
+            raise FileNotFoundError(f"pipeline source not found: {name}")
+        if path.suffix == ".csv":
+            with path.open(newline="") as handle:
+                rows = [
+                    {key: _csv_value(value) for key, value in row.items()}
+                    for row in csv.DictReader(handle)
+                ]
+            _cache[name] = {"rows": rows}
+        else:
+            _cache[name] = json.loads(path.read_text())
     return _cache[name]
+
+
+def cde_transaction_profile(rows: list[dict]) -> dict[str, float | int]:
+    """Recompute the CDE-distribution descriptives from the transaction output."""
+    books: dict[str, dict[str, float | int]] = {}
+    for row in rows:
+        book = books.setdefault(
+            row["cde_name"], {"n": 0, "n_nonmetro": 0, "qlici": 0.0})
+        book["n"] += 1
+        book["n_nonmetro"] += row["metro"] == "non_metro"
+        book["qlici"] += row["qlici_amount"]
+
+    eligible = [book for book in books.values() if book["n"] >= 5]
+    qlici = sorted((book["qlici"] for book in books.values()), reverse=True)
+    nonmetro_shares = [book["n_nonmetro"] / book["n"] for book in eligible]
+    return {
+        "n_cdes": len(books),
+        "n_cdes_at_least_five": len(eligible),
+        "top_twenty_qlici_share_pct": 100 * sum(qlici[:20]) / sum(qlici),
+        "never_nonmetro_pct": (
+            100 * sum(book["n_nonmetro"] == 0 for book in eligible) / len(eligible)
+        ),
+        "at_least_four_fifths_nonmetro_pct": (
+            100
+            * sum(share >= 0.8 for share in nonmetro_shares)
+            / len(eligible)
+        ),
+        "min_nonmetro_share_pct": 100 * min(nonmetro_shares),
+        "max_nonmetro_share_pct": 100 * max(nonmetro_shares),
+    }
 
 
 def dig(obj, path: str):
@@ -126,11 +179,11 @@ CLAIMS: list[tuple] = [
      "G4_denominators.project_cost_total_musd", lambda v: v / 1000),
     ("00-abstract", "\\$0.82 of other capital", "review_round2.json",
      "G4_denominators.other_capital_per_qlici_dollar", lambda v: v),
-    ("00-abstract", "roughly\n\\$2.09", "review_round2.json",
+    ("00-abstract", "roughly \\$2.09", "review_round2.json",
      "G4_denominators.other_capital_per_credit_dollar", lambda v: v),
     ("00-abstract", "8{,}024 projects", "referee_fixes.json",
      "n_analysis", lambda v: v),
-    ("00-abstract", "$\\hat B = 0.0009$ after 2007", "review_round2.json",
+    ("05-results", "$+0.001$ in dollars", "review_round2.json",
      "G3_post2007_dollar.B", lambda v: v),
 
     # ── median inference, Section 5.2 (added with the bootstrap) ───────
@@ -159,8 +212,6 @@ CLAIMS: list[tuple] = [
     ("05-results", "$0.215$ at those two quantiles", "median_inference.json",
      "quantile_sweep",
      lambda v: next(r["se_cluster_bootstrap"] for r in v if r["q"] == 0.95)),
-    ("00-abstract", "bootstrap SE $0.009$", "median_inference.json",
-     "se_cluster_bootstrap", lambda v: v),
 
     # ── purpose of investment, Section 5.6 ─────────────────────────────
     ("05-results", "coefficient to $-0.2279$", "purpose_channel.json",
@@ -188,7 +239,7 @@ CLAIMS: list[tuple] = [
     ("05-results", "against 34.8\\% of\nmetro projects", "purpose_channel.json",
      "composition_by_rural_pct.business.metro", lambda v: v),
 
-    ("00-abstract", "leaves 88.1\\% of the explained movement", "purpose_channel.json",
+    ("00-abstract", "leaves 88.1\\%", "purpose_channel.json",
      "gelbach_with_purpose.share_from_cde", lambda v: v * 100),
 
     # ── the rehabilitation cell, Section 5.6 ──────────────────────────
@@ -212,7 +263,7 @@ CLAIMS: list[tuple] = [
      "R6_other_purposes.business.beta", lambda v: v),
     ("05-results", "construction gives\n$-0.068$", "rehab_cell_verification.json",
      "R6_other_purposes.re_construction.beta", lambda v: v),
-    ("00-abstract", "coefficient of $-0.439$", "rehab_cell_verification.json",
+    ("00-abstract", "coefficient of\n$-0.439$", "rehab_cell_verification.json",
      "R1.beta", lambda v: v),
     ("00-abstract", "SE $0.102$", "rehab_cell_verification.json",
      "R1.se_cde_cluster", lambda v: v),
