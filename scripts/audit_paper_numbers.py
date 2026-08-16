@@ -579,6 +579,24 @@ CLAIMS: list[tuple] = [
      "n_projects_in_mixed_strata", lambda v: v),
     ("05-results", "and $0.100$ across", "conditioned_randomization.json",
      "N1_within_cde.p_two_sided", lambda v: v),
+
+    # ── independent validation of the rehabilitation cell ──────────────
+    ("05-results", "gives\n$-0.4570$", "rehab_validation.json",
+     "W2_modal.beta", lambda v: v),
+    ("05-results", "gives\n$-0.4014$", "rehab_validation.json",
+     "W2_pure.beta", lambda v: v),
+    ("05-results", "gives $-0.4973$", "rehab_validation.json",
+     "W3_single_cde.beta", lambda v: v),
+    ("05-results", "at $-0.010$ at the lower quartile", "rehab_validation.json",
+     "W6_quantiles_in_cell", lambda v: v["0.25"]),
+    ("05-results", "$-0.890$ at\nthe ninetieth percentile", "rehab_validation.json",
+     "W6_quantiles_in_cell", lambda v: v["0.90"]),
+    ("05-results", "moves the mean estimate to $-0.2730$", "rehab_validation.json",
+     "W6_trimmed.beta", lambda v: v),
+    ("05-results", "(SE $0.0820$", "rehab_validation.json",
+     "W6_trimmed.se", lambda v: v),
+    ("05-results", "upper reaches carry $38\\%$", "rehab_validation.json",
+     "W6_share_of_effect_from_outer_decile", lambda v: v * 100),
 ]
 
 

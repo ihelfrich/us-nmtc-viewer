@@ -347,6 +347,22 @@ pipeline on the adjacent purpose categories finds nothing: business
 financing gives $+0.053$ ($p = 0.74$) and real-estate construction gives
 $-0.068$ ($p = 0.63$).
 
+Two further checks locate the estimate and qualify it. Rebuilding the cell
+from the raw workbook with an independent code path returns the same
+$-0.4393$ and $0.1019$, and the result does not depend on how purpose is
+assigned: taking each project's modal purpose by transaction count gives
+$-0.4570$, and restricting to projects whose transactions all share a
+single purpose, which removes the assignment rule entirely, gives
+$-0.4014$. Restricting to single-CDE projects, where intermediary
+attribution is unambiguous, gives $-0.4973$. The qualification concerns
+where inside the cell the effect sits. Quantile regressions within the cell
+put the rural coefficient at $-0.010$ at the lower quartile and $-0.890$ at
+the ninetieth percentile, and trimming the outer decile of the leverage
+distribution moves the mean estimate to $-0.2730$ (SE $0.0820$,
+$p = 0.0009$). The effect is therefore real away from the tails and
+substantially larger within them, so the headline figure should be read as
+a mean over a distribution whose upper reaches carry $38\%$ of it.
+
 That last contrast is the most informative of the six. Construction and
 rehabilitation are both commercial real estate and both are classified
 under the same QALICB type, which is why no specification in this paper

@@ -828,3 +828,57 @@ future design with more tail power should look first.
 
 **C7, C2, C3 confirmed**; C9 is recorded in the commit that expanded the
 manifest from 66 to 180 claims.
+
+## D28. Independent validation of the rehabilitation finding (2026-08-16)
+
+`verify_rehab_cell.py` tried six ways to break the result and failed.
+That script and the finding share a code path, so `validate_rehab_finding.py`
+rebuilds the quantities from the raw workbook instead, and adds the checks
+the first pass did not make.
+
+**The chain is faithful.** Rebuilding leverage, rural status and
+project-level purpose directly from the two workbook sheets returns
+-0.4393 with a clustered SE of 0.1019, identical to the processed pipeline
+to four decimals. A bug in the CSV pipeline would have shown here.
+
+**The result does not depend on the purpose rule.** The pipeline assigns
+each project the purpose holding the largest share of its QLICI dollars,
+which is a choice. Taking the modal purpose by transaction count gives
+-0.4570 (n = 2,094). Restricting to projects whose transactions all share
+one purpose, which removes the assignment rule entirely, gives -0.4014
+(n = 1,824). Both remain significant at t below -3.5.
+
+**Nor on multi-CDE attribution.** One fifth of projects involve more than
+one intermediary while the project sheet records a single CDE name.
+Restricting to single-CDE projects, where attribution is unambiguous, gives
+-0.4973 (SE 0.1396).
+
+**The correction arithmetic is right.** The Benjamini-Hochberg step in
+`run_residual_analysis.py` agrees cell for cell with statsmodels'
+`multipletests`, and both reject exactly one of the twenty estimated cells.
+The paper's claim that the cell is separated from the rest of the scan by
+more than three orders of magnitude in p is exact: the second-smallest
+p-value is 2,637 times the smallest, which is 3.4 orders.
+
+**The wild bootstrap is right, and the CRVE is not over-rejecting.** An
+independent re-implementation, imposing the null and drawing Rademacher
+weights at the CDE level, reproduces p = 0.0005. Running the same machinery
+on 200 synthetic null outcomes rejects at 3.0% against a nominal 5%, so the
+clustered t-statistic is if anything conservative in this cell. The
+t = -4.31 is not an artifact of cluster-robust misbehaviour.
+
+**One qualification, now in the paper.** A precise mean can still be
+carried by its tail. Quantile regressions inside the cell put the rural
+coefficient at -0.010 at the lower quartile, -0.099 at the median, -0.335
+at the upper quartile and -0.890 at the ninetieth percentile, and trimming
+the outer decile of the leverage distribution moves the mean to -0.2730
+(SE 0.0820, p = 0.0009). The effect is real away from the tails and much
+larger within them, so 38% of the headline estimate comes from the outer
+decile. Section 5.6 now says so.
+
+That last point also connects two results the paper had kept apart. The
+full-sample quantile process drifts negative in the upper tail without
+becoming distinguishable from zero, and this cell shows the same shape with
+enough concentration to be measured. It is the most plausible location for
+whatever the full-sample gradient reflects, and it is the natural target
+for a design with more tail power.

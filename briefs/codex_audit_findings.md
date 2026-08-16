@@ -1,6 +1,6 @@
 # Adversarial audit findings: median inference and the quantile process
 
-Audit snapshot: current working tree on `10d40f3`, including user-owned commits
+Audit snapshot: current working tree on `71f5527`, including user-owned commits
 and a concurrent C6 prose/result update made while the audit was running. The
 audit did not edit `paper/sections/*.tex` or `paper/DECISIONS.md` and created no
 commit.
@@ -288,9 +288,8 @@ Wilcoxon p is at least .623 and every conditional randomization p is at least
 The inconvenient exception is the additive-OLS median statistic at τ=.90.
 Four explicitly post-hoc 499-draw streams yield extreme counts 0, 1, 0, 0.
 Pooled only as a Monte Carlo precision check, that is 1/1,996 with plus-one
-absolute-statistic p **0.0010**. Recalibration around the permutation mean
-also gives about **0.001**; a doubled-minimum-tail calculation gives about
-**0.002**. It is therefore not a seed accident. It is nevertheless not broad
+absolute-statistic p **0.0010**. It is therefore not a seed accident. It is
+nevertheless not broad
 corroboration: Wilcoxon/sign tests disagree, the quantile-specific and exact
 cell estimands disagree, the expanded search is post hoc, and conditional
 label exchangeability is not a known assignment mechanism.

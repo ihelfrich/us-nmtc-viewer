@@ -1,0 +1,97 @@
+{
+  "seed": 20260816,
+  "W1_raw_rebuild": {
+    "label": "raw rebuild, dollar-dominant",
+    "estimated": true,
+    "n": 2015,
+    "n_rural": 199,
+    "n_cde": 256,
+    "n_switcher_cde": 80,
+    "beta": -0.4393,
+    "se": 0.1019,
+    "t": -4.31,
+    "p": 1.629e-05
+  },
+  "W1_n_projects_rebuilt": 8024,
+  "pipeline_beta": -0.43927,
+  "pipeline_se": 0.10191,
+  "W1_matches_pipeline": true,
+  "W2_modal": {
+    "label": "modal by transaction count",
+    "estimated": true,
+    "n": 2094,
+    "n_rural": 208,
+    "n_cde": 258,
+    "n_switcher_cde": 82,
+    "beta": -0.457,
+    "se": 0.0993,
+    "t": -4.6,
+    "p": 4.132e-06
+  },
+  "W2_pure": {
+    "label": "single-purpose projects only",
+    "estimated": true,
+    "n": 1824,
+    "n_rural": 175,
+    "n_cde": 246,
+    "n_switcher_cde": 72,
+    "beta": -0.4014,
+    "se": 0.1115,
+    "t": -3.6,
+    "p": 0.0003173
+  },
+  "W3_single_cde": {
+    "label": "single-CDE projects only",
+    "estimated": true,
+    "n": 1506,
+    "n_rural": 161,
+    "n_cde": 236,
+    "n_switcher_cde": 62,
+    "beta": -0.4973,
+    "se": 0.1396,
+    "t": -3.56,
+    "p": 0.0003677
+  },
+  "W4_bh": {
+    "n_tests": 20,
+    "statsmodels_n_reject": 1,
+    "pipeline_n_reject": 1,
+    "agree": true,
+    "rejected_cells": [
+      "purpose re_rehab"
+    ]
+  },
+  "W5_wild": {
+    "t_observed": -4.311,
+    "draws": 2000,
+    "p_two_sided": 0.0005,
+    "pipeline_p": 0.0005,
+    "null_imposed": true,
+    "weights": "Rademacher at CDE level"
+  },
+  "W5_placebo_rejection_rate": 0.03,
+  "W6_quantiles_in_cell": {
+    "0.25": -0.0098,
+    "0.50": -0.0991,
+    "0.75": -0.3348,
+    "0.90": -0.8904
+  },
+  "W6_trimmed": {
+    "n": 1914,
+    "beta": -0.273,
+    "se": 0.082,
+    "p": 0.00087
+  },
+  "W6_share_of_effect_from_outer_decile": 0.379,
+  "W6_p_separation_ratio": 2636.8,
+  "checks": {
+    "raw rebuild matches pipeline": true,
+    "survives trimming the outer decile": true,
+    "modal purpose rule negative and significant": true,
+    "single-purpose projects negative and significant": true,
+    "single-CDE projects negative": true,
+    "BH agrees with statsmodels": true,
+    "wild bootstrap reproduces": true
+  },
+  "all_pass": true
+}
