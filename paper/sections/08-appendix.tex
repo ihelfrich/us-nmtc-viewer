@@ -21,12 +21,53 @@ the submitted draft.
 
 \section{Reproducibility}\label{app:repro}
 
-The public repository regenerates every number in this draft.
-\path{scripts/describe_nmtc.py} builds the analysis files from the raw
-CDFI workbook, with hashes recorded in \texttt{PROVENANCE.md}.
-\path{scripts/run_regressions.py} produces Table~\ref{tab:main} and the
-bunching statistics; \path{scripts/run_robustness.py} produces
-Table~\ref{tab:robust}. \path{scripts/make_paper_tables.py} writes the
-table fragments, and \path{scripts/make_paper_figures.py} renders the
-figures included here. The repository also serves a browser-based viewer
+The public repository regenerates every number in this draft, and a
+machine check enforces that claim rather than asserting it.
+
+\textbf{Building the panel.} \path{scripts/describe_nmtc.py} builds the
+analysis files from the raw CDFI workbook, with hashes recorded in
+\texttt{PROVENANCE.md}. \path{scripts/run_purpose_channel.py} derives the
+project-level purpose of investment from the transaction sheet, which the
+project sheet does not carry.
+
+\textbf{Estimation.} \path{scripts/run_regressions.py} produces
+Table~\ref{tab:main} and the bunching statistics;
+\path{scripts/run_robustness.py} produces Table~\ref{tab:robust};
+\path{scripts/run_referee_fixes.py} and \path{scripts/run_review_round2.py}
+produce the decomposition, power and mandate quantities;
+\path{scripts/run_residual_analysis.py} runs the subgroup scan and its
+multiplicity correction; \path{scripts/run_median_inference.py} produces
+the median bootstrap, the randomization test and the quantile process; and
+\path{scripts/run_conditioned_randomization.py} produces the
+covariate-conditioned permutation test.
+
+\textbf{Quantile regression.} \path{scripts/qreg_lp.py} solves the quantile
+regressions as sparse linear programs. With 366 of 368 columns being
+indicators, the dense iteratively reweighted least squares used by standard
+packages is both slower and less accurate here; the linear program attains
+a no-worse check-loss objective at every quantile tested.
+
+\textbf{Adversarial checks.} \path{scripts/verify_value_added.py},
+\path{scripts/verify_quantile_tail.py}, \path{scripts/verify_rehab_cell.py}
+and \path{scripts/validate_rehab_finding.py} attempt to break the results
+rather than confirm them. The last of these rebuilds the rehabilitation
+cell from the raw workbook along an independent code path, so that a defect
+in the processed pipeline would appear as a disagreement.
+
+\textbf{Exhibits.} \path{scripts/make_paper_tables.py},
+\path{make_residual_table.py}, \path{make_purpose_table.py},
+\path{make_rehab_table.py} and \path{make_median_inference_table.py} write
+the table fragments; \path{scripts/make_paper_figures.py},
+\path{make_paper_art.py} and \path{make_quantile_figure.py} render the
+figures. No table or figure in this paper is maintained by hand.
+
+\textbf{The numbers audit.} \path{scripts/audit_paper_numbers.py} pins every
+load-bearing number in the manuscript to the pipeline field that produced
+it, matching the literal string as typeset and requiring that the source
+value, rounded half-up to the precision printed here, equal the printed
+number exactly. The audit currently covers 204 claims. It gates the
+Overleaf bundle, so a number that has drifted from its source cannot reach
+a submitted draft. \path{scripts/run_tests.sh} runs the test suite,
+including tests that confirm the audit fails when a value is perturbed.
+The repository also serves a browser-based viewer
 with the full project map and specification explorer.
