@@ -1,5 +1,10 @@
 # Decision log — NMTC working paper, referee-fix round (2026-08-13)
 
+> **Current authorship status:** Ian Helfrich is the sole author and
+> originator. Katia Antunes and Elizaveta Gonchar are contributors. Earlier
+> entries D14--D17 are superseded by D29 below; their author additions and
+> detailed role descriptions were based on an unverified LLM attribution.
+
 Standard for this document: every analytical choice made in this round is
 recorded with its rationale; nothing in the manuscript asserts a quantity
 that was not computed in this repository; validation checks that could be
@@ -882,3 +887,24 @@ becoming distinguishable from zero, and this cell shows the same shape with
 enough concentration to be measured. It is the most plausible location for
 whatever the full-sample gradient reflects, and it is the natural target
 for a design with more tail power.
+
+## D29. Restore the verified sole-author record (2026-08-18)
+
+**Decision.** Ian Helfrich is the sole author and originator of this study.
+Katia Antunes and Elizaveta Gonchar are contributors, not coauthors. They are
+listed separately as contributors in the title block, manuscript appendix,
+and submission kit. The manuscript makes no more specific allocation of
+their roles because no such allocation has been jointly verified.
+
+**Correction to the record.** D14 stated that Katia joined the byline "at
+the author's instruction," and the later D15--D17 sequence extended that
+status to Elizaveta. The August 18 direct instruction from the author says
+the opposite. The prior claims came from an LLM-authored change and are not
+evidence of an authorship decision. Their invented detailed contribution
+descriptions are withdrawn.
+
+**Consequential edits.** The byline again contains one author, the prose
+returns to first-person singular, and SSRN metadata contains one author.
+A regression test enforces the separation between author and contributors
+across the manuscript and submission kit so derived materials cannot silently
+restore the false record.

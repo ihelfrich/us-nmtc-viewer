@@ -10,35 +10,13 @@ it or flatten the two `\graphicspath` entries.
 **Title:** The Rural Mobilization Gap in a U.S. Place-Based Tax Credit:
 Intermediary Selection versus Market Structure in the New Markets Tax Credit
 
-**Authors (enter in this order):**
-1. Ian Helfrich — Georgia Institute of Technology — ianthelfrich@gmail.com —
-   ORCID 0000-0002-4105-1635 (verified against the ORCID public API)
-2. Katia Antunes — American University — katantunes.d@gmail.com —
-   ORCID 0009-0003-1901-0137 (verified against the ORCID public API)
-3. Elizaveta Gonchar — "Applied economist" (this is what the title block
-   now reads; the earlier draft of this kit said "independent researcher",
-   and the two must be reconciled with her before posting) —
-   elizaveta.gonchar@gmail.com
-   — ORCID 0000-0002-5372-9669 (confirmed, see the note below)
+**Author:** Ian Helfrich — Georgia Institute of Technology —
+ianthelfrich@gmail.com — ORCID 0000-0002-4105-1635. Helfrich is the sole
+author and originator of the study.
 
-**On Elizaveta Gonchar's ORCID.** The record 0000-0002-5372-9669 lists an
-education history that reproduces five of Ian Helfrich's six degrees with
-identical end dates, which looked at first like a record populated from the
-wrong CV. It is not. The record's researcher URL points to
-elizaveta-gonchar.com, which carries the same address that appears in her
-correspondence, and that site states her Georgia Tech PhD in Economics
-(2024) and her MS in Geographic Information Science and Technology (2022).
-The GIS&T degree was the entry that raised the question, and her own site
-confirms she holds it. The overlap is real: the two moved through the same
-programs. Her affiliation reads "independent researcher" because her site
-describes the Carnegie Mellon Block Center role in the past tense and names
-no current institution; confirm the wording with her.
-
-SSRN requires each co-author to have an SSRN account before the paper can
-be posted under both names. Katia's SSRN author ID is not on record here;
-her ORCID arrived by text on 12 May 2026 and no SSRN ID followed. Ask her
-to register at ssrn.com and send the author ID, or submit and add her once
-she has one.
+**Contributors:** Katia Antunes and Elizaveta Gonchar. List both as
+contributors or in the acknowledgments, not in SSRN's author fields. The
+manuscript intentionally makes no unverified allocation of individual roles.
 
 **Abstract:** use the abstract verbatim from the PDF (page 1). It was
 restructured on 15 August 2026 into three movements (setting; the null; the
@@ -77,16 +55,9 @@ Release FY2003-FY2022); full pipeline, hashes, and interactive viewer at
 github.com/ihelfrich/us-nmtc-viewer.
 
 **Pre-upload checklist:**
-- [ ] Confirm the author-contributions statement with Katia (drafted from
-      the project record; it is the first section of the appendix and is
-      marked for review in the source)
-- [ ] Confirm Katia's affiliation line reads as she wants it
-- [ ] Confirm with Elizaveta how she wants her affiliation to read; the
-      title block says "independent researcher" because her site names no
-      current institution
-- [ ] Confirm Elizaveta's contribution line, which is a placeholder written
-      without a record to draw on
-- [ ] Get Katia's SSRN author ID, or post and add her afterwards
+- [x] Record Ian Helfrich as sole author and originator; record Katia Antunes
+      and Elizaveta Gonchar separately as contributors
+- [x] Remove the unverified detailed allocation of contributor roles
 - [ ] Elizaveta Gonchar read (your outline scheduled an internal review)
 - [ ] Your own voice pass over the prose
 - [ ] Rebuild PDF so the draft date stamps correctly
@@ -95,8 +66,6 @@ github.com/ihelfrich/us-nmtc-viewer.
       conservative alternative is to leave it to Section 5.6 and keep the
       abstract purely about the null. This is a positioning call, not a
       statistical one
-- [ ] Reconcile Elizaveta's affiliation line between the title block
-      ("Applied economist") and this kit
 - [ ] After SSRN assigns the number: update site records
       (research entry `ssrn:` field, /job-market references section)
       and the CV PDFs
