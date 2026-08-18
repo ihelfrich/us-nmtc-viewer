@@ -908,3 +908,20 @@ returns to first-person singular, and SSRN metadata contains one author.
 A regression test enforces the separation between author and contributors
 across the manuscript and submission kit so derived materials cannot silently
 restore the false record.
+
+## D30. Bound the CDE-composition result to the descriptive design (2026-08-18)
+
+**Decision.** The paper no longer states that the rural leverage gap lies
+between intermediaries rather than within them. The median and two margin
+specifications return small estimates that are not statistically
+distinguishable from zero, but the mean within-CDE confidence interval is
+wide. Non-rejection in those specifications does not establish that a
+within-CDE component is absent.
+
+**Interpretation.** The order-invariant decomposition associates most of the
+explained movement with observed CDE composition. Because CDE composition
+may itself reflect rural market conditions, intermediary selection, or other
+unobserved processes, the design remains descriptive and noncausal and the
+mechanism remains unresolved. Policy language now treats CDE allocation as
+one margin to evaluate alongside project- and market-level interventions,
+not as an identified causal lever.
