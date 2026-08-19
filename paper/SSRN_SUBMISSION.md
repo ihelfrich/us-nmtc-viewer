@@ -10,9 +10,10 @@ it or flatten the two `\graphicspath` entries.
 **Title:** The Rural Mobilization Gap in a U.S. Place-Based Tax Credit:
 Intermediary Selection versus Market Structure in the New Markets Tax Credit
 
-**Author:** Ian Helfrich — Georgia Institute of Technology —
-ianthelfrich@gmail.com — ORCID 0000-0002-4105-1635. Helfrich is the sole
-author and originator of the study.
+**Author:** Ian Helfrich — Independent researcher —
+ianthelfrich@gmail.com — ORCID 0000-0002-4105-1635. Ph.D. in Economics,
+Georgia Institute of Technology, 2024. Helfrich is the sole author and
+originator of the study.
 
 **Contributors:** Katia Antunes and Elizaveta Gonchar. List both as
 contributors or in the acknowledgments, not in SSRN's author fields. The

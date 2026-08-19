@@ -20,6 +20,19 @@ def test_title_block_has_one_author_and_names_contributors_separately():
     assert "With contributions from Katia Antunes and Elizaveta Gonchar" in title_block
 
 
+def test_title_block_separates_current_status_from_degree_provenance():
+    main = _read("main.tex")
+    title_block = main[main.index(r"\wptitle") : main.index(r"\begin{abstract}")]
+
+    assert "Independent researcher" in title_block
+    assert "Ph.D., Georgia Institute of Technology, 2024" in title_block
+    assert r"{\footnotesize\color{pencil} Georgia Institute of Technology}\\[2pt]" not in title_block
+
+    kit = " ".join(_read("SSRN_SUBMISSION.md").split())
+    assert "Ian Helfrich — Independent researcher" in kit
+    assert "Ph.D. in Economics, Georgia Institute of Technology, 2024" in kit
+
+
 def test_contribution_record_does_not_invent_roles_or_coauthor_approval():
     appendix = _read("sections/08-appendix.tex")
     normalized = " ".join(appendix.split())
