@@ -30,9 +30,11 @@ jobs:
         working-directory: site
         run: quarto render
 
-      - name: Ensure CNAME and .nojekyll
+      # The site is served at ihelfrich.github.io/us-nmtc-viewer/ (the custom domain was retired on
+      # August 29, 2026), so no CNAME is written; one would redirect every page to a dead domain.
+      - name: Ensure .nojekyll and no CNAME
         run: |
-          echo "nmtc.ianhelfrich.com" > docs/CNAME
+          rm -f docs/CNAME
           touch docs/.nojekyll
 
       - name: Commit rendered docs back to main
