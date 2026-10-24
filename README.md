@@ -79,9 +79,6 @@ us_nmtc/
 ├── PROVENANCE.md                   ← how to rebuild from scratch, SHA256s, licenses
 ├── requirements.txt                ← Python dependencies
 │
-├── briefs/
-│   └── katia_nmtc_v1.md            ← full first-look research brief (read first)
-│
 ├── data/
 │   ├── raw/                        ← unmodified source files from CDFI Fund
 │   │   ├── NMTC_Public_Data_Release_FY2003-FY2022.xlsx
@@ -152,7 +149,7 @@ it's doing and why. Treat it as a readable tutorial, not production code.
 
 ## Where to look next, in order
 
-1. **[`briefs/katia_nmtc_v1.md`](briefs/katia_nmtc_v1.md)** — the full research brief: what we can say, what we *can't* say with NMTC alone, the identification strategy, and the proposed next three moves.
+1. **[The job market paper (PDF)](https://ihelfrich.github.io/research/ian-helfrich-nmtc-working-paper.pdf)** — *The Rural Mobilization Gap in a U.S. Place-Based Tax Credit* (August 2026): the within-CDE decomposition, its results and its limits.
 2. **[`DATA_DICTIONARY.md`](DATA_DICTIONARY.md)** — before you interpret any number, check here for the column definition and units.
 3. **[`PROVENANCE.md`](PROVENANCE.md)** — the paranoia file: URLs, SHA256 hashes, license, every cleaning decision, every software version. Needed to cite or replicate.
 

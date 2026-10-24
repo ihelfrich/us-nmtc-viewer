@@ -21,3 +21,7 @@ site/.quarto/
 site/_freeze/
 site/_book/
 overleaf/
+
+# Working notes and briefs: moved to the private nmtc-paper repository on October 24, 2026.
+# scripts/run_regressions.py and scripts/run_value_added.py still write memos here; they stay local.
+briefs/
